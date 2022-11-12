@@ -1,3 +1,5 @@
+using Hubs;
+
 var  policyName = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +11,9 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder
-                .WithOrigins("http://localhost:3000") // specifying the allowed origin
-                .WithMethods("GET") // defining the allowed HTTP method
+                .AllowAnyMethod()
+                .WithOrigins("http://localhost:3000")
+                .AllowCredentials()
                 .AllowAnyHeader(); // allowing any header to be sent
         });
 });
@@ -19,6 +22,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Enable SignalR
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -36,5 +42,9 @@ app.UseCors(policyName);
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Define "/hubs/chat" as the SignalR hub route
+app.MapRazorPages();
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();
