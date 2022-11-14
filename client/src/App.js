@@ -1,9 +1,8 @@
-import logo from '../logo.svg';
-import '../App.css';
-import {useState} from "react";
-import Home from "./Home";
+import './App.css';
+import Home from "./pages/Home";
+import Game from "./pages/Game";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import GuessingGame from "./GuessingGame";
+
 
 function App() {
 
@@ -11,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Home/>}/>
-            <Route path="/play" element={<GuessingGame/>}/>
+            <Route path="/play" element={<Game/>}/>
         </Routes>
       </BrowserRouter>
     );
