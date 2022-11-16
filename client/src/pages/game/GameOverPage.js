@@ -1,4 +1,4 @@
-import Scoreboard from "../components/Scoreboard";
+import Scoreboard from "../../components/Scoreboard";
 
 function GameOverPage() {
     return (

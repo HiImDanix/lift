@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import Countdown from "react-countdown";
 import {useState} from "react";
-import {GamePageEnum} from "../pages/GamePage";
+import PropTypes from "prop-types";
 
 function GuessingGame(props) {
     return (
@@ -18,9 +18,7 @@ function GuessingGame(props) {
             <div className="d-flex flex-column flex-fill justify-content-center align-items-center"><img
                 className="mb-3" src="img/logo_1.jpg" height="200" />
                 <h1>Which brand has this logo?</h1>
-                <Countdown date={Date.now() + 5000} onComplete={props.roundFinished}>
-                    <h1>Time's up!</h1>
-                </Countdown>
+                <Countdown date={Date.now() + props.roundDurationMs} onComplete={props.roundFinished} />
             </div>
         </div>
         <div className="row gx-0 gy-0 justify-content-center align-items-center">
@@ -40,6 +38,12 @@ function GuessingGame(props) {
         </div>
         </div>
     );
+}
+
+GuessingGame.propTypes = {
+    roundFinished: PropTypes.func.isRequired,
+    scorePoint: PropTypes.func.isRequired,
+    roundDurationMs: PropTypes.number.isRequired
 }
 
 export default GuessingGame;
