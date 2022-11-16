@@ -16,9 +16,9 @@ export {GamePageEnum};
 function GamePage() {
 
     const [page, setPage] = useState(GamePageEnum.QUESTION);
-    const [round, setRound] = useState(0);
+    const [round, setRound] = useState(1);
     const [maxRounds, setMaxRounds] = useState(2);
-    const [roundDurationMs, setRoundDurationMs] = useState(5000);
+    const [roundDurationMs, setRoundDurationMs] = useState(8000);
     const [scoreboardDurationMs, setScoreboardDurationMs] = useState(3000);
     const [score, setScore] = useState(0);
     const [username, setUsername] = useState("User");
@@ -34,7 +34,7 @@ function GamePage() {
     // - Show scoreboard
     // - If last round, show game over page
     function roundFinished() {
-        if (round > maxRounds) {
+        if (round >= maxRounds) {
             setPage(GamePageEnum.GAME_OVER);
         } else {
             setPage(GamePageEnum.SCOREBOARD);
