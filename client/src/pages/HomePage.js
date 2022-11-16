@@ -33,15 +33,6 @@ function HomePage() {
                 <div className="overlay"></div>
             </div>
         </header>
-        <section id="about" className="content-section bg-light">
-            <div className="container text-center">
-                <div className="row">
-                    <div className="col-lg-10 mx-auto"><a className="btn btn-dark btn-xl js-scroll-trigger"
-                                                          role="button" href="src/pages/HomePage.js">What
-                        We Offer</a></div>
-                </div>
-            </div>
-        </section>
         <footer className="footer text-center">
             <div className="container">
                 <ul className="list-inline mb-5">
