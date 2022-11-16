@@ -1,14 +1,9 @@
 import {Link} from "react-router-dom";
 import Countdown from "react-countdown";
 import {useState} from "react";
-import {GamePage} from "../pages/Game";
+import {GamePageEnum} from "../pages/GamePage";
 
 function GuessingGame(props) {
-
-    function showScoreboard() {
-        props.setPage(GamePage.SCOREBOARD);
-    }
-
     return (
         <div className="min-vh-100">
         <nav className="navbar navbar-light navbar-expand-md py-3">
@@ -23,7 +18,7 @@ function GuessingGame(props) {
             <div className="d-flex flex-column flex-fill justify-content-center align-items-center"><img
                 className="mb-3" src="img/logo_1.jpg" height="200" />
                 <h1>Which brand has this logo?</h1>
-                <Countdown date={Date.now() + 5000} onComplete={showScoreboard}>
+                <Countdown date={Date.now() + 5000} onComplete={props.roundFinished}>
                     <h1>Time's up!</h1>
                 </Countdown>
             </div>

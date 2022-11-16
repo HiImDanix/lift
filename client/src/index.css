@@ -1,13 +1,29 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.section_spacing {
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.last_section {
+  margin-bottom:100px;
 }
+
+
+/* GamePage over screen */
+.game-over-pedestial-bar {
+  width: 100%;
+  max-width: 250px;
+}
+.f-place-bar {
+  height: 200px;
+}
+.s-place-bar {
+  height: 150px;
+}
+.t-place-bar {
+  height: 100px;
+}
+
+.game-over-pedestial-username {
+  top:-25px;
+}
+
