@@ -21,7 +21,7 @@ function GamePage() {
     const [roundDurationMs, setRoundDurationMs] = useState(8000);
     const [scoreboardDurationMs, setScoreboardDurationMs] = useState(3000);
     const [score, setScore] = useState(0);
-    const [username, setUsername] = useState("User");
+    const [username, setUsername] = useState("Anonymous");
 
 
     // Start a new round
@@ -57,9 +57,9 @@ function GamePage() {
             case GamePageEnum.QUESTION:
                 return <GuessingGame roundFinished={roundFinished} scorePoint={scorePoint} roundDurationMs={roundDurationMs} />;
             case GamePageEnum.SCOREBOARD:
-                return <ScoreboardPage scoreboardFinished={scoreboardFinished} scoreboardDurationMs={scoreboardDurationMs} score={score} />;
+                return <ScoreboardPage scoreboardFinished={scoreboardFinished} scoreboardDurationMs={scoreboardDurationMs} score={score} username={username} />;
             case GamePageEnum.GAME_OVER:
-                return <GameOverPage />;
+                return <GameOverPage score={score} username={username} />;
             default:
                 return <div>Unknown page</div>;
         }

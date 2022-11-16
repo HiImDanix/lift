@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 
 function GuessingGame(props) {
-
+    
     // Hardcoded data for now. Will be fetched from server later
     const [gameData, setGameData] = useState({
         "question": "What is this logo?",
@@ -18,6 +18,8 @@ function GuessingGame(props) {
         "correctAnswer": "Google"
     });
 
+    const CORRECT_ANSWER_DURATION = 1500;
+
     const [startTime, setStartTime] = useState(Date.now());
     const [question, setQuestion] = useState(gameData.question);
     const [image, setImage] = useState(gameData.image);
@@ -26,15 +28,14 @@ function GuessingGame(props) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [selectedAnswerTime, setSelectedAnswerTime] = useState(null);
 
-    const CORRECT_ANSWER_DURATION = 2000;
-
     // Handle answer selection. If correct, score a point. Then, end the round
     function selectAnswer(answer) {
         setSelectedAnswerTime(Date.now());
         setSelectedAnswer(answer);
-        if (selectedAnswer === correctAnswer) {
+        if (correctAnswer == answer) {
             props.scorePoint();
         }
+
         // Wait 2 second before ending the round
         setTimeout(props.roundFinished, CORRECT_ANSWER_DURATION);
     }

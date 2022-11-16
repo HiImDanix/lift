@@ -1,4 +1,48 @@
-function Scoreboard() {
+import ScoreboardPage from "./game/ScoreboardPage";
+import PropTypes from "prop-types";
+import {useState} from "react";
+
+function Scoreboard(props) {
+
+
+    // Hardcoded data
+    const [scoreboardData, setScoreboardData] = useState({
+        "scores": [
+            {
+                "position": 1,
+                "username": "ProGamer25",
+                "score": 100
+            },
+            {
+                "position": 2,
+                "username": "HardBoiledEgg",
+                "score": 50
+            },
+            {
+                "position": 3,
+                "username": "n00bhunter69",
+                "score": 50
+            },
+            {
+                "position": 4,
+                "username": "TheRealSlimShady",
+                "score": 25
+            },
+            {
+                "position": 5,
+                "username": "Haxx0r",
+                "score": 25
+            },
+            {
+                "position": 6,
+                "username": props.username,
+                "score": props.score
+            }
+        ]
+
+    });
+
+
     return (
         <>
             <div className="table-responsive">
@@ -11,51 +55,17 @@ function Scoreboard() {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td className="text-center">1</td>
-                        <td>ProGamer25</td>
-                        <td>9999</td>
-                    </tr>
-                    <tr className="text-bg-warning">
-                        <td className="text-center">2</td>
-                        <td>Jackboringname<br /></td>
-                        <td>5734</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">3</td>
-                        <td>ISUCKATGAMES</td>
-                        <td>4434</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">4</td>
-                        <td>bruhlmao</td>
-                        <td>3069</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">5</td>
-                        <td>n00bhunter64</td>
-                        <td>2000</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">6</td>
-                        <td>tier3sub</td>
-                        <td>654</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">7</td>
-                        <td>aabpiratesfan</td>
-                        <td>397</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">8</td>
-                        <td>gamer10</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td className="text-center">9</td>
-                        <td>randersRULEZ</td>
-                        <td>0</td>
-                    </tr>
+                    {
+                        scoreboardData.scores.map((score, index) => {
+                            return (
+                                <tr key={index} {...(score.username === props.username ? {className: "text-bg-warning"} : {})}>
+                                    <td className="text-center">{score.position}</td>
+                                    <td className="text-start">{score.username}</td>
+                                    <td>{score.score}</td>
+                                </tr>
+                            );
+                        })
+                    }
                     </tbody>
                 </table>
             </div>
@@ -69,6 +79,11 @@ function Scoreboard() {
         </div>
     </>
     )
+}
+
+Scoreboard.propTypes = {
+    username: PropTypes.string,
+    score: PropTypes.number
 }
 
 export default Scoreboard;

@@ -1,6 +1,7 @@
 import Scoreboard from "../../components/Scoreboard";
+import PropTypes from "prop-types";
 
-function GameOverPage() {
+function GameOverPage(props) {
     return (
         <>
             <div className={"section_spacing"}>
@@ -8,18 +9,18 @@ function GameOverPage() {
                 <div className="mt-5">
                     <div className="row gx-0">
                         <div className="col d-flex justify-content-end align-items-end">
-                            <div className="bg-primary d-flex justify-content-center game-over-pedestial-bar t-place-bar">
-                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">HHHHHHHHHHHHHHHH</strong></div>
+                            <div className="bg-secondary d-flex justify-content-center game-over-pedestial-bar t-place-bar">
+                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">n00bhunter69</strong></div>
                             </div>
                         </div>
                         <div className="col d-flex justify-content-center">
-                            <div className="bg-secondary d-flex justify-content-center game-over-pedestial-bar f-place-bar">
-                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">BoldDdsdsdds</strong></div>
+                            <div className="bg-warning d-flex justify-content-center game-over-pedestial-bar f-place-bar">
+                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">ProGamer25</strong></div>
                             </div>
                         </div>
                         <div className="col d-flex d-md-flex justify-content-start align-items-end">
-                            <div className="bg-primary d-flex justify-content-center game-over-pedestial-bar s-place-bar">
-                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">BoldDdsdsdds</strong></div>
+                            <div className="bg-secondary d-flex justify-content-center game-over-pedestial-bar s-place-bar">
+                                <div className="position-relative"><strong className="position-absolute translate-middle-x game-over-pedestial-username">HardBoiledEgg</strong></div>
                             </div>
                         </div>
                     </div>
@@ -36,11 +37,16 @@ function GameOverPage() {
                 </div>
             </div>
             <div className={"section_spacing last_section"}>
-                <Scoreboard />
+                <Scoreboard username={props.username} score={props.score}/>
             </div>
 
         </>
     );
+}
+
+GameOverPage.propTypes = {
+    username: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired
 }
 
 export default GameOverPage;

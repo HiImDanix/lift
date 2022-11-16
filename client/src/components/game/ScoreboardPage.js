@@ -8,7 +8,7 @@ function ScoreboardPage(props) {
 
             <h1 className="text-uppercase fw-bold text-center">Scoreboard</h1>
             <Countdown className={"text-center d-block"} date={Date.now() + props.scoreboardDurationMs} onComplete={props.scoreboardFinished} />
-            <Scoreboard score={props.score} />
+            <Scoreboard username={props.username} score={props.score} />
         </>
     );
 }
