@@ -7,7 +7,15 @@ function HomePage() {
             <div className="container my-auto text-center">
                 <h1 className="mb-1">LIFT</h1>
                 <h3 className="mb-5"><em>LOSING IS FUN TOO</em></h3>
-                <Link className="btn btn-primary btn-xl js-scroll-trigger" role="button" to={"/play"}>Play</Link>
+                <Link className="btn btn-primary btn-xl js-scroll-trigger" role="button" to={"/play"}>Create game</Link>
+                <form className="form-inline d-flex justify-content-center">
+                    <div className="form-group">
+                        <label className="sr-only" htmlFor="joinGame">Game Code</label>
+                        <input className="form-control" type="text" id="joinGame" placeholder="Game Code" />
+                        <button className="btn btn-primary" type="submit">Join</button>
+                    </div>
+
+                </form>
                 <div className="overlay"></div>
             </div>
         </header>

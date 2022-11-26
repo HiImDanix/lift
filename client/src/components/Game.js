@@ -1,10 +1,10 @@
 
 import {useState} from "react";
 
-import Nav from "../components/Nav";
-import GuessingGame from "../components/game/GuessingGame";
-import ScoreboardPage from "../components/game/ScoreboardPage";
-import GameOverPage from "../components/game/GameOverPage";
+import Nav from "./Nav";
+import GuessingGame from "./game/GuessingGame";
+import ScoreboardPage from "./game/ScoreboardPage";
+import GameOverPage from "./game/GameOverPage";
 
 const GamePageEnum = {
     QUESTION: 0,
@@ -13,7 +13,7 @@ const GamePageEnum = {
 }
 export {GamePageEnum};
 
-function GamePage() {
+function Game() {
 
     const [page, setPage] = useState(GamePageEnum.QUESTION);
     const [round, setRound] = useState(1);
@@ -74,4 +74,4 @@ function GamePage() {
 
 
 }
-export default GamePage;
+export default Game;
