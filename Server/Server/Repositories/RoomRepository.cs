@@ -18,19 +18,20 @@ public class RoomRepository : IRoomRepository
     public Room Create(Room room)
     {
         using var conn = new SqlConnection(_connString);
-        
         var sql = @"INSERT INTO Room (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";
-        // insert db. if fails, throw exception
         var id = conn.QuerySingle<int>(sql, room);
-        // print id
-        System.Console.WriteLine("id: " + id);
-        
         room.Id = id;
         return room;
     }
 
-    public void AddPlayer(Room room, Player player)
+    public Player AddPlayer(Room room, Player player)
     {
-        throw new NotImplementedException();
+        using var conn = new SqlConnection(_connString);
+        var sql = @"INSERT INTO Player (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
+        var id = conn.QuerySingle<int>(sql, player);
+        player.Id = id;
+        // add playerID to room.Players
+        room.Players = room.Players.Append(player.RoomId);
+        return player;
     }
 }

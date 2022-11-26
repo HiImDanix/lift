@@ -9,11 +9,7 @@ public class Room
     [Required]
     public string Code { get; set; }
     
-    public enum Relations
-    {
-        CurrentGame,
-        Players
-    }
+    public IEnumerable<int> Players { get; set; } = new HashSet<int>();
 
     public Room(string code)
     {

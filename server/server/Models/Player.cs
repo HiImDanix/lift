@@ -5,6 +5,7 @@ public class Player
     public int Id { get; set; }
     public string Session { get; set; }
     public string DisplayName { get; set; }
+    public int RoomId { get; set; }
     
     public Player(int id, string session, string displayName)
     {

@@ -24,9 +24,9 @@ public class RoomService: IRoomService
         _roomRepository.Create(room);
         
         // Player (save and associate to room)
-        // var playerSessionId = Guid.NewGuid().ToString(); // generate session ID
-        // var player = new Player(session:playerSessionId, displayName:playerDisplayName);
-        // _roomRepository.AddPlayer(room, player);
+        var playerSessionId = Guid.NewGuid().ToString(); // generate session ID
+        var player = new Player(session:playerSessionId, displayName:playerDisplayName);
+        _roomRepository.AddPlayer(room, player);
         
         // TODO: Return DTO
         return room;
