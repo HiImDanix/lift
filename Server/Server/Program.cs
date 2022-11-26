@@ -10,9 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
     // inject repositories & pass in connection string
     string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddTransient<IPlayerRepository, PlayerRepository>(provider => new PlayerRepository(connectionString));
+    builder.Services.AddTransient<IRoomRepository, RoomRepository>(provider => new RoomRepository(connectionString));
     
     // Inject services
-    builder.Services.AddSingleton<IPlayerService, PlayerService>();
+    builder.Services.AddSingleton<IRoomService, RoomService>();
+    
 }
 
 
