@@ -1,3 +1,4 @@
+using GuessingGame;
 using GuessingGame.Repositories;
 using GuessingGame.Services;
 
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    
+    // DB helper for transactions
+    builder.Services.AddSingleton<IDbHelper, DbHelper>();
     
     // inject repositories & pass in connection string
     string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
