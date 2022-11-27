@@ -19,7 +19,7 @@ public class PlayerProxy: Player
         {
             if (base.Room == null)
             {
-                base.Room = _roomRepository.GetRoomById(base.PlayerId);
+                base.Room = _roomRepository.GetRoomById(base.Id);
             }
             
             return base.Room;

@@ -19,7 +19,7 @@ public class PlayerRepository : IPlayerRepository
 
     public Player? Get(int id)
     {
-        var sql = "SELECT * FROM Players WHERE playerID = @id";
+        var sql = "SELECT * FROM Players WHERE ID = @id";
         
         _db.Open();
         // get DataReader
@@ -29,7 +29,7 @@ public class PlayerRepository : IPlayerRepository
 
     public IList<Player> GetPlayersByRoomId(int id)
     {
-        var sql = "SELECT * FROM Player WHERE roomID = @id";
+        var sql = "SELECT * FROM Players WHERE roomID = @id";
         
         _db.Open();
         var players = _db.Query<Player>(sql, new { id }).ToList();
@@ -42,7 +42,7 @@ public class PlayerRepository : IPlayerRepository
     {
         return new PlayerProxy(_provider.GetRequiredService<IRoomRepository>())
         {
-            PlayerId = player.PlayerId,
+            Id = player.Id,
             Session = player.Session,
             DisplayName = player.DisplayName,
         };

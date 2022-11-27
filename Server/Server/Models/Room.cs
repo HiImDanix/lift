@@ -6,5 +6,4 @@ public class Room
     public string Code { get; set; }
     // Virtual to allow proxy objects to override the property behavior
     public virtual IEnumerable<Player>? Players { get; set; }
-    
 }
