@@ -10,6 +10,17 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     
+    // CORS
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll", builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+    });
+    
     
     // =============================
     // ============ DB =============
@@ -55,6 +66,9 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+    
+    // Cors
+    app.UseCors("AllowAll");
     
     app.UseExceptionHandler("/error");
     app.UseHttpsRedirection();

@@ -1,18 +1,47 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+
+    const navigate = useNavigate();
+
+    async function createGame() {
+        const res = await fetch(`https://localhost:7246/Room`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                playerName: "Dan",
+            })
+        });
+        const data = await res.json();
+
+        if (res.status === 200) {
+            // put state in local storage
+            localStorage.setItem("session", data.Session);
+            localStorage.setItem("id", data.Id);
+            localStorage.setItem("name", data.Name);
+            // redirect to play page
+            // destructure data as state
+            navigate("/play", {state: {data}});
+        } else {
+            alert("Error creating game");
+        }
+    }
+
+
     return (
         <>
         <header className="d-flex masthead">
             <div className="container my-auto text-center">
                 <h1 className="mb-1">LIFT</h1>
                 <h3 className="mb-5"><em>LOSING IS FUN TOO</em></h3>
-                <Link className="btn btn-primary btn-xl js-scroll-trigger" role="button" to={"/play"}>Create game</Link>
+                <button className="btn btn-primary btn-xl js-scroll-trigger" role="button" onClick={createGame}>Create game</button>
                 <form className="form-inline d-flex justify-content-center">
                     <div className="form-group">
                         <label className="sr-only" htmlFor="joinGame">Game Code</label>
                         <input className="form-control" type="text" id="joinGame" placeholder="Game Code" />
-                        <button className="btn btn-primary" type="submit">Join</button>
+                        <button className="btn btn-primary" type="submit" onClick={() => alert("Not implemented yet!")}>Join</button>
                     </div>
 
                 </form>
