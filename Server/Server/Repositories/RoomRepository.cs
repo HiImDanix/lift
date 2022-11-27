@@ -9,12 +9,12 @@ namespace GuessingGame.Repositories;
 public class RoomRepository : IRoomRepository
 {
     private readonly IDbConnection _db;
-    private readonly IPlayerRepository _playerRepository;
+    private readonly IServiceProvider _provider;
 
-    public RoomRepository(IDbConnection db,IPlayerRepository playerRepository)
+    public RoomRepository(IDbConnection db, IServiceProvider provider)
     {
         _db = db;
-        _playerRepository = playerRepository;
+        _provider = provider;
     }
 
     public Room Create(Room room)
@@ -38,7 +38,7 @@ public class RoomRepository : IRoomRepository
     // Map Room to RoomProxy
     public RoomProxy ToProxy(Room room)
     {
-        return new RoomProxy(_playerRepository)
+        return new RoomProxy(_provider.GetRequiredService<IPlayerRepository>())
         {
             Id = room.Id,
             Code = room.Code,
