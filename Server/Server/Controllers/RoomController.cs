@@ -1,4 +1,4 @@
-using GuessingGame.dto;
+using GuessingGame.DTO.requests;
 using GuessingGame.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +20,7 @@ public class RoomController: ControllerBase
     public IActionResult CreateRoom(CreateRoomRequest request)
     {
 
-        var room = _roomService.CreateRoom(playerDisplayName: request.playerDisplayName);
+        var room = _roomService.CreateRoom(playerDisplayName: request.PlayerName);
         return Ok(room);
     }
 }

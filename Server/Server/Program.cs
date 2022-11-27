@@ -10,20 +10,36 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     
-    // === DB ===
+    
+    // =============================
+    // ============ DB =============
+    // =============================
+    
     // Get connection string from appsettings.json
     string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    
     // Inject connection per HTTP request
     // TODO: Inject factory instead
     builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(connectionString));
+    
     // DB helper for transactions
     builder.Services.AddTransient<IDbHelper, DbHelper>();
+    
+    // =============================
+    // ======== Automapper =========
+    // =============================
+    builder.Services.AddAutoMapper(typeof(Program).Assembly);
+    
 
-    // === Repositories===
+    // =============================
+    // ======= Repositories ========
+    // =============================
     builder.Services.AddTransient<IPlayerRepository, PlayerRepository>();
     builder.Services.AddTransient<IRoomRepository, RoomRepository>();
     
-    // === Services ===
+    // =============================
+    // ======== Services ===========
+    // =============================
     builder.Services.AddSingleton<IRoomService, RoomService>();
     
 }

@@ -12,7 +12,7 @@ public class RoomProxy: Room
         _playerRepository = playerRepository;
     }
 
-    public override IEnumerable<Player>? Players
+    public override IList<Player>? Players
     {
         get
         {

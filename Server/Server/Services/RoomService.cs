@@ -1,3 +1,5 @@
+using AutoMapper;
+using GuessingGame.DTO.responses;
 using GuessingGame.models;
 using GuessingGame.Repositories;
 
@@ -7,16 +9,15 @@ public class RoomService: IRoomService
 {
 
     private readonly IRoomRepository _roomRepository;
-    private readonly IDbHelper _dbHelper;
+    private readonly IMapper _mapper;
 
-    public RoomService(IRoomRepository roomRepository, IDbHelper dbHelper)
+    public RoomService(IRoomRepository roomRepository, IMapper mapper)
     {
         _roomRepository = roomRepository;
-        _dbHelper = dbHelper;
+        _mapper = mapper;
     }
-
-
-    public Room CreateRoom(string playerDisplayName)
+    
+    public PlayerPrivateWithRoomDTO CreateRoom(string playerDisplayName)
     {
         // TODO: Make transactions work again. Inject connection, not con string?
         // _dbHelper.StartTransaction();
@@ -35,9 +36,10 @@ public class RoomService: IRoomService
             DisplayName = playerDisplayName,
         };
         room = _roomRepository.AddPlayer(room, player);
+        player.Room = room;
 
-            // TODO: Return DTO
-            return room;
+        // map to dto & return
+        return _mapper.Map<PlayerPrivateWithRoomDTO>(player);
 
     }
 }

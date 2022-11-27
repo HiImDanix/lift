@@ -31,7 +31,7 @@ public class RoomRepository : IRoomRepository
         var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
         player.Id = id;
         player = ToProxy(player);
-        room.Players = room.Players.Append(player);
+        room.Players.Add(player);
         return ToProxy(room);
     }
     
