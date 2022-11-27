@@ -9,7 +9,6 @@ namespace GuessingGame.Repositories;
 public class PlayerRepository : IPlayerRepository
 {
     private readonly IDbConnection _db;
-    // inject provider
     private readonly IServiceProvider _provider;
     
     public PlayerRepository(IDbConnection db, IServiceProvider provider)
@@ -18,24 +17,11 @@ public class PlayerRepository : IPlayerRepository
         _provider = provider;
     }
 
-    public Player Create(Player player)
-    {
-        var sql = "INSERT INTO Player (session, displayName) VALUES (@DisplayName, @Session); SELECT SCOPE_IDENTITY()";
-        
-        IDbCommand cmd = _db.CreateCommand();
-        cmd.CommandText = sql;
-        cmd.Parameters.Add(new SqlParameter("@DisplayName", player.DisplayName));
-        cmd.Parameters.Add(new SqlParameter("@Session", player.Session));
-
-        // execute and get the auto-generated ID / PK
-        player.PlayerId = (int)(decimal)cmd.ExecuteScalar();
-        return player;
-    }
-
     public Player? Get(int id)
     {
-        var sql = "SELECT * FROM Players WHERE id = @id";
+        var sql = "SELECT * FROM Players WHERE playerID = @id";
         
+        _db.Open();
         // get DataReader
         var reader = _db.ExecuteReader(sql, new { id });
         return null;
@@ -45,6 +31,7 @@ public class PlayerRepository : IPlayerRepository
     {
         var sql = "SELECT * FROM Player WHERE roomID = @id";
         
+        _db.Open();
         var players = _db.Query<Player>(sql, new { id }).ToList();
         // map each player to player proxy using ToProxy(player) method
         return players.Select(ToProxy).ToList();

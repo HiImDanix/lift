@@ -38,6 +38,7 @@ public class RoomRepository : IRoomRepository
     // Map Room to RoomProxy
     public RoomProxy ToProxy(Room room)
     {
+        // TODO: Use DI to create the proxy?
         return new RoomProxy(_provider.GetRequiredService<IPlayerRepository>())
         {
             Id = room.Id,
@@ -48,7 +49,8 @@ public class RoomRepository : IRoomRepository
     // Map Player to PlayerProxy
     private Player ToProxy(Player player)
     {
-        return new PlayerProxy(this)
+        // TODO: Use DI to create the proxy?
+        return new PlayerProxy(_provider.GetRequiredService<IRoomRepository>())
         {
             PlayerId = player.PlayerId,
             Session = player.Session,
@@ -62,5 +64,5 @@ public class RoomRepository : IRoomRepository
         var room = _db.QuerySingle<Room>(sql, new { roomId });
         return ToProxy(room);
     }
-    
+
 }

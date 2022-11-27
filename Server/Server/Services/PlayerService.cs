@@ -13,17 +13,6 @@ public class PlayerService : IPlayerService
         _playerRepository = playerRepository;
     }
 
-    public PrivatePlayerResponse CreatePlayer(Player player)
-    {
-    var createdPlayer = _playerRepository.Create(player);
-
-    return new PrivatePlayerResponse(
-            ID: createdPlayer.PlayerId,
-            Session: createdPlayer.Session,
-            DisplayName: createdPlayer.DisplayName
-        );
-    }
-
     public PrivatePlayerResponse? GetPlayer(int id)
     {
         var player = _playerRepository.Get(id);

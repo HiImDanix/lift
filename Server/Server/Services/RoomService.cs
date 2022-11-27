@@ -20,7 +20,7 @@ public class RoomService: IRoomService
     {
         // TODO: Make transactions work again. Inject connection, not con string?
         // _dbHelper.StartTransaction();
-        var code = Guid.NewGuid().ToString().ToUpper().Substring(0, 4); // Generate game code
+        var code = Guid.NewGuid().ToString().ToUpper().Substring(0, 6); // Generate game code
         var room = new Room()
         {
             Code = code
