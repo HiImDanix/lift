@@ -19,7 +19,7 @@ public class RoomRepository : IRoomRepository
 
     public Room Create(Room room)
     {
-        var sql = @"INSERT INTO Room (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";
+        var sql = @"INSERT INTO Rooms (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";
         var id = _db.QuerySingle<int>(sql, room);
         room.Id = id;
         return ToProxy(room);
@@ -27,9 +27,9 @@ public class RoomRepository : IRoomRepository
 
     public Room AddPlayer(Room room, Player player)
     {
-        var sql = @"INSERT INTO Player (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
+        var sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
         var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
-        player.PlayerId = id;
+        player.Id = id;
         player = ToProxy(player);
         room.Players = room.Players.Append(player);
         return ToProxy(room);
@@ -52,7 +52,7 @@ public class RoomRepository : IRoomRepository
         // TODO: Use DI to create the proxy?
         return new PlayerProxy(_provider.GetRequiredService<IRoomRepository>())
         {
-            PlayerId = player.PlayerId,
+            Id = player.Id,
             Session = player.Session,
             DisplayName = player.DisplayName,
         };
@@ -60,7 +60,7 @@ public class RoomRepository : IRoomRepository
 
     public Room GetRoomById(object roomId)
     {
-        var sql = @"SELECT * FROM Room WHERE roomID = @roomId";
+        var sql = @"SELECT * FROM Rooms WHERE ID = @roomId";
         var room = _db.QuerySingle<Room>(sql, new { roomId });
         return ToProxy(room);
     }

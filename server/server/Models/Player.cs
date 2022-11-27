@@ -4,7 +4,7 @@ namespace GuessingGame.models;
 
 public class Player
 {
-    public int PlayerId { get; set; }
+    public int Id { get; set; }
     public string Session { get; set; }
     public string DisplayName { get; set; }
     [JsonIgnore]
