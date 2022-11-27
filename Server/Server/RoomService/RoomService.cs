@@ -18,29 +18,26 @@ public class RoomService: IRoomService
 
     public Room CreateRoom(string playerDisplayName)
     {
-        // TODO: Transaction
-        _dbHelper.StartTransaction();
-        Room room;
-        try
+        // TODO: Make transactions work again. Inject connection, not con string?
+        // _dbHelper.StartTransaction();
+        var code = Guid.NewGuid().ToString().ToUpper().Substring(0, 4); // Generate game code
+        var room = new Room()
         {
-            var code = Guid.NewGuid().ToString().ToUpper().Substring(0, 4); // Generate game code
-            room = new Room(code);
-            _roomRepository.Create(room);
-        
-            // Player (save and associate to room)
-            var playerSessionId = Guid.NewGuid().ToString(); // generate session ID
-            var player = new Player(session:playerSessionId, displayName:playerDisplayName);
-            _roomRepository.AddPlayer(room, player);
-        }
-        catch (Exception e)
+            Code = code
+        };
+        room = _roomRepository.Create(room);
+    
+        // Player (save and associate to room)
+        var playerSessionId = Guid.NewGuid().ToString(); // generate session ID
+        var player = new Player()
         {
-            _dbHelper.RollbackTransaction();
-            // TODO: Throw custom exception
-            throw;
-        }
-        
-        // TODO: Return DTO
-        return room;
+            Session = playerSessionId,
+            DisplayName = playerDisplayName,
+        };
+        room = _roomRepository.AddPlayer(room, player);
+
+            // TODO: Return DTO
+            return room;
 
     }
 }

@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.Data.SqlClient;
 
 namespace GuessingGame;
@@ -9,51 +10,34 @@ public interface IDbHelper
     public void RollbackTransaction();
 }
 
-public class DbHelper: IDbHelper
+public class DbHelper : IDbHelper
 {
-    private readonly string _connString;
-    
-    public DbHelper(string connString)
-    {
-        _connString = connString;
-    }
-    
-    // start transaction
+    private readonly IDbConnection _db;
+
+    // public DbHelper(IDbConnection db)
+    // {
+    //     _db = db;
+    // }
+
     public void StartTransaction()
     {
-        using (var conn = new SqlConnection(_connString))
-        {
-            conn.Open();
-            using (var cmd = new SqlCommand("BEGIN TRANSACTION", conn))
-            {
-                cmd.ExecuteNonQuery();
-            }
-        }
+        // using var cmd = _db.CreateCommand();
+        // cmd.CommandText = "BEGIN TRANSACTION";
+        // cmd.ExecuteNonQuery();
+    
     }
     
-    // commit transaction
     public void CommitTransaction()
     {
-        using (var conn = new SqlConnection(_connString))
-        {
-            conn.Open();
-            using (var cmd = new SqlCommand("COMMIT TRANSACTION", conn))
-            {
-                cmd.ExecuteNonQuery();
-            }
-        }
+        // using var cmd = _db.CreateCommand();
+        // cmd.CommandText = "COMMIT TRANSACTION";
+        // cmd.ExecuteNonQuery();
     }
     
-    // rollback transaction
     public void RollbackTransaction()
     {
-        using (var conn = new SqlConnection(_connString))
-        {
-            conn.Open();
-            using (var cmd = new SqlCommand("ROLLBACK TRANSACTION", conn))
-            {
-                cmd.ExecuteNonQuery();
-            }
-        }
+    //     using var cmd = _db.CreateCommand();
+    //     cmd.CommandText = "ROLLBACK TRANSACTION";
+    //     cmd.ExecuteNonQuery();
     }
 }

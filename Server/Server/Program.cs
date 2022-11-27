@@ -1,6 +1,8 @@
+using System.Data;
 using GuessingGame;
 using GuessingGame.Repositories;
 using GuessingGame.Services;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -8,15 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     
-    // DB helper for transactions
-    builder.Services.AddSingleton<IDbHelper, DbHelper>();
-    
-    // inject repositories & pass in connection string
+    // === DB ===
+    // Get connection string from appsettings.json
     string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddTransient<IPlayerRepository, PlayerRepository>(provider => new PlayerRepository(connectionString));
-    builder.Services.AddTransient<IRoomRepository, RoomRepository>(provider => new RoomRepository(connectionString));
+    // Inject connection per HTTP request
+    // TODO: Inject factory instead
+    builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(connectionString));
+    // DB helper for transactions
+    builder.Services.AddTransient<IDbHelper, DbHelper>();
+
+    // === Repositories===
+    builder.Services.AddTransient<IPlayerRepository, PlayerRepository>();
+    builder.Services.AddTransient<IRoomRepository, RoomRepository>();
     
-    // Inject services
+    // === Services ===
     builder.Services.AddSingleton<IRoomService, RoomService>();
     
 }

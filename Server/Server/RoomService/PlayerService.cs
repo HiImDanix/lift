@@ -18,7 +18,7 @@ public class PlayerService : IPlayerService
     var createdPlayer = _playerRepository.Create(player);
 
     return new PrivatePlayerResponse(
-            ID: createdPlayer.Id,
+            ID: createdPlayer.PlayerId,
             Session: createdPlayer.Session,
             DisplayName: createdPlayer.DisplayName
         );
@@ -34,7 +34,7 @@ public class PlayerService : IPlayerService
         }
 
         return new PrivatePlayerResponse(
-            ID: player.Id,
+            ID: player.PlayerId,
             Session: player.Session,
             DisplayName: player.DisplayName
         );
