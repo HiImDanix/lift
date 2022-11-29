@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using desktop_client.ModelLayer;
 
 namespace desktop_client.ControlLayer
 {
@@ -11,11 +12,8 @@ namespace desktop_client.ControlLayer
         public async Task<int> SaveQuestion()
         {
             int insertId = -1;
-            return insertId;
-        }
+            
 
-        internal Task<int> SaveQuestion(string imagePath, string question, string category, string answer)
-        {
             throw new NotImplementedException();
         }
     }
