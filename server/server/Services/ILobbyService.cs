@@ -5,5 +5,6 @@ namespace GuessingGame.Services;
 
 public interface ILobbyService
 {
-    public LobbyCreatedDTO CreateRoomAndPlayer(string playerDisplayName);
+    public LobbyDTO CreateRoomAndPlayer(string playerDisplayName);
+    LobbyDTO JoinLobby(string roomCode, string playerDisplayName);
 }

@@ -86,4 +86,16 @@ public class RoomRepository : IRoomRepository
         
     }
 
+    public Room? GetByCode(string roomCode)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM Rooms WHERE code = @roomCode";
+            var room = _db.QuerySingle<Room>(sql, new { roomCode });
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get room by code", e);
+        }
+    }
 }

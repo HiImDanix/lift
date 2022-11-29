@@ -6,12 +6,12 @@ function HomePage() {
 
     const navigate = useNavigate();
 
-    const [roomCode, setRoomCode] = useState("sd");
+    const [roomCode, setRoomCode] = useState("");
 
     async function createGame() {
         // get username by fetching https://randomuser.me/api/ and retrieving response.results.login.username
         let username = await fetch("https://randomuser.me/api/").then(res => res.json()).then(data => data.results[0].login.username);
-        const res = await fetch(`${Config.SERVER_URL}/players`, {
+        const res = await fetch(`${Config.SERVER_URL}/lobby`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -20,9 +20,10 @@ function HomePage() {
                 playerName: username,
             })
         });
-        const data = await res.json();
+
 
         if (res.status === 200) {
+            const data = await res.json();
             // put state in local storage
             localStorage.setItem("session", data.Session);
             localStorage.setItem("id", data.Id);
@@ -35,6 +36,34 @@ function HomePage() {
         }
     }
 
+    const joinLobby = async (e) => {
+        e.preventDefault();
+        let username = await fetch("https://randomuser.me/api/").then(res => res.json()).then(data => data.results[0].login.username);
+        const res = await fetch(`${Config.SERVER_URL}/lobby/` + roomCode + "/join", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                playerName: username,
+            })
+        });
+
+        if (res.status === 200) {
+            const data = await res.json();
+            // put state in local storage
+            localStorage.setItem("session", data.Session);
+            localStorage.setItem("id", data.Id);
+            localStorage.setItem("name", data.Name);
+            // redirect to play page
+            // destructure data as state
+            navigate("/play", {state: {data}});
+        } else {
+            alert("Invalid room code");
+        }
+
+
+    }
 
 
     return (

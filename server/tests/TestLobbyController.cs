@@ -1,5 +1,4 @@
 using GuessingGame.Controllers;
-using GuessingGame.models;
 using Moq;
 using FluentAssertions;
 using GuessingGame.DTO.requests;
@@ -34,7 +33,7 @@ public class TestLobbyController
         var mockLobbyService = new Mock<ILobbyService>();
         mockLobbyService
             .Setup(x => x.CreateRoomAndPlayer(It.IsAny<string>()))
-            .Callback(() => new LobbyCreatedDTO());
+            .Callback(() => new LobbyDTO());
         var sut = new LobbyController(mockLobbyService.Object);
 
         // Act
