@@ -20,7 +20,6 @@ public class RoomRepository : IRoomRepository
 
     public Room Create(Room room)
     {
-        throw new DataAccessException("Could not get room by id");
         try
         {
             var sql = @"INSERT INTO Rooms (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";

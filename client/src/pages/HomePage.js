@@ -5,7 +5,7 @@ function HomePage() {
     const navigate = useNavigate();
 
     async function createGame() {
-        const res = await fetch(`https://localhost:7246/Room`, {
+        const res = await fetch(`https://localhost:7246/players`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

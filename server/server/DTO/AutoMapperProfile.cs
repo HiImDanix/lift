@@ -14,7 +14,7 @@ public class AutoMapperProfile: Profile
                 opt => opt.MapFrom(src => src.DisplayName)
             );
         CreateMap<Room, RoomDTO>();
-        CreateMap<Player, PlayerPrivateWithRoomDTO>()
+        CreateMap<Player, LobbyCreatedDTO>()
             .ForMember(
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.DisplayName)

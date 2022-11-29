@@ -5,19 +5,19 @@ using GuessingGame.Repositories;
 
 namespace GuessingGame.Services;
 
-public class RoomService: IRoomService
+public class LobbyService: ILobbyService
 {
 
     private readonly IRoomRepository _roomRepository;
     private readonly IMapper _mapper;
 
-    public RoomService(IRoomRepository roomRepository, IMapper mapper)
+    public LobbyService(IRoomRepository roomRepository, IMapper mapper)
     {
         _roomRepository = roomRepository;
         _mapper = mapper;
     }
     
-    public PlayerPrivateWithRoomDTO CreateRoom(string playerDisplayName)
+    public LobbyCreatedDTO CreateRoomAndPlayer(string playerDisplayName)
     {
         // TODO: Make transactions work again. Inject connection, not con string?
         // _dbHelper.StartTransaction();
@@ -39,7 +39,7 @@ public class RoomService: IRoomService
         player.Room = room;
 
         // map to dto & return
-        return _mapper.Map<PlayerPrivateWithRoomDTO>(player);
+        return _mapper.Map<LobbyCreatedDTO>(player);
 
     }
 }

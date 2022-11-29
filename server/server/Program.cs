@@ -51,7 +51,7 @@ var builder = WebApplication.CreateBuilder(args);
     // =============================
     // ======== Services ===========
     // =============================
-    builder.Services.AddSingleton<IRoomService, RoomService>();
+    builder.Services.AddSingleton<ILobbyService, LobbyService>();
     
 }
 

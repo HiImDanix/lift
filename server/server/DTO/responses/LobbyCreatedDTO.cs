@@ -3,7 +3,7 @@ using GuessingGame.DTO.responses;
 namespace GuessingGame.DTO.responses;
 
 // Note: Automapper does not work when it is a record; No constructor error.
-public class PlayerPrivateWithRoomDTO
+public class LobbyCreatedDTO
 {
     public int Id { get; init; }
     public string Session { get; init; }
