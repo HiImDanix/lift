@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Shell;
 
 namespace desktop_client
 {
@@ -22,7 +23,7 @@ namespace desktop_client
     {
         public MainWindow()
         {
-            InitializeComponent();
+          
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
