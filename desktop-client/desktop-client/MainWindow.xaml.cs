@@ -45,15 +45,5 @@ namespace desktop_client
         {
 
         }
-
-        private void addButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void CategoryTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
