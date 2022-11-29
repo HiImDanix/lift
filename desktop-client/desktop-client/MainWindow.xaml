@@ -1,0 +1,29 @@
+﻿<Window x:Class="desktop_client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:desktop_client"
+        mc:Ignorable="d"
+        Title="LIFT Admin Panel" Height="450" Width="641">
+    <Grid Margin="0,0,83,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="navigation" Margin="0,0,498,0">
+            <Button Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Click="Button_Click"/>
+            <Button Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="132" Height="49" Click="Button_Click_1"/>
+        </ListBox>
+        <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,131,340"/>
+        <TextBox TextWrapping="Wrap" Text="Image" Margin="197,107,340,298" FontSize="20"/>
+        <TextBox TextWrapping="Wrap" Text="Question" Margin="197,172,340,232" FontSize="20"/>
+        <TextBox TextWrapping="Wrap" Text="Category" Margin="197,228,340,177" FontSize="20"/>
+        <TextBox TextWrapping="Wrap" Text="Anwsers" Margin="197,288,340,117" FontSize="20"/>
+        <Label x:Name="img" Content="Image" HorizontalAlignment="Left" Margin="197,76,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="question" Content="Question" HorizontalAlignment="Left" Margin="197,141,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="category" Content="Category" HorizontalAlignment="Left" Margin="197,202,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="answers" Content="Answers" HorizontalAlignment="Left" Margin="197,257,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="addButton" Content="ADD" HorizontalAlignment="Left" Margin="370,343,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.615,0.698"/>
+    </Grid>
+</Window>
