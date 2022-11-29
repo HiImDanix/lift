@@ -1,17 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import Config from "../Config.js";
+import {useState} from "react";
 
 function HomePage() {
 
     const navigate = useNavigate();
 
+    const [roomCode, setRoomCode] = useState("sd");
+
     async function createGame() {
-        const res = await fetch(`https://localhost:7246/players`, {
+        // get username by fetching https://randomuser.me/api/ and retrieving response.results.login.username
+        let username = await fetch("https://randomuser.me/api/").then(res => res.json()).then(data => data.results[0].login.username);
+        const res = await fetch(`${Config.SERVER_URL}/players`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                playerName: "Dan",
+                playerName: username,
             })
         });
         const data = await res.json();
@@ -30,6 +36,7 @@ function HomePage() {
     }
 
 
+
     return (
         <>
         <header className="d-flex masthead">
@@ -40,8 +47,9 @@ function HomePage() {
                 <form className="form-inline d-flex justify-content-center">
                     <div className="form-group">
                         <label className="sr-only" htmlFor="joinGame">Game Code</label>
-                        <input className="form-control" type="text" id="joinGame" placeholder="Game Code" />
-                        <button className="btn btn-primary" type="submit" onClick={() => alert("Not implemented yet!")}>Join</button>
+                        <input className="form-control" type="text" id="joinGame" placeholder="Game Code"
+                               onChange={e => setRoomCode(e.target.value)} value={roomCode.toUpperCase()} />
+                        <button className="btn btn-primary" type="submit" onClick={joinLobby}>Join</button>
                     </div>
 
                 </form>
