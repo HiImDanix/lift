@@ -1,83 +1,51 @@
-using System.Data;
-using GuessingGame;
-using GuessingGame.Repositories;
-using GuessingGame.Services;
-using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Server.Security;
 
 var builder = WebApplication.CreateBuilder(args);
-{
-    builder.Services.AddControllers();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    
-    // CORS
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowAll", builder =>
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Configure the JWT Authentication Service
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = "JwtBearer";
+    options.DefaultChallengeScheme = "JwtBearer";
+})
+    .AddJwtBearer("JwtBearer", jwtOptions => {
+        jwtOptions.TokenValidationParameters = new TokenValidationParameters()
         {
-            builder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
+            // The SigningKey is defined in the TokenController class
+            ValidateIssuerSigningKey = true,
+            // IssuerSigningKey = new SecurityHelper(configuration).GetSecurityKey(),
+            IssuerSigningKey = new SecurityHelper(builder.Configuration).GetSecurityKey(),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = "https://localhost:7300",
+            ValidAudience = "https://localhost:7300",
+            ValidateLifetime = true
+        };
     });
-    
-    
-    // =============================
-    // ============ DB =============
-    // =============================
-    
-    // Get connection string from appsettings.json
-    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    
-    // Inject connection per HTTP request
-    // TODO: Inject factory instead
-    builder.Services.AddTransient<IDbConnection>((sp) => new SqlConnection(connectionString));
-    
-    // DB helper for transactions
-    builder.Services.AddTransient<IDbHelper, DbHelper>();
-    
-    // =============================
-    // ======== Automapper =========
-    // =============================
-    builder.Services.AddAutoMapper(typeof(Program).Assembly);
-    
-
-    // =============================
-    // ======= Repositories ========
-    // =============================
-    builder.Services.AddTransient<IPlayerRepository, PlayerRepository>();
-    builder.Services.AddTransient<IRoomRepository, RoomRepository>();
-    
-    // =============================
-    // ======== Services ===========
-    // =============================
-    builder.Services.AddSingleton<IRoomService, RoomService>();
-    
-}
-
 
 
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI();
-    }
-    
-    // Cors
-    app.UseCors("AllowAll");
-    // handle errors
-    app.UseExceptionHandler("/error");
-    // handle 404
-    app.UseStatusCodePagesWithReExecute("/error/{0}");
-
-
-
-    app.UseHttpsRedirection();
-    app.UseAuthorization();
-    app.MapControllers();
-    app.Run();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
