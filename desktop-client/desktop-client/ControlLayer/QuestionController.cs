@@ -13,5 +13,10 @@ namespace desktop_client.ControlLayer
             int insertId = -1;
             return insertId;
         }
+
+        internal Task<int> SaveQuestion(string imagePath, string question, string category, string answer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
