@@ -18,14 +18,12 @@
             <Label x:Name="questionLbl" Content="Question" HorizontalAlignment="Left" Margin="199,148,0,0" VerticalAlignment="Top" Width="65"/>
             <Label x:Name="categoryLbl" Content="Category" HorizontalAlignment="Left" Margin="199,220,0,0" VerticalAlignment="Top"/>
             <Label x:Name="answersLbl" Content="Answers" HorizontalAlignment="Left" Margin="199,292,0,0" VerticalAlignment="Top" Height="25"/>
-            <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="346,386,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104" Background="#FF015351" Foreground="White">
-                <Button.Effect>
-                    <BlurEffect/>
-                </Button.Effect>
+            <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="346,386,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104" Background="#FF015351" Foreground="White" Click="addButton_Click">
             </Button>
             <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" Text="Question" Margin="199,174,229,217" FontSize="20"/>
             <TextBox x:Name="CategoryTxt" TextWrapping="Wrap" Text="Category" Margin="199,246,228,147" FontSize="20"/>
             <TextBox x:Name="AnswerTxt" TextWrapping="Wrap" Text="Answer" Margin="200,317,228,78" FontSize="20"/>
+            <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="510,386,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
         </Grid>
     </Viewbox>
 </Window>
