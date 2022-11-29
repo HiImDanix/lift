@@ -6,24 +6,22 @@
         xmlns:local="clr-namespace:desktop_client"
         mc:Ignorable="d"
         Title="LIFT Admin Panel" Height="450" Width="641">
-    <Grid Margin="0,0,83,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <ListBox x:Name="navigation" Margin="0,0,498,0">
-            <Button Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Click="Button_Click"/>
-            <Button Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="132" Height="49" Click="Button_Click_1"/>
-        </ListBox>
-        <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,131,340"/>
-        <TextBox TextWrapping="Wrap" Text="Image" Margin="197,107,340,298" FontSize="20"/>
-        <TextBox TextWrapping="Wrap" Text="Question" Margin="197,172,340,232" FontSize="20"/>
-        <TextBox TextWrapping="Wrap" Text="Category" Margin="197,228,340,177" FontSize="20"/>
-        <TextBox TextWrapping="Wrap" Text="Anwsers" Margin="197,288,340,117" FontSize="20"/>
-        <Label x:Name="img" Content="Image" HorizontalAlignment="Left" Margin="197,76,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="question" Content="Question" HorizontalAlignment="Left" Margin="197,141,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="category" Content="Category" HorizontalAlignment="Left" Margin="197,202,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="answers" Content="Answers" HorizontalAlignment="Left" Margin="197,257,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="addButton" Content="ADD" HorizontalAlignment="Left" Margin="370,343,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.615,0.698"/>
-    </Grid>
+    <Viewbox Margin="0,0,83,0" Stretch="Fill">
+        <Grid Height="434.04" Width="558">
+            <ListBox x:Name="navigation" Margin="0,0,389,0">
+                <Button Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Click="Button_Click" Width="155"/>
+                <Button Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="155" Height="49" Click="Button_Click_1"/>
+            </ListBox>
+            <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,22,340"/>
+            <TextBox TextWrapping="Wrap" Text="Image" Margin="197,102,231,291" FontSize="20"/>
+            <Label x:Name="img" Content="Image" HorizontalAlignment="Left" Margin="197,76,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="question" Content="Question" HorizontalAlignment="Left" Margin="199,148,0,0" VerticalAlignment="Top" Width="65"/>
+            <Label x:Name="category" Content="Category" HorizontalAlignment="Left" Margin="199,220,0,0" VerticalAlignment="Top"/>
+            <Label x:Name="answers" Content="Answers" HorizontalAlignment="Left" Margin="199,292,0,0" VerticalAlignment="Top" Height="25"/>
+            <Button x:Name="addButton" Content="ADD" HorizontalAlignment="Left" Margin="346,386,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104"/>
+            <TextBox TextWrapping="Wrap" Text="Question" Margin="199,174,229,217" FontSize="20"/>
+            <TextBox TextWrapping="Wrap" Text="Category" Margin="199,246,228,147" FontSize="20"/>
+            <TextBox TextWrapping="Wrap" Text="Answer" Margin="200,317,228,78" FontSize="20"/>
+        </Grid>
+    </Viewbox>
 </Window>
