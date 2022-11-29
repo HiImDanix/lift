@@ -69,8 +69,13 @@ var app = builder.Build();
     
     // Cors
     app.UseCors("AllowAll");
-    
+    // handle errors
     app.UseExceptionHandler("/error");
+    // handle 404
+    app.UseStatusCodePagesWithReExecute("/error/{0}");
+
+
+
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();

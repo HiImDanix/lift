@@ -1,5 +1,6 @@
 using System.Data;
 using Dapper;
+using GuessingGame.Exceptions;
 using GuessingGame.models;
 using GuessingGame.Proxies;
 using Microsoft.Data.SqlClient;
@@ -19,20 +20,33 @@ public class RoomRepository : IRoomRepository
 
     public Room Create(Room room)
     {
-        var sql = @"INSERT INTO Rooms (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";
-        var id = _db.QuerySingle<int>(sql, room);
-        room.Id = id;
-        return ToProxy(room);
+        throw new DataAccessException("Could not get room by id");
+        try
+        {
+            var sql = @"INSERT INTO Rooms (code) VALUES (@Code);SELECT CAST(SCOPE_IDENTITY() as int)";
+            var id = _db.QuerySingle<int>(sql, room);
+            room.Id = id;
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not create room", e);
+        }
     }
 
     public Room AddPlayer(Room room, Player player)
     {
-        var sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
-        var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
-        player.Id = id;
-        player = ToProxy(player);
-        room.Players.Add(player);
-        return ToProxy(room);
+        try
+        {
+            var sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
+            var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
+            player.Id = id;
+            player = ToProxy(player);
+            room.Players.Add(player);
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not add player to room", e);
+        }
     }
     
     // Map Room to RoomProxy
@@ -60,9 +74,17 @@ public class RoomRepository : IRoomRepository
 
     public Room GetRoomById(object roomId)
     {
-        var sql = @"SELECT * FROM Rooms WHERE ID = @roomId";
-        var room = _db.QuerySingle<Room>(sql, new { roomId });
-        return ToProxy(room);
+        try
+        {
+            var sql = @"SELECT * FROM Rooms WHERE ID = @roomId";
+            var room = _db.QuerySingle<Room>(sql, new { roomId });
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get room by id", e);
+        }
+
+        
     }
 
 }
