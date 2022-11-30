@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:desktop_client"
         mc:Ignorable="d"
-        Title="LIFT Admin Panel" Height="450" Width="641" Background="#FF113D3C">
+        Title="LIFT Admin Panel" Height="480" Width="641" Background="#FF113D3C">
     <Viewbox Margin="0,0,83,0" Stretch="Fill">
         <Grid Height="434.04" Width="558">
             <ListBox x:Name="navigation" Margin="0,0,389,0" BorderThickness="0,0,0,0" Background="White">
                 <Button x:Name="bankButton" Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Click="Button_Click" Width="155"/>
                 <Button x:Name="statisticsButton" Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="155" Height="49" Click="Button_Click_1"/>
             </ListBox>
+            <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="335,319,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" Width="301"/>
             <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,22,340" Foreground="White"/>
             <TextBox x:Name="ImageTxt" TextWrapping="Wrap" Text="Image" Margin="197,102,231,291" FontSize="20" TextChanged="TextBox_TextChanged_1"/>
             <Label x:Name="imgLbl" Content="Image" HorizontalAlignment="Left" Margin="197,76,0,0" VerticalAlignment="Top"/>
@@ -23,7 +24,6 @@
             <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" Text="Question" Margin="199,174,229,217" FontSize="20"/>
             <TextBox x:Name="CategoryTxt" TextWrapping="Wrap" Text="Category" Margin="199,246,228,147" FontSize="20"/>
             <TextBox x:Name="AnswerTxt" TextWrapping="Wrap" Text="Answer" Margin="200,317,228,78" FontSize="20"/>
-            <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="510,386,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20"/>
         </Grid>
     </Viewbox>
 </Window>
