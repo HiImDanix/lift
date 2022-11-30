@@ -1,5 +1,6 @@
 using System.Data;
 using GuessingGame;
+using GuessingGame.hubs;
 using GuessingGame.Repositories;
 using GuessingGame.Services;
 using Microsoft.Data.SqlClient;
@@ -13,13 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
     // CORS
     builder.Services.AddCors(options =>
     {
-        options.AddPolicy("AllowAll", builder =>
+        options.AddPolicy("CorsPolicy", builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyHeader();
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials();
         });
     });
+    
+    // SignalR
+    builder.Services.AddSignalR();
     
     
     // =============================
@@ -68,7 +73,7 @@ var app = builder.Build();
     }
 
     // Cors
-    app.UseCors("AllowAll");
+    app.UseCors("CorsPolicy");
     // handle errors
     app.UseExceptionHandler("/error");
     // handle 404
@@ -79,5 +84,8 @@ var app = builder.Build();
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
+    
+    // signalr
+    app.MapHub<GameHub>("/hubs/game");
     app.Run();
 }
