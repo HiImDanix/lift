@@ -66,7 +66,7 @@ var app = builder.Build();
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-    
+
     // Cors
     app.UseCors("AllowAll");
     // handle errors
