@@ -1,56 +1,50 @@
 using System.Data;
 using Dapper;
 using GuessingGame.models;
+using GuessingGame.Proxies;
 using Microsoft.Data.SqlClient;
 
 namespace GuessingGame.Repositories;
 
 public class PlayerRepository : IPlayerRepository
 {
-    private readonly string _connString;
+    private readonly IDbConnection _db;
+    private readonly IServiceProvider _provider;
     
-    public PlayerRepository(string connString)
+    public PlayerRepository(IDbConnection db, IServiceProvider provider)
     {
-        _connString = connString;
-    }
-
-
-    public Player Create(Player player)
-    {
-        var sql = "INSERT INTO Players (session, displayName) VALUES (@DisplayName, @Session); SELECT SCOPE_IDENTITY()";
-
-        using (var db = new SqlConnection(_connString))
-        {
-            db.Open();
-            IDbCommand cmd = db.CreateCommand();
-            cmd.CommandText = sql;
-            cmd.Parameters.Add(new SqlParameter("@DisplayName", player.DisplayName));
-            cmd.Parameters.Add(new SqlParameter("@Session", player.Session));
-
-            // execute and get the auto-generated ID / PK
-            player.Id = (int)(decimal)cmd.ExecuteScalar();
-        }
-        return player;
+        _db = db;
+        _provider = provider;
     }
 
     public Player? Get(int id)
     {
-        var sql = "SELECT * FROM Players WHERE id = @id";
-        using (var db = new SqlConnection(_connString))
-        {
-            db.Open();
-            // get DataReader
-            var reader = db.ExecuteReader(sql, new { id });
-            // map to object
-            while (reader.Read())
-            {
-                return new Player(
-                    id: reader.GetInt32(reader.GetOrdinal("ID")),
-                    displayName: reader.GetString(reader.GetOrdinal("displayName")),
-                    session: reader.GetString(reader.GetOrdinal("session"))
-                );
-            }
-        }
+        var sql = "SELECT * FROM Players WHERE ID = @id";
+        
+        _db.Open();
+        // get DataReader
+        var reader = _db.ExecuteReader(sql, new { id });
         return null;
+    }
+
+    public IList<Player> GetPlayersByRoomId(int id)
+    {
+        var sql = "SELECT * FROM Players WHERE roomID = @id";
+        
+        _db.Open();
+        var players = _db.Query<Player>(sql, new { id }).ToList();
+        // map each player to player proxy using ToProxy(player) method
+        return players.Select(ToProxy).ToList();
+    }
+    
+    // Map Player to PlayerProxy
+    private Player ToProxy(Player player)
+    {
+        return new PlayerProxy(_provider.GetRequiredService<IRoomRepository>())
+        {
+            Id = player.Id,
+            Session = player.Session,
+            DisplayName = player.DisplayName,
+        };
     }
 }

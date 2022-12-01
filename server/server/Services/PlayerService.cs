@@ -1,4 +1,3 @@
-using GuessingGame.dto;
 using GuessingGame.models;
 using GuessingGame.Repositories;
 
@@ -13,30 +12,5 @@ public class PlayerService : IPlayerService
         _playerRepository = playerRepository;
     }
 
-    public PrivatePlayerResponse CreatePlayer(Player player)
-    {
-    var createdPlayer = _playerRepository.Create(player);
 
-    return new PrivatePlayerResponse(
-            ID: createdPlayer.Id,
-            Session: createdPlayer.Session,
-            DisplayName: createdPlayer.DisplayName
-        );
-    }
-
-    public PrivatePlayerResponse? GetPlayer(int id)
-    {
-        var player = _playerRepository.Get(id);
-
-        if (player == null)
-        {
-            return null;
-        }
-
-        return new PrivatePlayerResponse(
-            ID: player.Id,
-            Session: player.Session,
-            DisplayName: player.DisplayName
-        );
-    }
 }

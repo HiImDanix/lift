@@ -1,4 +1,3 @@
-USE LosingIsFunToo;
 
 CREATE TABLE Accounts (
 	ID int IDENTITY(0,1) NOT NULL,

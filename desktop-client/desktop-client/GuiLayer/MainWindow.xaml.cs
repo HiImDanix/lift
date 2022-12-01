@@ -67,6 +67,7 @@ namespace desktop_client
         private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+
         }
     }
 }
