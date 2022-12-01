@@ -63,5 +63,10 @@ namespace desktop_client
             messageLabel.Content = messageText;
 
         }
+
+        private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
