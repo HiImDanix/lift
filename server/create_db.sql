@@ -1,3 +1,4 @@
+
 CREATE TABLE Accounts (
 	ID int IDENTITY(0,1) NOT NULL,
 	username varchar(16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -10,7 +11,7 @@ CREATE TABLE Accounts (
 CREATE TABLE Questions (
 	ID int IDENTITY(0,1) NOT NULL,
 	question varchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	startTime datetime2(0) NULL,
+	category varchar(32) NULL,
 	imgPath varchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	CONSTRAINT question_pk PRIMARY KEY (ID)
 );

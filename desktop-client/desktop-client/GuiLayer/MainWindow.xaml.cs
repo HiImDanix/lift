@@ -59,7 +59,13 @@ namespace desktop_client
             string answer = AnswerTxt.Text;
 
             insertedId = await _questionController.SaveQuestion(imagePath, question, category, answer);
-            messageText = (insertedId > 0) ? $"Question with ID {insertedId} saved" : "Question couldn't be saved";
+            messageText = (insertedId > 0) ? $"Saved with ID {insertedId}" : "Couldn't save";
+            messageLabel.Content = messageText;
+
+        }
+
+        private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
 
         }
