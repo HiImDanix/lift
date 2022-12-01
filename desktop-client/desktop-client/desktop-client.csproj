@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModelLayer\Answer.cs" />
+    <Compile Include="ServiceLayer\AnswerService.cs" />
     <Compile Include="ServiceLayer\QuestionService.cs" />
     <Page Include="GuiLayer\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
