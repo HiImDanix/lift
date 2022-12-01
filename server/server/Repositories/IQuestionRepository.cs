@@ -5,7 +5,6 @@ namespace GuessingGame.Repositories
 {
     public interface IQuestionRepository
     {
-        public Question? Get(int id);
-
+        Question Add(Question question);
     }
 }

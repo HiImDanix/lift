@@ -52,12 +52,16 @@ var builder = WebApplication.CreateBuilder(args);
     // =============================
     builder.Services.AddTransient<IPlayerRepository, PlayerRepository>();
     builder.Services.AddTransient<IRoomRepository, RoomRepository>();
+    builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
+    builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
     
     // =============================
     // ======== Services ===========
     // =============================
     builder.Services.AddSingleton<ILobbyService, LobbyService>();
-    
+    builder.Services.AddSingleton<IPlayerService, PlayerService>();
+    builder.Services.AddSingleton<IQuestionService, QuestionService>();
+
 }
 
 

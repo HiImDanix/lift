@@ -1,4 +1,5 @@
 ﻿using GuessingGame.DTO.requests;
+using GuessingGame.Models;
 using GuessingGame.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,20 @@ namespace GuessingGame.Controllers
 
         [HttpPost]
         [Route("questions")]
-        public IActionResult CreateQuestion(string imagePath, string questionText, string category, string answer)
+        public IActionResult CreateQuestion(QuestionCreateRequest request)
         {
-            var question = _questionService.CreateQuestion(imagePath, questionText, category, answer);
+            var answers = request.Answers.Select(x => new Answer()
+            {
+                AnswerText = x.Answer,
+                IsCorrect = x.IsCorrect
+            }).ToList();
+            
+            var question = _questionService.CreateQuestionWithAnswers(
+                request.ImagePath,
+                request.QuestionText,
+                request.Category,
+                answers
+            );
             return Ok(question);
         }
     }

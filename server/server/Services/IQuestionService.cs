@@ -1,10 +1,14 @@
 ﻿using GuessingGame.DTO.requests;
 using GuessingGame.DTO.responses;
+using GuessingGame.Models;
 
 namespace GuessingGame.Services
 {
     public interface IQuestionService
     {
-        public QuestionDTO CreateQuestion(string imagePath, string questionText, string category, string answer);
+        public Question CreateQuestionWithAnswers(string imagePath,
+            string questionText,
+            string category,
+            List<Answer> answers);
     }
 }

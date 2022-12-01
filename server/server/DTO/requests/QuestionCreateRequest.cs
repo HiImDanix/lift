@@ -4,5 +4,5 @@ public record QuestionCreateRequest
     string ImagePath,
     string QuestionText,
     string Category,
-    string Answer
+    List<AnswerCreateRequest> Answers
 );
