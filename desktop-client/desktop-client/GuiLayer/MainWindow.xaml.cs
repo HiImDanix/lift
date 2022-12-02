@@ -1,4 +1,5 @@
 ﻿using desktop_client.ControlLayer;
+using desktop_client.ModelLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,9 +57,19 @@ namespace desktop_client
             string imagePath = ImageTxt.Text;
             string question = QuestionTxt.Text;
             string category = CategoryTxt.Text;
-            string answer = AnswerTxt.Text;
+            string correctAnswer = AnswerTxt.Text;
+            string answer1 = Answer1Txt.Text;
+            string answer2 = Answer2Txt.Text;
+            string answer3 = Answer3Txt.Text;
 
-            insertedId = await _questionController.SaveQuestion(imagePath, question, category, answer);
+            List<string> answers = new List<string> {
+                correctAnswer,
+                answer1, 
+                answer2,
+                answer3
+            };
+
+            insertedId = await _questionController.SaveQuestion(imagePath, question, category, answers);
             messageText = (insertedId > 0) ? $"Saved with ID {insertedId}" : "Couldn't save";
             messageLabel.Content = messageText;
 
@@ -66,7 +77,6 @@ namespace desktop_client
 
         private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
-
 
         }
     }

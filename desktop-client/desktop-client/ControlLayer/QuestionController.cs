@@ -20,10 +20,10 @@ namespace desktop_client.ControlLayer
             _qService = new QuestionService();
         }
 
-        public async Task<int> SaveQuestion(string imagePath, string question, string category, string answer)
+        public async Task<int> SaveQuestion(string imagePath, string question, string category, List<Answer> answers)
         {
             int insertId = -1;
-            Question newQuestion = new Question(imagePath, question, category, answer);
+            Question newQuestion = new Question(imagePath, question, category, answers);
 
             insertId = await _qService.SaveQuestion(newQuestion);
             return insertId;
