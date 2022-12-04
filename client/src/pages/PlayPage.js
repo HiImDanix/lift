@@ -17,11 +17,14 @@ function PlayPage() {
     // Signal R connection
     const [ connection, setConnection ] = useState(null);
 
-    // Lobby state
+    // Lobby state from create/join
     const [displayName, setDisplayName] = useState(state?.data.name);
     const [myId, setMyId] = useState(state?.data.id);
     const [session, setSession] = useState(state?.data.session); // The JWT session token
-    const [gameCode, setGameCode] = useState(state?.data.room.code);
+
+    // Lobby state - retrieved from server
+    const [lobbyID, setLobbyID] = useState(state?.data.room.id);
+    const [lobbyCode, setLobbyCode] = useState(state?.data.room.code);
     const [players, setPlayers] = useState(state?.data.room.players);
     const [gameStarted, setGameStarted] = useState(false);
 
@@ -30,6 +33,8 @@ function PlayPage() {
         if (state === null) {
             return navigate("/");
         }
+        // Retrieve the lobby state from the server
+        getLobbyState();
         setValidating(false);
     }, []);
 
@@ -64,6 +69,21 @@ function PlayPage() {
 
     // Methods
 
+    const getLobbyState = () => {
+        fetch(`${Config.SERVER_URL}/lobby/${lobbyID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+
+            }
+        }).then(res => res.json())
+            .then(data => {
+                setLobbyCode(data.code);
+                setPlayers(data.players);
+            });
+    };
+
+
     function startGame() {
         alert("Gameplay is simulated. No actual game will be played.");
         setGameStarted(true);
@@ -86,7 +106,7 @@ function PlayPage() {
                     <div className="container">
                         <h1 className={"text-center"}>Lobby</h1>
                         <h2>Your name: {displayName}</h2>
-                        <h2>Game code: {gameCode}</h2>
+                        <h2>Game code: {lobbyCode}</h2>
                         <h2>Players:</h2>
                         <ul>
                             {players.map((player) => (

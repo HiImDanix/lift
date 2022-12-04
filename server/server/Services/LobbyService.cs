@@ -31,21 +31,21 @@ public class LobbyService: ILobbyService
         var code = Guid.NewGuid().ToString().ToUpper().Substring(0, 6); // Generate game code
         var room = new Room()
         {
-            Code = code
+            Code = code,
         };
         // Add room to db
         room = _roomRepository.Create(room);
     
         // Create player, add to db
         Player player = CreatePlayer(playerDisplayName);
-        room = _roomRepository.AddPlayer(room, player);
+        player = _roomRepository.AddPlayer(room, player);
 
-        // Associate player with room Because
-        // we retrieved player before adding room to db
+        // Set host
+        room = _roomRepository.SetHost(room, player);
+
+        // Set room because it was retrieved before the player was added to db
         player.Room = room;
-        
-        
-        // TODO: Do not use session for this
+
         var token = GenerateJwtToken(player);
         player.Session = token;
 
@@ -91,12 +91,12 @@ public class LobbyService: ILobbyService
         }
         // Create player & add to db
         Player player = CreatePlayer(playerDisplayName);
-        room = _roomRepository.AddPlayer(room, player);
-        
+        player = _roomRepository.AddPlayer(room, player);
+
         // Associate player with room Because
         // we retrieved player before adding room to db
         player.Room = room;
-        
+
         // TODO: Do not use session for this
         var token = GenerateJwtToken(player);
         player.Session = token;
@@ -104,7 +104,13 @@ public class LobbyService: ILobbyService
         // map to dto & return
         return _mapper.Map<LobbyDTO>(player);
     }
-    
+
+    public RoomDTO GetLobby(int lobbyId)
+    {
+        var lobby = _roomRepository.Get(lobbyId);
+        return _mapper.Map<RoomDTO>(lobby);
+    }
+
     // Create player & add to db
     private Player CreatePlayer(string displayName)
     {

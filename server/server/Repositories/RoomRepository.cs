@@ -32,7 +32,7 @@ public class RoomRepository : IRoomRepository
         }
     }
 
-    public Room AddPlayer(Room room, Player player)
+    public Player AddPlayer(Room room, Player player)
     {
         try
         {
@@ -41,7 +41,7 @@ public class RoomRepository : IRoomRepository
             player.Id = id;
             player = ToProxy(player);
             room.Players.Add(player);
-            return ToProxy(room);
+            return player;
         } catch (Exception e)
         {
             throw new DataAccessException("Could not add player to room", e);
@@ -56,6 +56,7 @@ public class RoomRepository : IRoomRepository
         {
             Id = room.Id,
             Code = room.Code,
+            HostId = room.HostId
         };
     }
     
@@ -96,6 +97,34 @@ public class RoomRepository : IRoomRepository
         } catch (Exception e)
         {
             throw new DataAccessException("Could not get room by code", e);
+        }
+    }
+
+    public Room? Get(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM Rooms WHERE id = @id";
+            var room = _db.QuerySingle<Room>(sql, new { id });
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get room by id", e);
+        }
+    }
+
+    public Room SetHost(Room room, Player player)
+    {
+        try
+        {
+            var sql = @"UPDATE Rooms SET hostId = @playerId WHERE id = @roomId";
+            _db.Execute(sql, new { playerId = player.Id, roomId = room.Id });
+            room.Host = player;
+            room.HostId = player.Id;
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not set host", e);
         }
     }
 }

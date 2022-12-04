@@ -26,4 +26,17 @@ public class RoomProxy: Room
         
         set => base.Players = value;
     }
+
+    public override Player? Host
+    {
+        get
+        {
+            if (base.Host == null)
+            {
+                base.Host = _playerRepository.Get(HostId);
+            }
+
+            return base.Host;
+        }
+    }
 }

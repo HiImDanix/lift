@@ -44,4 +44,13 @@ public class LobbyController: ControllerBase
         _gameHubContext.Clients.Group(lobby.Room.Id.ToString()).PlayerJoined(newPlayer);
         return Ok(lobby);
     }
+    
+    // Retrieve lobby info by ID
+    [HttpGet]
+    [Route("lobby/{lobbyId}")]
+    public IActionResult GetLobby(int lobbyId)
+    {
+        var lobby = _lobbyService.GetLobby(lobbyId);
+        return Ok(lobby);
+    }
 }

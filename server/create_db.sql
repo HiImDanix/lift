@@ -29,6 +29,7 @@ CREATE TABLE Rooms (
 	ID int IDENTITY(0,1) NOT NULL,
 	code varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	logoQuizGameID int NULL,
+	hostID int NULL,
 	CONSTRAINT Lobby_PK PRIMARY KEY (ID)
 );
 
@@ -94,6 +95,13 @@ ALTER TABLE LosingIsFunToo.dbo.Players ADD CONSTRAINT lobby_Fk FOREIGN KEY (room
 
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK_1 FOREIGN KEY (answerID) REFERENCES Answers(ID);
+
+
+
+-- LosingIsFunToo.dbo.Rooms foreign keys
+
+ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (logoQuizGameID) REFERENCES LogoQuizGames(ID);
+ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Rooms_FK FOREIGN KEY (hostID) REFERENCES Players(ID);
 
 
 -- LosingIsFunToo.dbo.RoundQuestions foreign keys
