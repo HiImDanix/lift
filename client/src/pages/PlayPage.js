@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import {HubConnectionBuilder} from "@microsoft/signalr";
 import Config from "../Config";
+import Countdown from "react-countdown";
 
 function PlayPage() {
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ function PlayPage() {
     const [lobbyCode, setLobbyCode] = useState(state?.data.room.code);
     const [players, setPlayers] = useState(state?.data.room.players);
     const [hostID, setHostID] = useState(state?.data.room.hostID);
-    const [gameStarted, setGameStarted] = useState(false);
+    const [startTime, setStartTime] = useState(state?.data.room.startTime);
 
     // Validate if user should be able to access this page, else redirect to home
     useEffect(() => {
@@ -64,9 +65,11 @@ function PlayPage() {
                         setPlayers([...players, player]);
                     });
 
-                    connection.on('GameStarted', () => {
-                        console.log('Game started');
-                        setGameStarted(true);
+                    connection.on('GameStarted', receivedStartTime => {
+                        // epoch right now:
+                        console.log('Game started', Date.now().toString());
+                        console.log('Game received', receivedStartTime);
+                        setStartTime(receivedStartTime);
                     });
                 })
                 .catch(e => console.log('Connection failed: ', e));
@@ -86,12 +89,16 @@ function PlayPage() {
                 setLobbyCode(data.code);
                 setPlayers(data.players);
                 setHostID(data.hostId);
+                setStartTime(data.startTime);
             });
     };
 
 
     // async Start game (call endpoint). If 200, set gameStarted to true. Else, alert error
     const startGame = async () => {
+        const startGameBtn = document.getElementById("start-game-btn");
+        startGameBtn.disabled = true;
+
         const res = await fetch(`${Config.SERVER_URL}/lobby/${lobbyID}/start`, {
             method: "POST",
             headers: {
@@ -99,11 +106,12 @@ function PlayPage() {
             }
         });
 
-        if (res.status === 200) {
-            setGameStarted(true);
-        } else {
+
+        if (res.status !== 200) {
             alert("Error starting game");
+            startGameBtn.disabled = false;
         }
+
     }
 
 
@@ -117,9 +125,12 @@ function PlayPage() {
         return <div>Validating...</div>
     } else
     {
-        if (gameStarted) {
+        if (startTime !== 0) {
             return (
-                <Game displayName={displayName} />
+                <Countdown date={startTime + 3}>
+                    <Game displayName={displayName} />
+                </Countdown>
+
             );
         } else {
             return (
@@ -137,7 +148,7 @@ function PlayPage() {
                         </ul>
                         {isHost() &&
                             <div className="text-center">
-                                <button className={"btn btn-primary btn-lg"} onClick={startGame}>Start game</button>
+                                <button id={"start-game-btn"} className={"btn btn-primary btn-lg"} onClick={startGame}>Start game</button>
                             </div>
                         }
                     </div>

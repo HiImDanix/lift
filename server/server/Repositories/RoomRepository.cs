@@ -54,7 +54,8 @@ public class RoomRepository : IRoomRepository
         {
             Id = room.Id,
             Code = room.Code,
-            HostId = room.HostId
+            HostId = room.HostId,
+            StartTime = room.StartTime
         };
     }
     
@@ -126,12 +127,14 @@ public class RoomRepository : IRoomRepository
         }
     }
 
-    public void UpdateStartTime(Room lobby, long startTime)
+    public Room UpdateStartTime(Room lobby, long startTime)
     {
         try
         {
             var sql = @"UPDATE Rooms SET startTime = @startTime WHERE id = @roomId";
             _db.Execute(sql, new { startTime, roomId = lobby.Id });
+            lobby.StartTime = startTime;
+            return ToProxy(lobby);
         } catch (Exception e)
         {
             throw new DataAccessException("Could not update start time", e);

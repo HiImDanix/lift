@@ -61,7 +61,6 @@ public class LobbyService: ILobbyService
             Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         // claims
-        Console.Write("Creating room with id" + player.Room.Id);
         var claims = new List<Claim>
         {
             // id
@@ -111,7 +110,7 @@ public class LobbyService: ILobbyService
         return _mapper.Map<RoomDTO>(lobby);
     }
 
-    public void StartGame(int lobbyId)
+    public RoomDTO StartGame(int lobbyId)
     {
         var lobby = _roomRepository.Get(lobbyId);
         if (lobby == null)
@@ -119,8 +118,9 @@ public class LobbyService: ILobbyService
             throw new Exception("Lobby not found");
         }
         // Save time as epoch
-        long startTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 3;
-        _roomRepository.UpdateStartTime(lobby, startTime);
+        long startTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + 3000;
+        var room = _roomRepository.UpdateStartTime(lobby, startTime);
+        return _mapper.Map<RoomDTO>(room);
     }
 
     // Create player & add to db

@@ -7,4 +7,5 @@ public class RoomDTO
     public string Code { get; set; }
     public IEnumerable<PlayerPublicDTO> Players { get; set; }
     public int HostId { get; set; }
+    public long StartTime { get; set; }
 }

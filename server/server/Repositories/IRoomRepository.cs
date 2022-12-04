@@ -10,5 +10,5 @@ public interface IRoomRepository
     Room? GetByCode(string roomCode);
     Room? Get(int id);
     Room SetHost(Room room, Player player);
-    void UpdateStartTime(Room lobby, long startTime);
+    Room UpdateStartTime(Room lobby, long startTime);
 }
