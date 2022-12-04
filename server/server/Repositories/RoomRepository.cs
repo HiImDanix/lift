@@ -39,9 +39,7 @@ public class RoomRepository : IRoomRepository
             var sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
             player.Id = id;
-            player = ToProxy(player);
-            room.Players.Add(player);
-            return player;
+            return ToProxy(player);
         } catch (Exception e)
         {
             throw new DataAccessException("Could not add player to room", e);
