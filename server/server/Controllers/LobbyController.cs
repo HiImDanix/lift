@@ -26,8 +26,6 @@ public class LobbyController: ControllerBase
     public IActionResult CreateLobby(CreateRoomRequest request)
     {
         var lobby = _lobbyService.CreateRoomAndPlayer(playerDisplayName: request.PlayerName);
-        // join the group
-        _gameHubContext.Groups.AddToGroupAsync(lobby.Id.ToString(), lobby.Room.Id.ToString());
         return Ok(lobby);
     }
     
@@ -42,9 +40,8 @@ public class LobbyController: ControllerBase
             Id = lobby.Id,
             Name = lobby.Name
         };
-        _gameHubContext.Clients.All.PlayerJoined(newPlayer);
-        // Join the group
-        _gameHubContext.Groups.AddToGroupAsync(newPlayer.Id.ToString(), lobby.Room.Id.ToString());
-    return Ok(lobby);
+        // Notify all players in the lobby that a new player has joined
+        _gameHubContext.Clients.Group(lobby.Room.Id.ToString()).PlayerJoined(newPlayer);
+        return Ok(lobby);
     }
 }

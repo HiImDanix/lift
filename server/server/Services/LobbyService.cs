@@ -39,14 +39,14 @@ public class LobbyService: ILobbyService
         // Create player, add to db
         Player player = CreatePlayer(playerDisplayName);
         room = _roomRepository.AddPlayer(room, player);
-        
-        // JWT
-        var token = GenerateJwtToken(player);
-        
+
         // Associate player with room Because
         // we retrieved player before adding room to db
         player.Room = room;
+        
+        
         // TODO: Do not use session for this
+        var token = GenerateJwtToken(player);
         player.Session = token;
 
         // map to dto & return
@@ -61,11 +61,13 @@ public class LobbyService: ILobbyService
             Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         // claims
+        Console.Write("Creating room with id" + player.Room.Id);
         var claims = new List<Claim>
         {
             // id
             new("sub", player.Id.ToString()),
-            new("name", player.DisplayName)
+            new("name", player.DisplayName),
+            new("roomID", player.Room.Id.ToString()),
         };
         
         var token = new JwtSecurityToken(
@@ -95,6 +97,10 @@ public class LobbyService: ILobbyService
         // we retrieved player before adding room to db
         player.Room = room;
         
+        // TODO: Do not use session for this
+        var token = GenerateJwtToken(player);
+        player.Session = token;
+        
         // map to dto & return
         return _mapper.Map<LobbyDTO>(player);
     }
@@ -105,7 +111,7 @@ public class LobbyService: ILobbyService
         var player = new Player()
         {
             // TODO: Remove! not needed anymore.
-            Session = new Guid().ToString(),
+            Session = Guid.NewGuid().ToString(),
             DisplayName = displayName,
         };
         return player;

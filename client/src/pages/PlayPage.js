@@ -35,8 +35,11 @@ function PlayPage() {
 
     // Signal R connection
     useEffect(() => {
+        // connect with bearer token
         const newConnection = new HubConnectionBuilder()
-            .withUrl(`${Config.SERVER_URL}/hubs/game`)
+            .withUrl(`${Config.SERVER_URL}/hubs/game`, {
+                accessTokenFactory: () => session
+            })
             .withAutomaticReconnect()
             .build();
 
