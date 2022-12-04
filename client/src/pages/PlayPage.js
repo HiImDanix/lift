@@ -20,7 +20,7 @@ function PlayPage() {
     // Lobby state
     const [displayName, setDisplayName] = useState(state?.data.name);
     const [myId, setMyId] = useState(state?.data.id);
-    const [session, setSession] = useState(state?.data.session);
+    const [session, setSession] = useState(state?.data.session); // The JWT session token
     const [gameCode, setGameCode] = useState(state?.data.room.code);
     const [players, setPlayers] = useState(state?.data.room.players);
     const [gameStarted, setGameStarted] = useState(false);

@@ -1,9 +1,12 @@
 using System.Data;
+using System.Text;
 using GuessingGame;
 using GuessingGame.hubs;
 using GuessingGame.Repositories;
 using GuessingGame.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -61,6 +64,24 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<ILobbyService, LobbyService>();
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
     builder.Services.AddSingleton<IQuestionService, QuestionService>();
+    
+    
+    // JWT Bearer token authentication
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                ValidAudience = builder.Configuration["Authentication:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+            };
+        });
 
 }
 
@@ -86,6 +107,7 @@ var app = builder.Build();
 
 
     app.UseHttpsRedirection();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
     

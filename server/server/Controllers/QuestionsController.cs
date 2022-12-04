@@ -1,6 +1,7 @@
 ﻿using GuessingGame.DTO.requests;
 using GuessingGame.Models;
 using GuessingGame.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuessingGame.Controllers
