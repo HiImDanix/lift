@@ -11,4 +11,5 @@ public class Room
     public virtual IList<Player>? Players { get; set; }
     public int HostId { get; set; }
     public virtual Player? Host { get; set; }
+    public long StartTime { get; set; }
 }

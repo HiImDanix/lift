@@ -8,4 +8,5 @@ public interface ILobbyService
     public LobbyDTO CreateRoomAndPlayer(string playerDisplayName);
     LobbyDTO JoinLobby(string roomCode, string playerDisplayName);
     RoomDTO GetLobby(int lobbyId);
+    void StartGame(int lobbyId);
 }

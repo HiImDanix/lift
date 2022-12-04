@@ -111,6 +111,18 @@ public class LobbyService: ILobbyService
         return _mapper.Map<RoomDTO>(lobby);
     }
 
+    public void StartGame(int lobbyId)
+    {
+        var lobby = _roomRepository.Get(lobbyId);
+        if (lobby == null)
+        {
+            throw new Exception("Lobby not found");
+        }
+        // Save time as epoch
+        long startTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() + 3;
+        _roomRepository.UpdateStartTime(lobby, startTime);
+    }
+
     // Create player & add to db
     private Player CreatePlayer(string displayName)
     {

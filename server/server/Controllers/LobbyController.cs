@@ -53,4 +53,15 @@ public class LobbyController: ControllerBase
         var lobby = _lobbyService.GetLobby(lobbyId);
         return Ok(lobby);
     }
+    
+    // Start game
+    [HttpPost]
+    [Route("lobby/{lobbyId}/start")]
+    public IActionResult StartGame(int lobbyId)
+    {
+        _lobbyService.StartGame(lobbyId);
+        // Notify all players in the lobby that the game has started
+        _gameHubContext.Clients.Group(lobbyId.ToString()).GameStarted();
+        return Ok();
+    }
 }

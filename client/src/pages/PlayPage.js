@@ -63,6 +63,11 @@ function PlayPage() {
                         console.log('Player joined', player);
                         setPlayers([...players, player]);
                     });
+
+                    connection.on('GameStarted', () => {
+                        console.log('Game started');
+                        setGameStarted(true);
+                    });
                 })
                 .catch(e => console.log('Connection failed: ', e));
         }
@@ -74,8 +79,7 @@ function PlayPage() {
         fetch(`${Config.SERVER_URL}/lobby/${lobbyID}`, {
             method: "GET",
             headers: {
-                "Content-Type": "application/json",
-
+                "Content-Type": "application/json"
             }
         }).then(res => res.json())
             .then(data => {
@@ -86,10 +90,22 @@ function PlayPage() {
     };
 
 
-    function startGame() {
-        alert("Gameplay is simulated. No actual game will be played.");
-        setGameStarted(true);
+    // async Start game (call endpoint). If 200, set gameStarted to true. Else, alert error
+    const startGame = async () => {
+        const res = await fetch(`${Config.SERVER_URL}/lobby/${lobbyID}/start`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (res.status === 200) {
+            setGameStarted(true);
+        } else {
+            alert("Error starting game");
+        }
     }
+
 
     function isHost() {
         return myId === hostID;

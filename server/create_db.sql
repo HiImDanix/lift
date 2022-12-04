@@ -30,6 +30,7 @@ CREATE TABLE Rooms (
 	code varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	logoQuizGameID int NULL,
 	hostID int NULL,
+	startTime bigint NULL,
 	CONSTRAINT Lobby_PK PRIMARY KEY (ID)
 );
 

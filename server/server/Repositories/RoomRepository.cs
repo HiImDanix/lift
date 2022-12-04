@@ -125,4 +125,16 @@ public class RoomRepository : IRoomRepository
             throw new DataAccessException("Could not set host", e);
         }
     }
+
+    public void UpdateStartTime(Room lobby, long startTime)
+    {
+        try
+        {
+            var sql = @"UPDATE Rooms SET startTime = @startTime WHERE id = @roomId";
+            _db.Execute(sql, new { startTime, roomId = lobby.Id });
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not update start time", e);
+        }
+    }
 }
