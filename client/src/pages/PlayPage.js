@@ -26,6 +26,7 @@ function PlayPage() {
     const [lobbyID, setLobbyID] = useState(state?.data.room.id);
     const [lobbyCode, setLobbyCode] = useState(state?.data.room.code);
     const [players, setPlayers] = useState(state?.data.room.players);
+    const [hostID, setHostID] = useState(state?.data.room.hostID);
     const [gameStarted, setGameStarted] = useState(false);
 
     // Validate if user should be able to access this page, else redirect to home
@@ -80,6 +81,7 @@ function PlayPage() {
             .then(data => {
                 setLobbyCode(data.code);
                 setPlayers(data.players);
+                setHostID(data.hostId);
             });
     };
 
@@ -87,6 +89,10 @@ function PlayPage() {
     function startGame() {
         alert("Gameplay is simulated. No actual game will be played.");
         setGameStarted(true);
+    }
+
+    function isHost() {
+        return myId === hostID;
     }
 
 
@@ -113,9 +119,11 @@ function PlayPage() {
                                 <li key={"player-" + player.id}>{player.name}</li>
                             ))}
                         </ul>
-                        <div className="text-center">
-                            <button className={"btn btn-primary btn-lg"} onClick={startGame}>Start game</button>
-                        </div>
+                        {isHost() &&
+                            <div className="text-center">
+                                <button className={"btn btn-primary btn-lg"} onClick={startGame}>Start game</button>
+                            </div>
+                        }
                     </div>
                 </>
             )
