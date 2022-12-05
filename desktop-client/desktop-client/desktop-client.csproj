@@ -92,7 +92,6 @@
     </ApplicationDefinition>
     <Compile Include="ControlLayer\AnswerController.cs" />
     <Compile Include="ModelLayer\Answer.cs" />
-    <Compile Include="ServiceLayer\AnswerService.cs" />
     <Compile Include="ServiceLayer\QuestionService.cs" />
     <Page Include="GuiLayer\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
