@@ -54,7 +54,6 @@ namespace desktop_client
         private async void addButton_Click(object sender, RoutedEventArgs e)
         {
             int response;
-            string messageText;
             string imagePath = ImageTxt.Text;
             string question = QuestionTxt.Text;
             string category = CategoryTxt.Text;
@@ -73,11 +72,9 @@ namespace desktop_client
             response = await _questionController.SaveQuestion(imagePath, question, category, answers);
 
             //See response code for debugging
-            Debug.Write("Server returned code " + response);
+            Debug.WriteLine("Server returned code " + response);
 
-            messageText = (response == 200) ? "Question saved" : "Couldn't save question";
-            messageLabel.Content = messageText;
-
+            messageLabel.Content = (response == 200) ? "Question saved" : "Couldn't save question";
         }
 
         private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Windows.Navigation;
 using desktop_client.ModelLayer;
 using desktop_client.Properties;
@@ -23,7 +25,7 @@ namespace desktop_client.ServiceLayer
         {
             try
             {
-                var client = new RestClient("https://localhost:7246");
+                var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
                 var request = new RestRequest("/questions", Method.POST);
                 var param = new
                 {
