@@ -30,7 +30,17 @@ namespace GuessingGame.Repositories
                 throw new DataAccessException("Could not create question", e);
             }
         }
-        
-        
+
+        public Question GetQuestionByAnswerId(int id)
+        {
+            try
+            {
+                var sql = @"SELECT * FROM Questions WHERE id = (SELECT questionId FROM Answers WHERE id = @id)";
+                return _db.QuerySingle<Question>(sql, new { id });
+            } catch (Exception e)
+            {
+                throw new DataAccessException("Could not get question by answer id", e);
+            }
+        }
     }
 }

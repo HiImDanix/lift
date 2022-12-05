@@ -1,8 +1,8 @@
 ﻿namespace GuessingGame.DTO.requests;
-public record QuestionCreateRequest
-(
-    string ImagePath,
-    string QuestionText,
-    string Category,
-    List<AnswerCreateRequest> Answers
-);
+public class QuestionCreateRequest
+{
+    public string ImagePath { get; set; }
+    public string QuestionText { get; set; }
+    public string Category { get; set; }
+    public List<AnswerCreateRequest> Answers { get; set; }
+}

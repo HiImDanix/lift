@@ -17,11 +17,11 @@ namespace GuessingGame.Controllers
 
         [HttpPost]
         [Route("questions")]
-        public IActionResult CreateQuestion(QuestionCreateRequest request)
+        public IActionResult CreateQuestion([FromForm] QuestionCreateRequest request)
         {
-            var answers = request.Answers.Select(x => new Answer()
+            var answersList = request.Answers.Select(x => new Answer()
             {
-                AnswerText = x.Answer,
+                AnswerText = x.AnswerText,
                 IsCorrect = x.IsCorrect
             }).ToList();
             
@@ -29,7 +29,7 @@ namespace GuessingGame.Controllers
                 request.ImagePath,
                 request.QuestionText,
                 request.Category,
-                answers
+                answersList
             );
             return Ok(question);
         }

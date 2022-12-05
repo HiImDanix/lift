@@ -1,7 +1,8 @@
+// Rewrite as a class
 namespace GuessingGame.DTO.requests;
 
-public record AnswerCreateRequest
+public class AnswerCreateRequest
 {
-    public string Answer;
-    public bool IsCorrect;
+    public string AnswerText { get; set; }
+    public bool IsCorrect { get; set; }
 }

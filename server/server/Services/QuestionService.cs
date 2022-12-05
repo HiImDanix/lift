@@ -36,6 +36,8 @@ namespace GuessingGame.Services
                 Answer answer = _answerRepository.Add(ans);
                 answersInDb.Add(answer);
             }
+            
+            question.Answers = answersInDb;
 
             return question;
         }
