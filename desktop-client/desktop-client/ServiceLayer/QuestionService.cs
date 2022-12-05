@@ -29,10 +29,10 @@ namespace desktop_client.ServiceLayer
                 var request = new RestRequest("/questions", Method.POST);
                 var param = new
                 {
-                    imagePath = "imagePath",
-                    QuestionText = "question",
-                    Category = "category",
-                    AnswerList = " "
+                    imagePath = newQuestion.ImagePath,
+                    QuestionText = newQuestion.QuestionText,
+                    Category = newQuestion.Category,
+                    Answers = newQuestion.AnswerList
                 };
                 request.AddObject(param);
                 var response = await client.ExecuteAsync(request);

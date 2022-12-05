@@ -8,12 +8,13 @@ namespace desktop_client.ModelLayer
 {
     public class Answer
     {
-        string AnswerText { get; set; }
+        //TODO change answer field name
+        string answer { get; set; }
         bool IsCorrect { get; set; }
 
         public Answer(string answerText, bool isCorrect)
         {
-            AnswerText = answerText;
+            answer = answerText;
             IsCorrect = isCorrect;
         }
     }

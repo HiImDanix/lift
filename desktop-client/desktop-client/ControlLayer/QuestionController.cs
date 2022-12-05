@@ -29,6 +29,7 @@ namespace desktop_client.ControlLayer
             Question newQuestion = new Question(imagePath, question, category, answers);
 
             insertId = await _qService.SaveQuestion(newQuestion);
+
             return insertId;
         }
     }
