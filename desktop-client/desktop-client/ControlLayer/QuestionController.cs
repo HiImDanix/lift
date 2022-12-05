@@ -14,20 +14,23 @@ namespace desktop_client.ControlLayer
     {
 
         QuestionService _qService;
+        AnswerController _answerController;
 
         public QuestionController()
         {
             _qService = new QuestionService();
+            _answerController = new AnswerController();
         }
 
-        public async Task<int> SaveQuestion(string imagePath, string question, string category, string answer)
+        public async Task<int> SaveQuestion(string imagePath, string question, string category, List<string> answerStrings)
         {
             int insertId = -1;
-            Question newQuestion = new Question(imagePath, question, category, answer);
+            List<Answer> answers = _answerController.CreateAnswerList(answerStrings);
+            Question newQuestion = new Question(imagePath, question, category, answers);
 
             insertId = await _qService.SaveQuestion(newQuestion);
-            return insertId;
 
+            return insertId;
         }
     }
 }
