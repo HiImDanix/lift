@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace desktop_client.ServiceLayer
 {
-    internal class AnswerService
+    public class AnswerService
     {
     }
 }

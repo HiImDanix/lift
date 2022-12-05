@@ -9,13 +9,11 @@ namespace desktop_client.ModelLayer
     public class Answer
     {
         string AnswerText { get; set; }
-        string QuestionId { get; set; }
         bool IsCorrect { get; set; }
 
-        public Answer(string answerText, string questionId, bool isCorrect)
+        public Answer(string answerText, bool isCorrect)
         {
             AnswerText = answerText;
-            QuestionId = questionId;
             IsCorrect = isCorrect;
         }
     }

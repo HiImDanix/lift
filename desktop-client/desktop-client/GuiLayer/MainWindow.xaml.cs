@@ -1,6 +1,7 @@
 ﻿using desktop_client.ControlLayer;
 using desktop_client.ModelLayer;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,7 +53,7 @@ namespace desktop_client
 
         private async void addButton_Click(object sender, RoutedEventArgs e)
         {
-            int insertedId = -1;
+            int response;
             string messageText;
             string imagePath = ImageTxt.Text;
             string question = QuestionTxt.Text;
@@ -69,8 +70,12 @@ namespace desktop_client
                 answer3
             };
 
-            insertedId = await _questionController.SaveQuestion(imagePath, question, category, answers);
-            messageText = (insertedId > 0) ? $"Saved with ID {insertedId}" : "Couldn't save";
+            response = await _questionController.SaveQuestion(imagePath, question, category, answers);
+
+            //See response code for debugging
+            Debug.Write("Server returned code " + response);
+
+            messageText = (response == 200) ? "Question saved" : "Couldn't save question";
             messageLabel.Content = messageText;
 
         }

@@ -15,26 +15,31 @@ namespace desktop_client.ServiceLayer
 {
     public class QuestionService
     {
-        RestClient client = new RestClient("https://localhost:7246");
-
         public QuestionService()
         {
-            client = new RestClient();
         }
 
         public async Task<int> SaveQuestion(Question newQuestion)
         {
-            var request = new RestRequest("/questions", Method.POST);
-            var param = new
+            try
             {
-                imagePath = "imagePath",
-                QuestionText = "question",
-                Category = "category",
-                AnswerList = " "
-            };
-            request.AddObject(param);
-            var response = await client.ExecuteAsync(request);
-            return (int)response.StatusCode;
+                var client = new RestClient("https://localhost:7246");
+                var request = new RestRequest("/questions", Method.POST);
+                var param = new
+                {
+                    imagePath = "imagePath",
+                    QuestionText = "question",
+                    Category = "category",
+                    AnswerList = " "
+                };
+                request.AddObject(param);
+                var response = await client.ExecuteAsync(request);
+                return (int)response.StatusCode;
+            }
+            catch
+            {
+                return -1;
+            }
         }
     }
 }

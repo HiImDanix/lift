@@ -14,22 +14,28 @@ namespace desktop_client.ControlLayer
         {
         }
 
-        public Answer CreateAnswer(string answerText, string questionId, bool isCorrect)
+        private Answer CreateAnswer(string answerText, bool isCorrect)
         {
-            Answer newAnswer = new Answer(answerText, questionId, isCorrect);
-
+            Answer newAnswer = new Answer(answerText, isCorrect);
             return newAnswer;
         }
 
-        public async Task<List<Answer>> groupAnswers(Answer correctAnswer, Answer answer1, Answer answer2, Answer answer3)
+        public List<Answer> CreateAnswerList(List<string> answers)
         {
-            List<Answer> answers = new List<Answer> { 
-                correctAnswer,
-                answer1, 
-                answer2,
-                answer3
-            };
-            return answers;
+            List<Answer> answerList = new List<Answer>();
+            
+            for (int i = 0; i < 4; i++)
+            {
+                if(i == 0)
+                {
+                    answerList.Add(CreateAnswer(answers[i], true));
+                }
+                else
+                {
+                    answerList.Add(CreateAnswer(answers[i], false));
+                }
+            }
+            return answerList;
         }
     }
 }
