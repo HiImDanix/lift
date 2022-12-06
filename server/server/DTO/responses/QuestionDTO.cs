@@ -2,9 +2,10 @@
 {
     public class QuestionDTO
     {
-        public int ImagePath { get; set; }
+        public int Id { get; set; }
+        public string ImagePath { get; set; }
         public string QuestionText { get; set; }
         public string Category { get; set; }
-        public string Answer { get; set; }
+        public List<AnswerDTO> Answers { get; set; }
     }
 }

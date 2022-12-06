@@ -6,7 +6,7 @@ namespace GuessingGame.Services
 {
     public interface IQuestionService
     {
-        public Question CreateQuestionWithAnswers(string imagePath,
+        public QuestionDTO CreateQuestionWithAnswers(string imagePath,
             string questionText,
             string category,
             List<Answer> answers);

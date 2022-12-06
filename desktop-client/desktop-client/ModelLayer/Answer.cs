@@ -9,12 +9,12 @@ namespace desktop_client.ModelLayer
     public class Answer
     {
         //TODO change answer field name
-        string answer { get; set; }
-        bool IsCorrect { get; set; }
+        public string AnswerText { get; set; }
+        public bool IsCorrect { get; set; }
 
         public Answer(string answerText, bool isCorrect)
         {
-            answer = answerText;
+            AnswerText = answerText;
             IsCorrect = isCorrect;
         }
     }
