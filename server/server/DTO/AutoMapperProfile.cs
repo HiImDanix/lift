@@ -1,6 +1,7 @@
 using GuessingGame.DTO.responses;
 using GuessingGame.models;
 using AutoMapper;
+using GuessingGame.Models;
 
 namespace GuessingGame.DTO;
 
@@ -19,5 +20,8 @@ public class AutoMapperProfile: Profile
                 dest => dest.Name,
                 opt => opt.MapFrom(src => src.DisplayName)
             );
+
+        CreateMap<Answer, AnswerDTO>();
+        CreateMap<Question, QuestionDTO>();
     }
 }

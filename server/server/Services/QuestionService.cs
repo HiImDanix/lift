@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GuessingGame.DTO.requests;
 using GuessingGame.DTO.responses;
+using GuessingGame.models;
 using GuessingGame.Models;
 using GuessingGame.Repositories;
 
@@ -19,7 +20,7 @@ namespace GuessingGame.Services
             _mapper = mapper;
         }
 
-        public Question CreateQuestionWithAnswers(string imagePath, string questionText,
+        public QuestionDTO CreateQuestionWithAnswers(string imagePath, string questionText,
             string category,
             List<Answer> answers)
         {
@@ -39,7 +40,7 @@ namespace GuessingGame.Services
             
             question.Answers = answersInDb;
 
-            return question;
+            return _mapper.Map<QuestionDTO>(question);
         }
     }
 }
