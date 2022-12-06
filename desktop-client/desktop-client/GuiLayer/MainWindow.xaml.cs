@@ -16,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
+using System.Web.UI.WebControls;
+using RestSharp.Extensions;
+using System.Threading;
 
 namespace desktop_client
 {
@@ -30,30 +33,8 @@ namespace desktop_client
             InitializeComponent();
             _questionController = new QuestionController();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private async void addButton_Click(object sender, RoutedEventArgs e)
         {
-            int response;
             string imagePath = ImageTxt.Text;
             string question = QuestionTxt.Text;
             string category = CategoryTxt.Text;
@@ -69,17 +50,32 @@ namespace desktop_client
                 answer3
             };
 
-            response = await _questionController.SaveQuestion(imagePath, question, category, answers);
+            if (isAddButtonEnabled())
+            {
+                int response = await _questionController.SaveQuestion(imagePath, question, category, answers);
+                messageLabel.Content = (response == 200) ? "Question saved" : "Couldn't save question";
 
-            //See response code for debugging
-            Debug.WriteLine("Server returned code " + response);
-
-            messageLabel.Content = (response == 200) ? "Question saved" : "Couldn't save question";
+            }
+            else
+            {
+                messageLabel.Content = "Did you enter the correct details?";
+            }
+            clearTextBoxes();
         }
-
-        private void QuestionTxt_TextChanged(object sender, TextChangedEventArgs e)
+        private bool isAddButtonEnabled()
         {
-
+            return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
+                AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
+        }
+        private void clearTextBoxes()
+        {
+            ImageTxt.Text = "";
+            QuestionTxt.Text = "";
+            CategoryTxt.Text = "";
+            AnswerTxt.Text = "";
+            Answer1Txt.Text = "";
+            Answer2Txt.Text = "";
+            Answer3Txt.Text = "";
         }
     }
 }
