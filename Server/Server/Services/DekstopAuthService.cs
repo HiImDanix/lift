@@ -5,6 +5,7 @@ using AutoMapper;
 using GuessingGame.DTO.responses;
 using GuessingGame.models;
 using GuessingGame.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GuessingGame.Services;
@@ -32,7 +33,8 @@ public class DesktopAuthService : IDesktopAuthService
         {
             return false;
         }
-        if (password != administrator.Password)
+        bool passwordCorrect = BCrypt.Net.BCrypt.Verify(password, administrator.Password);
+        if(!passwordCorrect)
         {
             return false;
         }
