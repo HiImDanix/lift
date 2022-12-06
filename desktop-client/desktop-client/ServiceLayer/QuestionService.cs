@@ -12,6 +12,7 @@ using desktop_client.ModelLayer;
 using desktop_client.Properties;
 using Newtonsoft.Json;
 using RestSharp;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace desktop_client.ServiceLayer
 {
@@ -32,9 +33,13 @@ namespace desktop_client.ServiceLayer
                     imagePath = newQuestion.ImagePath,
                     QuestionText = newQuestion.QuestionText,
                     Category = newQuestion.Category,
-                    Answers = newQuestion.AnswerList
                 };
-                request.AddObject(param);
+                for (int i = 0; i < 4; i++)
+                {
+                    request.AddParameter($"Answers[{i}].answerText", newQuestion.AnswerList[i].AnswerText);
+                    request.AddParameter($"Answers[{i}].isCorrect", newQuestion.AnswerList[i].IsCorrect);
+                }
+                    request.AddObject(param);
                 var response = await client.ExecuteAsync(request);
                 return (int)response.StatusCode;
             }
