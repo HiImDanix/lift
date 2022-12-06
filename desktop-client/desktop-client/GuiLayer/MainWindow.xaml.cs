@@ -53,21 +53,28 @@ namespace desktop_client
             if (isAddButtonEnabled())
             {
                 int response = await _questionController.SaveQuestion(imagePath, question, category, answers);
-                messageLabel.Content = (response == 200) ? "Question saved" : "Couldn't save question";
+                if (response == 200)
+                {
+                    MessageBox.Show("Question added successfully");
+                    clearFields();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong");
+                }
 
             }
             else
             {
-                messageLabel.Content = "Did you enter the correct details?";
+                MessageBox.Show("Please fill all fields");
             }
-            clearTextBoxes();
         }
         private bool isAddButtonEnabled()
         {
             return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
                 AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
         }
-        private void clearTextBoxes()
+        private void clearFields()
         {
             ImageTxt.Text = "";
             QuestionTxt.Text = "";
