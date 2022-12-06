@@ -75,6 +75,13 @@ CREATE TABLE Scoreboards (
 	CONSTRAINT Scoreboard_PK PRIMARY KEY (ID)
 );
 
+CREATE TABLE Administrators (
+	[email] [varchar](50) NOT NULL,
+	[password] [varchar](50) NOT NULL,
+	ID int IDENTITY(0,1) NOT NULL,
+ 	CONSTRAINT Administrators_PK PRIMARY KEY (ID)
+);
+
 
 -- LosingIsFunToo.dbo.Rooms foreign keys
 

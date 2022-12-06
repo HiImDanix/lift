@@ -57,6 +57,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IRoomRepository, RoomRepository>();
     builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
     builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
+    builder.Services.AddTransient<IDesktopAuthRepository, DesktopAuthRepository>();
     
     // =============================
     // ======== Services ===========
@@ -64,6 +65,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<ILobbyService, LobbyService>();
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
     builder.Services.AddSingleton<IQuestionService, QuestionService>();
+    builder.Services.AddSingleton<IDesktopAuthService, DesktopAuthService>();
     
     
     // JWT Bearer token authentication
