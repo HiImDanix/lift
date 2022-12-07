@@ -32,11 +32,27 @@ public class RoomRepository : IRoomRepository
         }
     }
 
-    public Player AddPlayer(Room room, Player player)
+    public Player AddPlayer(Room room, Player player, bool checkIfGameStarted = true)
     {
         try
         {
-            var sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
+            string sql;
+            if (checkIfGameStarted)
+            {
+                sql = @"INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)";
+            }
+            else
+            {
+                sql = @"IF NOT EXISTS (SELECT * FROM Rooms WHERE id = @RoomId AND startTime IS NOT NULL)
+                        BEGIN
+                            INSERT INTO Players (session, displayName, roomId) VALUES (@Session, @DisplayName, @RoomId); SELECT CAST(SCOPE_IDENTITY() as int)
+                        END
+                        ELSE
+                        BEGIN
+                            THROW 50000, 'Room is already started', 1
+                        END";
+            }
+            
             var id = _db.QuerySingle<int>(sql, new { player.Session, player.DisplayName, RoomId = room.Id });
             player.Id = id;
             return ToProxy(player);

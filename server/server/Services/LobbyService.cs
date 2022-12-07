@@ -88,6 +88,12 @@ public class LobbyService: ILobbyService
         {
             throw new Exception("Room not found");
         }
+        
+        if (room.StartTime != null)
+        {
+            throw new Exception("Game has already started");
+        }
+        
         // Create player & add to db
         Player player = CreatePlayer(playerDisplayName);
         player = _roomRepository.AddPlayer(room, player);
