@@ -44,7 +44,19 @@ public class AnswerRepository: IAnswerRepository
             throw new DataAccessException("Could not get answers for question", e);
         }
     }
-    
+
+    public void Update(Answer answer)
+    {
+        try
+        {
+            var sql = @"UPDATE Answers SET answer = @AnswerText, questionID = @QuestionID, isCorrect = @IsCorrect WHERE id = @Id";
+            _db.Execute(sql, new { AnswerText = answer.AnswerText, QuestionID = answer.Question.Id, IsCorrect = answer.IsCorrect, Id = answer.Id });
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not update answer", e);
+        }
+    }
+
     // Map answer to proxy
     private Answer ToProxy(Answer answer)
     {

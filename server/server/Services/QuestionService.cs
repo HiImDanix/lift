@@ -56,5 +56,42 @@ namespace GuessingGame.Services
         {
             return _mapper.Map<IList<QuestionDTO>>(_questionRepository.GetAll());
         }
+
+        public QuestionDTO UpdateQuestionWithAnswers(int id, string requestImagePath, string requestQuestionText,
+            string requestCategory, List<Answer> answersList)
+        {
+            // Get question from the database
+            Question question = _questionRepository.Get(id);
+            
+            // Throw exception if question is null
+            if (question == null)
+            {
+                throw new Exception("Question not found");
+            }
+            
+            // Update question
+            question.ImagePath = requestImagePath;
+            question.QuestionText = requestQuestionText;
+            question.Category = requestCategory;
+            
+
+            // Update question in database
+            question = _questionRepository.Update(question);
+            
+            // Clear answers
+            question.Answers.Clear();
+            _questionRepository.RemoveAnswers(question);
+            
+            // Add each answer to the database
+            foreach (var ans in answersList)
+            {
+                ans.Question = question;
+                Answer answer = _answerRepository.Add(ans);
+                question.Answers.Add(answer);
+            }
+            
+            // Map to DTO
+            return _mapper.Map<QuestionDTO>(question);
+        }
     }
 }

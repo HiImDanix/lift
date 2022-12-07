@@ -12,5 +12,11 @@ namespace GuessingGame.Services
             List<Answer> answers);
 
         IList<QuestionDTO> GetQuestions();
+
+        QuestionDTO UpdateQuestionWithAnswers(int id,
+            string requestImagePath,
+            string requestQuestionText,
+            string requestCategory,
+            List<Answer> answersList);
     }
 }

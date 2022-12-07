@@ -41,5 +41,25 @@ namespace GuessingGame.Controllers
             var questions = _questionService.GetQuestions();
             return Ok(questions);
         }
+        
+        [HttpPut]
+        [Route("questions/{id}")]
+        public IActionResult UpdateQuestion([FromRoute] int id, [FromForm] QuestionCreateRequest request)
+        {
+            var answersList = request.Answers.Select(x => new Answer()
+            {
+                AnswerText = x.AnswerText,
+                IsCorrect = x.IsCorrect
+            }).ToList();
+            
+            var question = _questionService.UpdateQuestionWithAnswers(
+                id,
+                request.ImagePath,
+                request.QuestionText,
+                request.Category,
+                answersList
+            );
+            return Ok(question);
+        }
     }
 }

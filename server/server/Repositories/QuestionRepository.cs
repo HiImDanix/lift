@@ -59,7 +59,45 @@ public class QuestionRepository : IQuestionRepository
             throw new DataAccessException("Could not get all questions", e);
         }
     }
-    
+
+    public Question Get(int id)
+    {
+        try
+        {
+            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category FROM Questions WHERE id = @id";
+            var question = _db.QuerySingle<Question>(sql, new { id });
+            return ToProxy(question);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get question by id", e);
+        }
+    }
+
+    public Question Update(Question question)
+    {
+        try
+        {
+            var sql = @"UPDATE Questions SET imgPath = @ImagePath, question = @QuestionText, category = @Category WHERE id = @Id";
+            _db.Execute(sql, question);
+            return ToProxy(question);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not update question", e);
+        }
+    }
+
+    public void RemoveAnswers(Question question)
+    {
+        try
+        {
+            var sql = @"DELETE FROM Answers WHERE questionId = @Id";
+            _db.Execute(sql, question);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not remove answers", e);
+        }
+    }
+
     private Question ToProxy(Question question)
     {
         return new QuestionProxy(_provider.GetRequiredService<IAnswerRepository>())
