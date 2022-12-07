@@ -1,0 +1,20 @@
+﻿<Window x:Class="desktop_client.GuiLayer.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:desktop_client.GuiLayer"
+        mc:Ignorable="d"
+        Title="Login" Height="450" Width="800">
+    <Grid x:Name="loginWindow" Background="#FF113D3C">
+        <TextBox x:Name="emailTxt" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="26"/>
+        <TextBox x:Name="passwordTxt" HorizontalAlignment="Center" Margin="0,180,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="25"/>
+        <Label x:Name="emailLbl" Content="Email:" HorizontalAlignment="Left" Margin="280,97,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="passwordLbl" Content="Password:" HorizontalAlignment="Left" Margin="280,154,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Center" Margin="0,243,0,0" VerticalAlignment="Top" Width="76" Height="25" Foreground="Black" Background="#FFFC9E01" Click="loginButton_Click"/>
+        <Label x:Name="liftLbl" Content="LOSING IS FUN TOO" HorizontalAlignment="Left" Margin="347,57,0,0" VerticalAlignment="Top" Foreground="#FFFC9E01" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="reqEmailLbl" Content="*This field is required" HorizontalAlignment="Left" Margin="400,151,0,0" VerticalAlignment="Top" Width="114" FontSize="10" Height="21" Foreground="#FFFF0303" Visibility="Hidden" />
+        <Label x:Name="reqPasswordLbl" Content="*This field is required" HorizontalAlignment="Left" Margin="400,210,0,0" VerticalAlignment="Top" Width="114" FontSize="10" Height="21" Foreground="#FFFF0303" Visibility="Hidden"/>
+
+    </Grid>
+</Window>
