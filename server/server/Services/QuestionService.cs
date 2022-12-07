@@ -24,12 +24,20 @@ namespace GuessingGame.Services
             string category,
             List<Answer> answers)
         {
+            // Map to object
+            Question question = new Question()
+            {
+                ImagePath = imagePath,
+                QuestionText = questionText,
+                Category = category,
+                Answers = answers
+            };
             
-            Question question = new Question(imagePath, questionText, category);
-            
+            // Put question in DB
             question = _questionRepository.Add(question);
 
-            // TODO: add questionID to answer
+            // Add each answer to the database
+            // TODO: add questionID to answer. Also, make it so that when you add question, it adds the answers too.
             List<Answer> answersInDb = new List<Answer>();
             foreach (var ans in answers)
             {
@@ -38,9 +46,15 @@ namespace GuessingGame.Services
                 answersInDb.Add(answer);
             }
             
+            // Assign to question as it was retrieved from db before adding answers (to db)
             question.Answers = answersInDb;
 
             return _mapper.Map<QuestionDTO>(question);
+        }
+
+        public IList<QuestionDTO> GetQuestions()
+        {
+            return _mapper.Map<IList<QuestionDTO>>(_questionRepository.GetAll());
         }
     }
 }

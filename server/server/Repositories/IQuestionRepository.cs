@@ -7,5 +7,6 @@ namespace GuessingGame.Repositories
     {
         Question Add(Question question);
         Question GetQuestionByAnswerId(int id);
+        IList<Question> GetAll();
     }
 }

@@ -33,5 +33,13 @@ namespace GuessingGame.Controllers
             );
             return Ok(question);
         }
+        
+        [HttpGet]
+        [Route("questions")]
+        public IActionResult GetQuestions()
+        {
+            var questions = _questionService.GetQuestions();
+            return Ok(questions);
+        }
     }
 }

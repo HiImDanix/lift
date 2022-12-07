@@ -10,5 +10,7 @@ namespace GuessingGame.Services
             string questionText,
             string category,
             List<Answer> answers);
+
+        IList<QuestionDTO> GetQuestions();
     }
 }
