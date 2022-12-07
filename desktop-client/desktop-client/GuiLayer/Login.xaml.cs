@@ -31,11 +31,6 @@ namespace desktop_client.GuiLayer
             _loginController = new LoginController();
         }
 
-        private void emailTxt_TextChanged(object sender, TextChangedEventArgs e)
-        {
-           
-        }
-
         private void loginButton_Click(object sender2, RoutedEventArgs e)
         {
             var email = emailTxt.Text.Trim();
@@ -51,12 +46,12 @@ namespace desktop_client.GuiLayer
                 } 
                 else
                 {
-                    MessageBox.Show("Login failed. Please try again.");
+                    MessageBox.Show("Wrong username or password");
                 }
             } 
             else
             {
-                MessageBox.Show("Wrong username or password");
+                MessageBox.Show("Please fill out username & password");
             }
         }
     }
