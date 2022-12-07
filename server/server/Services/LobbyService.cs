@@ -14,13 +14,13 @@ public class LobbyService: ILobbyService
 
     private readonly IRoomRepository _roomRepository;
     private readonly IMapper _mapper;
-    private readonly IConfiguration _configuration;
+    private readonly IJWTService _jwtService;
 
-    public LobbyService(IRoomRepository roomRepository, IMapper mapper, IConfiguration configuration)
+    public LobbyService(IRoomRepository roomRepository, IMapper mapper, IJWTService jwtService)
     {
         _roomRepository = roomRepository;
         _mapper = mapper;
-        _configuration = configuration;
+        _jwtService = jwtService;
     }
 
     public LobbyDTO CreateRoomAndPlayer(string playerDisplayName)
@@ -46,7 +46,7 @@ public class LobbyService: ILobbyService
         // Set room because it was retrieved before the player was added to db
         player.Room = room;
 
-        var token = GenerateJwtToken(player);
+        var token = _jwtService.GenerateJwtToken(player);
         player.Session = token;
 
         // map to dto & return
@@ -54,31 +54,7 @@ public class LobbyService: ILobbyService
 
     }
 
-    private string GenerateJwtToken(Player player)
-    {
-        // JWT
-        var securityKey = new SymmetricSecurityKey(
-            Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        // claims
-        var claims = new List<Claim>
-        {
-            // id
-            new("sub", player.Id.ToString()),
-            new("name", player.DisplayName),
-            new("roomID", player.Room.Id.ToString()),
-        };
-        
-        var token = new JwtSecurityToken(
-            _configuration["Authentication:Issuer"],
-            _configuration["Authentication:Audience"],
-            claims,
-            expires: DateTime.Now.AddHours(1),
-            signingCredentials: credentials
-        );
-        
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
+
 
     public LobbyDTO JoinLobby(string roomCode, string playerDisplayName)
     {
@@ -103,7 +79,7 @@ public class LobbyService: ILobbyService
         player.Room = room;
 
         // TODO: Do not use session for this
-        var token = GenerateJwtToken(player);
+        var token = _jwtService.GenerateJwtToken(player);
         player.Session = token;
         
         // map to dto & return

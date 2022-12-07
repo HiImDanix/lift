@@ -96,6 +96,8 @@
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="ModelLayer\Answer.cs" />
+    <Compile Include="ModelLayer\Administrator.cs" />
+    <Compile Include="repositoryLayer\AuthRepository.cs" />
     <Compile Include="ServiceLayer\QuestionService.cs" />
     <Page Include="GuiLayer\Login.xaml">
       <SubType>Designer</SubType>

@@ -10,6 +10,7 @@ using System.Web.Configuration;
 using System.Windows.Navigation;
 using desktop_client.ModelLayer;
 using desktop_client.Properties;
+using desktop_client.repositoryLayer;
 using Newtonsoft.Json;
 using RestSharp;
 using static System.Net.Mime.MediaTypeNames;
@@ -28,6 +29,8 @@ namespace desktop_client.ServiceLayer
             {
                 var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
                 var request = new RestRequest("/questions", Method.POST);
+                // set Bearer token
+                request.AddHeader("Authorization", "Bearer " + AuthRepository.GetInstance().GetAdmin().Session);
                 var param = new
                 {
                     imagePath = newQuestion.ImagePath,

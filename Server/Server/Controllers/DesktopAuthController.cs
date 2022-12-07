@@ -15,11 +15,13 @@ public class DesktopAuthController : ControllerBase
     [Route("login")]
     public IActionResult Index([FromForm] string email, [FromForm] string password)
     {
-        var loggedIn = _desktopAuthService.Login(email, password);
-        if(loggedIn)
+        var adminDto = _desktopAuthService.Login(email, password);
+        if(adminDto == null)
         {
-            return Ok();
+            return NotFound();
+            
         }
-        return NotFound();
+        return Ok(adminDto);
+       
     }
 }

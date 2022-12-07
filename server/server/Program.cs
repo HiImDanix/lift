@@ -66,8 +66,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
     builder.Services.AddSingleton<IQuestionService, QuestionService>();
     builder.Services.AddSingleton<IDesktopAuthService, DesktopAuthService>();
-    
-    
+    builder.Services.AddSingleton<IJWTService, JWTService>();
+
     // JWT Bearer token authentication
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
@@ -84,6 +84,17 @@ var builder = WebApplication.CreateBuilder(args);
                     Encoding.UTF8.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
             };
         });
+    
+    
+    // =============================
+    // ==== Authorization roles ====
+    // =============================
+    builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("Player", policy => policy.RequireRole("Player"));
+        options.AddPolicy("Administrator", policy => policy.RequireRole("Administrator"));
+    });
+
 
 }
 

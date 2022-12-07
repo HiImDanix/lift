@@ -1,4 +1,7 @@
-﻿using RestSharp;
+﻿using desktop_client.ModelLayer;
+using desktop_client.repositoryLayer;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Windows;
 
 namespace desktop_client.ControlLayer
 {
@@ -13,7 +17,6 @@ namespace desktop_client.ControlLayer
     {
         public bool Login(string email, string password)
         {
-            bool isValid = false;
 
             var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
             var request = new RestRequest("/login", Method.POST);
@@ -23,11 +26,23 @@ namespace desktop_client.ControlLayer
 
             var response = client.Execute(request);
 
-            if (response.StatusCode.Equals(HttpStatusCode.OK))
+            // get fields from response - id, email, session
+            var content = response.Content;
+            var statusCode = response.StatusCode;
+
+            // deserialize json
+            var admin = JsonConvert.DeserializeObject<Administrator>(content);
+
+            // check if response is valid
+            if (statusCode == HttpStatusCode.OK)
             {
-                isValid = true;
+                // Show session message box
+                AuthRepository.GetInstance().SetAdmin(admin);
+                return true;
             }
-            return isValid;
+
+            return false;
+            
         }
     }
 }

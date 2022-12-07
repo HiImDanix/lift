@@ -17,8 +17,11 @@ namespace GuessingGame.Controllers
 
         [HttpPost]
         [Route("questions")]
+        [Authorize(Policy = "Administrator")]
         public IActionResult CreateQuestion([FromForm] QuestionCreateRequest request)
         {
+            // print bearer token from request
+            Console.WriteLine(Request.Headers["Authorization"]);
             var answersList = request.Answers.Select(x => new Answer()
             {
                 AnswerText = x.AnswerText,
@@ -36,6 +39,7 @@ namespace GuessingGame.Controllers
         
         [HttpGet]
         [Route("questions")]
+        [Authorize(Policy = "Administrator")]
         public IActionResult GetQuestions()
         {
             var questions = _questionService.GetQuestions();
@@ -44,6 +48,7 @@ namespace GuessingGame.Controllers
         
         [HttpPut]
         [Route("questions/{id}")]
+        [Authorize(Policy = "Administrator")]
         public IActionResult UpdateQuestion([FromRoute] int id, [FromForm] QuestionCreateRequest request)
         {
             var answersList = request.Answers.Select(x => new Answer()

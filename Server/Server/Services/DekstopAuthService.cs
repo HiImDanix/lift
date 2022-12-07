@@ -15,29 +15,30 @@ public class DesktopAuthService : IDesktopAuthService
 
     private readonly IDesktopAuthRepository _desktopAuthRepository;
     private readonly IMapper _mapper;
-    private readonly IConfiguration _configuration;
+    private readonly IJWTService _jwtService;
 
-    public DesktopAuthService(IDesktopAuthRepository desktopAuthRepository, IMapper mapper, IConfiguration configuration)
+    public DesktopAuthService(IDesktopAuthRepository desktopAuthRepository, IMapper mapper, IJWTService jwtService)
     {
         _desktopAuthRepository = desktopAuthRepository;
-        _mapper = mapper; //map the object to DTO
-        _configuration = configuration;
+        _mapper = mapper;
+        _jwtService = jwtService;
     }
 
-
-
-    public bool Login(string email, string password)
+    public AdministratorDTO? Login(string email, string password)
     {
         var administrator = _desktopAuthRepository.GetByEmail(email);
         if (administrator == null)
         {
-            return false;
+            return null;
         }
         bool passwordCorrect = BCrypt.Net.BCrypt.Verify(password, administrator.Password);
         if(!passwordCorrect)
         {
-            return false;
+            return null;
         }
-        return true;
+        var adminDto = _mapper.Map<AdministratorDTO>(administrator);
+        // Generate JWT token
+        adminDto.Session = _jwtService.GenerateJwtToken(administrator);
+        return adminDto;
     }
 }

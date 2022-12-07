@@ -5,5 +5,5 @@ namespace GuessingGame.Services;
 
 public interface IDesktopAuthService
 {
-    bool Login(string email, string password);
+    AdministratorDTO? Login(string email, string password);
 }
