@@ -1,8 +1,10 @@
-﻿using RestSharp;
+﻿using desktop_client.ControlLayer;
+using RestSharp;
 using RestSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
@@ -22,9 +24,11 @@ namespace desktop_client.GuiLayer
     /// </summary>
     public partial class Login : Window
     {
+        LoginController _loginController;
         public Login()
         {
             InitializeComponent();
+            _loginController = new LoginController();
         }
 
         private void emailTxt_TextChanged(object sender, TextChangedEventArgs e)
@@ -36,37 +40,21 @@ namespace desktop_client.GuiLayer
         {
             var email = emailTxt.Text.Trim();
             var password = passwordTxt.Text.Trim();
+
             if (email.HasValue() && password.HasValue())
             {
-                // prep RestSharp
-                var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
-                client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-                var request = new RestRequest("/login", Method.POST);
-
-                // add parameters
-                request.AddParameter("email", email);
-                request.AddParameter("password", password);
-
-                // execute request
-                var response = client.Execute(request);
-
-                if ((int)response.StatusCode == 200)
+                if (_loginController.Login(email, password))
                 {
-                    // Show main window
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
-                } else
+                } 
+                else
                 {
-                    // Show error message
                     MessageBox.Show("Login failed. Please try again.");
-                    {
-                    }
                 }
-
-            
-
-            } else
+            } 
+            else
             {
                 MessageBox.Show("Wrong username or password");
             }

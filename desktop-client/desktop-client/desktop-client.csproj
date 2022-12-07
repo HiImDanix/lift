@@ -91,6 +91,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ControlLayer\AnswerController.cs" />
+    <Compile Include="ControlLayer\LoginController.cs" />
     <Compile Include="GuiLayer\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
