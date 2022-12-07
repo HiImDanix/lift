@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestSharp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,12 +27,23 @@ namespace desktop_client.GuiLayer
 
         private void emailTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+           
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
+          /*  if (emailTxt.Text.HasValue())
+            {
+                reqEmailLbl.Visibility = Visibility.Visible;
+            }
+            if (passwordTxt.Text.HasValue())
+            {
+                reqPasswordLbl.Visibility = Visibility.Visible;
+            }*/
 
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

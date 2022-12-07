@@ -12,7 +12,9 @@
         <Label x:Name="emailLbl" Content="Email:" HorizontalAlignment="Left" Margin="280,97,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="passwordLbl" Content="Password:" HorizontalAlignment="Left" Margin="280,154,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Center" Margin="0,243,0,0" VerticalAlignment="Top" Width="76" Height="25" Foreground="Black" Background="#FFFC9E01" Click="loginButton_Click"/>
-        <Label Content="LOSING IS FUN TOO" HorizontalAlignment="Left" Margin="347,57,0,0" VerticalAlignment="Top" Foreground="#FFFC9E01" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="liftLbl" Content="LOSING IS FUN TOO" HorizontalAlignment="Left" Margin="347,57,0,0" VerticalAlignment="Top" Foreground="#FFFC9E01" FontStyle="Italic" FontWeight="Bold"/>
+        <Label x:Name="reqEmailLbl" Content="*This field is required" HorizontalAlignment="Left" Margin="400,151,0,0" VerticalAlignment="Top" Width="114" FontSize="10" Height="21" Foreground="#FFFF0303" Visibility="Hidden" />
+        <Label x:Name="reqPasswordLbl" Content="*This field is required" HorizontalAlignment="Left" Margin="400,210,0,0" VerticalAlignment="Top" Width="114" FontSize="10" Height="21" Foreground="#FFFF0303" Visibility="Hidden"/>
 
     </Grid>
 </Window>
