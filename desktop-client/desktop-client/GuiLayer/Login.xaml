@@ -2,19 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
          Title="Login to LIFT" Height="480" Width="641" Background="#FF113D3C">
     <Grid>
-        <TextBlock Height="50" HorizontalAlignment="Center" Margin="0,46,0,0" Name="textBlockHeading" VerticalAlignment="Top" FontSize="12" FontStyle="Italic" Padding="5">  
-            
-           
-            <TextBlock Foreground="White">  
-                 LIFT LOGIN 
-            </TextBlock>  
-           
-        </TextBlock>
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,122,0,0" Name="textBlock1" Text="Email:" VerticalAlignment="Top" Width="67" Foreground="White" RenderTransformOrigin="0.631,-2.885" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,175,0,0" Name="textBlock2" Text="Password:" VerticalAlignment="Top" Width="77" Foreground="White"/>
-        <TextBox Height="23" HorizontalAlignment="Center" Margin="0,145,0,0" Name="textBoxEmail" VerticalAlignment="Top" Width="247" />
-        <PasswordBox Height="23" HorizontalAlignment="Center" Margin="0,198,0,0" Name="passwordBox1" VerticalAlignment="Top" Width="247" />
-        <Button Content="Login" Height="23" HorizontalAlignment="Center" Margin="0,244,0,0" Name="button1" VerticalAlignment="Top" Width="104"  Foreground="White" Background="#FD7D00"/>
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,122,0,0" x:Name="emailLbl" Text="Email:" VerticalAlignment="Top" Width="67" Foreground="White" RenderTransformOrigin="0.631,-2.885" />
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,175,0,0" x:Name="passwordLbl" Text="Password:" VerticalAlignment="Top" Width="77" Foreground="White"/>
+        <TextBox Height="23" HorizontalAlignment="Center" Margin="0,145,0,0" x:Name="emailTxt" VerticalAlignment="Top" Width="247" />
+        <PasswordBox Height="23" HorizontalAlignment="Center" Margin="0,198,0,0" x:Name="passwordTxt" VerticalAlignment="Top" Width="247" />
+        <Button Content="Login" Height="23" HorizontalAlignment="Center" Margin="0,244,0,0" x:Name="loginButton" VerticalAlignment="Top" Width="104"  Foreground="White" Background="#FD7D00"/>
         <TextBlock Height="23" HorizontalAlignment="Center" x:Name ="errormessage" VerticalAlignment="Top" Width="247" Margin="0,283,0,0"  OpacityMask="Crimson" Foreground="#FFE5572C"  />
+        <TextBlock Height="35" HorizontalAlignment="Center" Margin="0,74,0,0" x:Name="liftLbl" Text="LOSING IS FUN TOO" VerticalAlignment="Top" Width="122" Foreground="White" RenderTransformOrigin="0.631,-2.885" FontWeight="Bold" />
     </Grid>
 </Window>
