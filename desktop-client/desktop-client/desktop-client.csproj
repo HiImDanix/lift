@@ -91,8 +91,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ControlLayer\AnswerController.cs" />
+    <Compile Include="GuiLayer\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModelLayer\Answer.cs" />
     <Compile Include="ServiceLayer\QuestionService.cs" />
+    <Page Include="GuiLayer\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiLayer\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
