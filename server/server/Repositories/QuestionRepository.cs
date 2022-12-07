@@ -64,7 +64,7 @@ public class QuestionRepository : IQuestionRepository
     {
         try
         {
-            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category FROM Questions WHERE id = @id";
+            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category, RowVer FROM Questions WHERE id = @id";
             var question = _db.QuerySingle<Question>(sql, new { id });
             return ToProxy(question);
         } catch (Exception e)

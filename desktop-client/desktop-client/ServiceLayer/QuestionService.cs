@@ -27,7 +27,7 @@ namespace desktop_client.ServiceLayer
             try
             {
                 var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
-                var request = new RestRequest("/questions/0", Method.PUT);
+                var request = new RestRequest("/questions", Method.POST);
                 var param = new
                 {
                     imagePath = newQuestion.ImagePath,

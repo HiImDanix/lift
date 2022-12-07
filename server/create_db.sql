@@ -121,3 +121,6 @@ ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK_1
 -- LosingIsFunToo.dbo.Scoreboard foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
+
+-- Row version for Questions table
+ALTER TABLE Questions ADD RowVer rowversion

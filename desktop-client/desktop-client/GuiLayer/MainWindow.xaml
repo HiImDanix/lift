@@ -5,36 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:desktop_client"
         mc:Ignorable="d"
-        Title="LIFT Admin Panel" Height="480" Width="641" Background="#FF113D3C">
-    <Viewbox Margin="0,0,83,0" Stretch="Fill">
+        Title="LIFT Admin Panel" Height="480" Width="718" Background="#FF113D3C">
+    <Viewbox Margin="0,0,83,0" Stretch="Fill" Width="618">
         <Grid Height="434.04" Width="558">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="211*"/>
+                <ColumnDefinition Width="108*"/>
+                <ColumnDefinition Width="103*"/>
                 <ColumnDefinition Width="68*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="134*"/>
                 <RowDefinition Height="83*"/>
             </Grid.RowDefinitions>
-            <ListBox x:Name="navigation" Margin="0,0,253,0" BorderThickness="0,0,0,0" Background="#FF06171E" Grid.RowSpan="2">
+            <ListBox x:Name="navigation" Margin="0,0,47,0" BorderThickness="0,0,0,0" Background="#FF06171E" Grid.RowSpan="2">
                 <Button x:Name="bankButton" Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Width="155"/>
                 <Button x:Name="statisticsButton" Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="155" Height="49"/>
             </ListBox>
-            <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="248,76,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" Width="300" Grid.Row="1" Grid.ColumnSpan="2"/>
-            <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,22,174" Foreground="White" Grid.ColumnSpan="2"/>
-            <Label x:Name="imgLbl" Content="Image" HorizontalAlignment="Left" Margin="221,93,0,0" VerticalAlignment="Top" Foreground="White"/>
-            <Label x:Name="questionLbl" Content="Question" HorizontalAlignment="Left" Margin="222,181,0,0" VerticalAlignment="Top" Width="64" Foreground="White"/>
-            <Label x:Name="categoryLbl" Content="Category" HorizontalAlignment="Left" Margin="220,2,0,0" VerticalAlignment="Top" Grid.Row="1" Foreground="White"/>
-            <Label x:Name="answersLbl" Content="Answers (first is correct)" HorizontalAlignment="Left" Margin="417,94,0,0" VerticalAlignment="Top" Height="25" Grid.ColumnSpan="2" Foreground="White"/>
-            <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="346,118,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104" Background="#FF06171E" Foreground="White" Click="addButton_Click" Grid.Row="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" Margin="222,207,70,18" FontSize="20"/>
-            <TextBox x:Name="CategoryTxt" TextWrapping="Wrap" Margin="220,28,71,97" FontSize="20" Grid.Row="1"/>
-            <TextBox x:Name="AnswerTxt" TextWrapping="Wrap" Margin="418,119,10,109" FontSize="20" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="Answer1Txt" TextWrapping="Wrap" Margin="417,179,11,49" FontSize="20" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="Answer2Txt" TextWrapping="Wrap" Margin="417,238,11,156" FontSize="20" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="Answer3Txt" TextWrapping="Wrap" Margin="418,29,10,97" FontSize="20" Grid.Row="1" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="ImageTxt" TextWrapping="Wrap" Margin="221,119,0,108" FontSize="20" Cursor="" HorizontalAlignment="Left" Width="130" AutomationProperties.Name="Image"/>
-            <Button x:Name="logoutButton" Content="Log out" HorizontalAlignment="Left" Margin="7,109,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="155" Background="#FF015351" Foreground="White" Click="addButton_Click" Height="49" Grid.Row="1"/>
+            <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="32,76,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" Width="300" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="43,10,22,174" Foreground="White" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <Label x:Name="imgLbl" Content="Image URL&#xD;&#xA;" HorizontalAlignment="Left" Margin="190,93,0,0" VerticalAlignment="Top" Foreground="White" Width="129" Grid.ColumnSpan="2"/>
+            <Label x:Name="questionLbl" Content="Question" HorizontalAlignment="Left" Margin="191,181,0,0" VerticalAlignment="Top" Width="128" Foreground="White" Grid.ColumnSpan="2"/>
+            <Label x:Name="categoryLbl" Content="Category" HorizontalAlignment="Left" Margin="189,2,0,0" VerticalAlignment="Top" Grid.Row="1" Foreground="White" Width="130" Grid.ColumnSpan="2"/>
+            <Label x:Name="answersLbl" Content="Answers (first is correct)" HorizontalAlignment="Left" Margin="121,93,0,0" VerticalAlignment="Top" Height="25" Grid.ColumnSpan="2" Foreground="White" Width="141" Grid.Column="1"/>
+            <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="130,118,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104" Background="#FF06171E" Foreground="White" Click="addButton_Click" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBox x:Name="QuestionTxt" TextWrapping="Wrap" Margin="189,207,103,18" FontSize="20" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="CategoryTxt" TextWrapping="Wrap" Margin="189,28,102,97" FontSize="20" Grid.Row="1" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="AnswerTxt" TextWrapping="Wrap" Margin="123,120,89,108" FontSize="20" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBox x:Name="Answer1Txt" TextWrapping="Wrap" Margin="123,177,89,51" FontSize="20" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBox x:Name="Answer2Txt" TextWrapping="Wrap" Margin="123,234,89,160" FontSize="20" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1"/>
+            <TextBox x:Name="Answer3Txt" TextWrapping="Wrap" Margin="123,28,89,98" FontSize="20" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBox x:Name="ImageTxt" TextWrapping="Wrap" Margin="189,119,0,108" FontSize="20" Cursor="" HorizontalAlignment="Left" Width="130" AutomationProperties.Name="Image" Grid.ColumnSpan="2"/>
+            <Button x:Name="logoutButton" Content="Log out" HorizontalAlignment="Left" Margin="7,109,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="155" Background="#FF015351" Foreground="White" Click="logout_Click" Height="49" Grid.Row="1"/>
+            <ListView Grid.Column="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="68,119,-68,98" Grid.RowSpan="2">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Label x:Name="answersLbl_Copy" Content="Existing questions" HorizontalAlignment="Left" Margin="68,94,0,0" VerticalAlignment="Top" Height="25" Foreground="White" Width="136" Grid.Column="2" RenderTransformOrigin="0.985,0.731"/>
 
         </Grid>
     </Viewbox>

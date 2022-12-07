@@ -13,7 +13,7 @@ public class DesktopAuthController : ControllerBase
     }
     [HttpPost]
     [Route("login")]
-    public IActionResult Index(string email, string password)
+    public IActionResult Index([FromForm] string email, [FromForm] string password)
     {
         var loggedIn = _desktopAuthService.Login(email, password);
         if(loggedIn)

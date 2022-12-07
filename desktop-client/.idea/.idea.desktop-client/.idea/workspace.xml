@@ -5,17 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a847a9b1-9aef-4ed2-bf55-aa1595d4088d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/Repositories/RoomRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/Repositories/RoomRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/create_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../server/create_db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server/DTO/requests/AnswerCreateRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Server/DTO/responses/AnswerCreateRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server/DTO/requests/QuestionCreateRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/DTO/requests/QuestionCreateRequest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server/DTO/responses/QuestionDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/DTO/responses/QuestionDTO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server/Models/Question.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/Models/Question.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server/Repositories/QuestionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/Repositories/QuestionRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -26,14 +32,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Unnamed" type="DotNetProject" factoryName=".NET Project" nameIsGenerated="true">
       <option name="EXE_PATH" value="$PROJECT_DIR$/desktop-client/bin/Debug/desktop-client.exe" />
@@ -62,7 +68,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1670369247426</updated>
-      <workItem from="1670369250075" duration="540000" />
+      <workItem from="1670369250075" duration="1382000" />
+      <workItem from="1670433476386" duration="2068000" />
     </task>
     <servers />
   </component>

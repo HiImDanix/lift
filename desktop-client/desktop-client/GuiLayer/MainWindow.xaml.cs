@@ -16,9 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
-using System.Web.UI.WebControls;
 using RestSharp.Extensions;
 using System.Threading;
+using desktop_client.GuiLayer;
 
 namespace desktop_client
 {
@@ -83,6 +83,13 @@ namespace desktop_client
             Answer1Txt.Text = "";
             Answer2Txt.Text = "";
             Answer3Txt.Text = "";
+        }
+
+        private void logout_Click(object sender, RoutedEventArgs e)
+        {
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            this.Close();
         }
     }
 }
