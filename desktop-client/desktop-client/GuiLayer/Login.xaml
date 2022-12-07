@@ -1,13 +1,18 @@
-﻿<Window x:Class="Login_WPF.Login"        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
-         Title="Login to LIFT" Height="480" Width="641" Background="#FF113D3C">
-    <Grid>
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,122,0,0" x:Name="emailLbl" Text="Email:" VerticalAlignment="Top" Width="67" Foreground="White" RenderTransformOrigin="0.631,-2.885" />
-        <TextBlock Height="23" HorizontalAlignment="Left" Margin="197,175,0,0" x:Name="passwordLbl" Text="Password:" VerticalAlignment="Top" Width="77" Foreground="White"/>
-        <TextBox Height="23" HorizontalAlignment="Center" Margin="0,145,0,0" x:Name="emailTxt" VerticalAlignment="Top" Width="247" />
-        <PasswordBox Height="23" HorizontalAlignment="Center" Margin="0,198,0,0" x:Name="passwordTxt" VerticalAlignment="Top" Width="247" />
-        <Button Content="Login" Height="23" HorizontalAlignment="Center" Margin="0,244,0,0" x:Name="loginButton" VerticalAlignment="Top" Width="104"  Foreground="White" Background="#FD7D00"/>
-        <TextBlock Height="23" HorizontalAlignment="Center" x:Name ="errormessage" VerticalAlignment="Top" Width="247" Margin="0,283,0,0"  OpacityMask="Crimson" Foreground="#FFE5572C"  />
-        <TextBlock Height="35" HorizontalAlignment="Center" Margin="0,74,0,0" x:Name="liftLbl" Text="LOSING IS FUN TOO" VerticalAlignment="Top" Width="122" Foreground="White" RenderTransformOrigin="0.631,-2.885" FontWeight="Bold" />
+﻿<Window x:Class="desktop_client.GuiLayer.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:desktop_client.GuiLayer"
+        mc:Ignorable="d"
+        Title="Login" Height="450" Width="800">
+    <Grid x:Name="loginWindow" Background="#FF113D3C">
+        <TextBox x:Name="emailTxt" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="26"/>
+        <TextBox x:Name="passwordTxt" HorizontalAlignment="Center" Margin="0,180,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="25"/>
+        <Label x:Name="emailLbl" Content="Email:" HorizontalAlignment="Left" Margin="280,97,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="passwordLbl" Content="Password:" HorizontalAlignment="Left" Margin="280,154,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Center" Margin="0,243,0,0" VerticalAlignment="Top" Width="76" Height="25" Foreground="Black" Background="#FFFC9E01" Click="loginButton_Click"/>
+        <Label Content="LOSING IS FUN TOO" HorizontalAlignment="Left" Margin="347,57,0,0" VerticalAlignment="Top" Foreground="#FFFC9E01" FontStyle="Italic" FontWeight="Bold"/>
+
     </Grid>
 </Window>

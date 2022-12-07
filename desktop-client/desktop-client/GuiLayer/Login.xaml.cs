@@ -1,5 +1,4 @@
-﻿using desktop_client.ControlLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace desktop_client.GuiLayer
@@ -19,17 +17,21 @@ namespace desktop_client.GuiLayer
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : UserControl
+    public partial class Login : Window
     {
         public Login()
         {
             InitializeComponent();
-            
         }
 
-        private void InitializeComponent()
+        private void emailTxt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new NotImplementedException();
+
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
