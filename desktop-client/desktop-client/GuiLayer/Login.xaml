@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Login" Height="450" Width="800">
     <Grid x:Name="loginWindow" Background="#FF113D3C">
-        <TextBox x:Name="emailTxt" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="26"/>
-        <TextBox x:Name="passwordTxt" HorizontalAlignment="Center" Margin="0,180,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="228" TextChanged="emailTxt_TextChanged" Height="25"/>
+        <TextBox x:Name="emailTxt" HorizontalAlignment="Center" Margin="0,123,0,0" TextWrapping="Wrap" Text="&#xD;&#xA;" VerticalAlignment="Top" Width="228" Height="26"/>
+        <TextBox x:Name="passwordTxt" HorizontalAlignment="Center" Margin="0,180,0,0" TextWrapping="Wrap" Text="&#xA;" VerticalAlignment="Top" Width="228" Height="25"/>
         <Label x:Name="emailLbl" Content="Email:" HorizontalAlignment="Left" Margin="280,97,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="passwordLbl" Content="Password:" HorizontalAlignment="Left" Margin="280,154,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Button x:Name="loginButton" Content="Login" HorizontalAlignment="Center" Margin="0,243,0,0" VerticalAlignment="Top" Width="76" Height="25" Foreground="Black" Background="#FFFC9E01" Click="loginButton_Click"/>
