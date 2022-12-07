@@ -19,7 +19,6 @@
             <ListBox x:Name="navigation" Margin="0,0,253,0" BorderThickness="0,0,0,0" Background="#FF06171E" Grid.RowSpan="2">
                 <Button x:Name="bankButton" Background="#FF015351" Content="Question Bank" Foreground="White" FontSize="20" Height="49" Width="155"/>
                 <Button x:Name="statisticsButton" Background="#FF015351" Content="Statistics" Foreground="White" FontSize="20" Width="155" Height="49"/>
-                <Button x:Name="loginButton" Background="#FF015351" Content="Login" Foreground="White" FontSize="20" Width="155" Height="49"/>
             </ListBox>
             <Label x:Name="messageLabel" Content="" HorizontalAlignment="Left" Margin="248,76,0,0" VerticalAlignment="Top" Foreground="White" FontSize="20" Width="300" Grid.Row="1" Grid.ColumnSpan="2"/>
             <Label Content="Question Bank" FontSize="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Margin="259,10,22,174" Foreground="White" Grid.ColumnSpan="2"/>
