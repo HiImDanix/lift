@@ -64,6 +64,7 @@ namespace GuessingGame.Controllers
                 request.ImagePath,
                 request.QuestionText,
                 request.Category,
+                request.RowVer,
                 answersList
             );
             return Ok(question);

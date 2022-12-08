@@ -17,6 +17,7 @@ namespace GuessingGame.Services
             string requestImagePath,
             string requestQuestionText,
             string requestCategory,
+            byte[] requestRowVer,
             List<Answer> answersList);
     }
 }

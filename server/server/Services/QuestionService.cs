@@ -58,7 +58,7 @@ namespace GuessingGame.Services
         }
 
         public QuestionDTO UpdateQuestionWithAnswers(int id, string requestImagePath, string requestQuestionText,
-            string requestCategory, List<Answer> answersList)
+            string requestCategory, byte[] requestRowVer, List<Answer> answersList)
         {
             // Get question from the database
             Question question = _questionRepository.Get(id);
@@ -73,6 +73,7 @@ namespace GuessingGame.Services
             question.ImagePath = requestImagePath;
             question.QuestionText = requestQuestionText;
             question.Category = requestCategory;
+            question.RowVer = requestRowVer;
             
 
             // Update question in database

@@ -79,8 +79,8 @@ public class QuestionRepository : IQuestionRepository
         {
             var sql = @"UPDATE Questions SET imgPath = @ImagePath, question = @QuestionText,
                      category = @Category OUTPUT inserted.RowVer WHERE id = @Id AND RowVer = @RowVer";
-            var rowsAffected = _db.Execute(sql, question);
-            if (rowsAffected == 0)
+            var rowVersion = _db.ExecuteScalar<byte[]>(sql, question);
+            if (rowVersion == null)
             {
                 throw new OptimisticConcurrencyException("Question was updated or deleted since last read");
             }
