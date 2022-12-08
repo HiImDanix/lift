@@ -12,6 +12,7 @@
                 <ColumnDefinition Width="108*"/>
                 <ColumnDefinition Width="103*"/>
                 <ColumnDefinition Width="68*"/>
+                
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="134*"/>
@@ -43,7 +44,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label x:Name="answersLbl_Copy" Content="Existing questions" HorizontalAlignment="Left" Margin="68,94,0,0" VerticalAlignment="Top" Height="25" Foreground="White" Width="136" Grid.Column="2" RenderTransformOrigin="0.985,0.731"/>
+            <Label x:Name="questionListLbl" Content="Existing questions" HorizontalAlignment="Left" Margin="68,94,0,0" VerticalAlignment="Top" Height="25" Foreground="White" Width="136" Grid.Column="2" RenderTransformOrigin="0.985,0.731"/>
 
         </Grid>
     </Viewbox>
