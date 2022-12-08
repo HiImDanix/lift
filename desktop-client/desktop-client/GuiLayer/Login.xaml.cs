@@ -34,7 +34,7 @@ namespace desktop_client.GuiLayer
         private void loginButton_Click(object sender2, RoutedEventArgs e)
         {
             var email = emailTxt.Text.Trim();
-            var password = passwordTxt.Text.Trim();
+            var password = passwordPassBox.Password.Trim();
 
             if (email.HasValue() && password.HasValue())
             {
