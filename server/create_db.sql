@@ -83,11 +83,6 @@ CREATE TABLE Administrators (
 );
 
 
--- LosingIsFunToo.dbo.Rooms foreign keys
-
-ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (logoQuizGameID) REFERENCES LogoQuizGames(ID);
-
-
 -- LosingIsFunToo.dbo.LogoQuizGame foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.LogoQuizGames ADD CONSTRAINT NewTable_FK FOREIGN KEY (scoreboardID) REFERENCES Scoreboards(ID);
