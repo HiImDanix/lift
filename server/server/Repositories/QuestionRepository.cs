@@ -26,7 +26,10 @@ public class QuestionRepository : IQuestionRepository
             var sql = @"INSERT INTO Questions (imgPath, question, category) VALUES (@ImagePath, @QuestionText, @Category);SELECT CAST(SCOPE_IDENTITY() as int)";
             var id = _db.QuerySingle<int>(sql, question);
             question.Id = id;
-            return ToProxy(question);
+            // Select question
+            var sql2 = @"SELECT id, imgPath ImagePath, question QuestionText, category Category, RowVer FROM Questions WHERE id = @id";
+            var questionWithRowVersion = _db.QuerySingle<Question>(sql2, new {id});
+            return ToProxy(questionWithRowVersion);
         } catch (Exception e)
         {
             throw new DataAccessException("Could not create question", e);
