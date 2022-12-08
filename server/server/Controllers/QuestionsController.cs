@@ -49,7 +49,8 @@ namespace GuessingGame.Controllers
         
         [HttpPut]
         [Route("questions/{id}")]
-        [Authorize(Policy = "Administrator")]
+        // TODO: Enable authorization again - [Authorize(Policy = "Administrator")]
+        // [Authorize(Policy = "Administrator")]
         public IActionResult UpdateQuestion([FromRoute] int id, [FromForm] QuestionCreateRequest request)
         {
             var answersList = request.Answers.Select(x => new Answer()

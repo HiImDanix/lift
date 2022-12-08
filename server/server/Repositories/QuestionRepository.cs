@@ -77,9 +77,15 @@ public class QuestionRepository : IQuestionRepository
     {
         try
         {
-            var sql = @"UPDATE Questions SET imgPath = @ImagePath, question = @QuestionText, category = @Category WHERE id = @Id";
-            _db.Execute(sql, question);
-            return ToProxy(question);
+            var sql = @"UPDATE Questions SET imgPath = @ImagePath, question = @QuestionText,
+                     category = @Category OUTPUT inserted.RowVer WHERE id = @Id AND RowVer = @RowVer";
+            var rowsAffected = _db.Execute(sql, question);
+            if (rowsAffected == 0)
+            {
+                throw new OptimisticConcurrencyException("Question was updated or deleted since last read");
+            }
+            // Return the updated question.
+            return Get(question.Id);
         } catch (Exception e)
         {
             throw new DataAccessException("Could not update question", e);
