@@ -28,7 +28,8 @@ function PlayPage() {
     const [lobbyCode, setLobbyCode] = useState(state?.data.room.code);
     const [players, setPlayers] = useState(state?.data.room.players);
     const [hostID, setHostID] = useState(state?.data.room.hostID);
-    const [startTime, setStartTime] = useState(state?.data.room.startTime);
+
+    const [game, setGame] = useState(state?.data.room.currentGame);
 
     // Validate if user should be able to access this page, else redirect to home
     useEffect(() => {
@@ -65,11 +66,10 @@ function PlayPage() {
                         setPlayers([...players, player]);
                     });
 
-                    connection.on('GameStarted', receivedStartTime => {
+                    connection.on('GameStarted', game => {
                         // epoch right now:
-                        console.log('Game started', Date.now().toString());
-                        console.log('Game received', receivedStartTime);
-                        setStartTime(receivedStartTime);
+                        console.log('Game started:', game);
+                        setGame(game);
                     });
                 })
                 .catch(e => console.log('Connection failed: ', e));
@@ -89,7 +89,7 @@ function PlayPage() {
                 setLobbyCode(data.code);
                 setPlayers(data.players);
                 setHostID(data.hostId);
-                setStartTime(data.startTime);
+                setGame(data.currentGame);
             });
     };
 
@@ -125,11 +125,13 @@ function PlayPage() {
         return <div>Validating...</div>
     } else
     {
-        if (startTime !== 0) {
+        if (game !== undefined && game !== null) {
             return (
-                <Countdown date={startTime + 3}>
-                    <Game displayName={displayName} />
-                </Countdown>
+                <div className="min-vh-100">
+                    <Nav username={displayName}></Nav>
+                    <Game connection={connection} displayName={displayName} {...game} />
+                </div>
+
 
             );
         } else {
