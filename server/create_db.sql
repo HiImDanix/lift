@@ -119,3 +119,13 @@ ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN 
 
 -- Row version for Questions table
 ALTER TABLE Questions ADD RowVer rowversion
+
+
+
+
+-- Insert pre-seeded data
+
+
+-- ADministrators
+INSERT INTO Administrators (email, password) VALUES('tinyDoggy12', '$2a$12$QCy8QfdJa39UuwnXaEIsN.a3K7.OxjBqeRsk1QpNfOEKlljbeVmqa');
+
