@@ -51,7 +51,7 @@ public class QuestionRepository : IQuestionRepository
         try
         {
             //sql with aliases e.g. question should Become QuestionText, imgPath should become ImagePath
-            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category FROM Questions";
+            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category, RowVer FROM Questions";
             var questions = _db.Query<Question>(sql).ToList();
             return questions.Select(ToProxy).ToList();
         } catch (Exception e)
@@ -106,6 +106,7 @@ public class QuestionRepository : IQuestionRepository
             ImagePath = question.ImagePath,
             QuestionText = question.QuestionText,
             Category = question.Category,
+            RowVer = question.RowVer
         };
     }
 }

@@ -39,7 +39,8 @@ namespace GuessingGame.Controllers
         
         [HttpGet]
         [Route("questions")]
-        [Authorize(Policy = "Administrator")]
+        // TODO: Enable authorization again - [Authorize(Policy = "Administrator")]
+        // [Authorize(Policy = "Administrator")]
         public IActionResult GetQuestions()
         {
             var questions = _questionService.GetQuestions();
