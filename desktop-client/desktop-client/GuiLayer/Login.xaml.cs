@@ -40,7 +40,7 @@ namespace desktop_client.GuiLayer
             {
                 if (_loginController.Login(email, password))
                 {
-                    MainWindow mainWindow = new MainWindow();
+                    Main mainWindow = new Main();
                     mainWindow.Show();
                     this.Close();
                 } 

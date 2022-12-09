@@ -95,6 +95,9 @@
     <Compile Include="GuiLayer\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuiLayer\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModelLayer\Answer.cs" />
     <Compile Include="ModelLayer\Administrator.cs" />
     <Compile Include="repositoryLayer\AuthRepository.cs" />
@@ -103,19 +106,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GuiLayer\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="GuiLayer\Main.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ControlLayer\QuestionController.cs" />
-    <Compile Include="GuiLayer\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModelLayer\Question.cs" />

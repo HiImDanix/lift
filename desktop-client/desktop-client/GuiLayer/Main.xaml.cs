@@ -20,15 +20,15 @@ using RestSharp.Extensions;
 using System.Threading;
 using desktop_client.GuiLayer;
 
-namespace desktop_client
+namespace desktop_client.GuiLayer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Main.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Main : Window
     {
         QuestionController _questionController;
-        public MainWindow()
+        public Main()
         {
             InitializeComponent();
             _questionController = new QuestionController();
@@ -45,7 +45,7 @@ namespace desktop_client
 
             List<string> answers = new List<string> {
                 correctAnswer,
-                answer1, 
+                answer1,
                 answer2,
                 answer3
             };
@@ -69,11 +69,7 @@ namespace desktop_client
                 MessageBox.Show("Please fill all fields");
             }
         }
-        private bool IsAddButtonEnabled()
-        {
-            return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
-                AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
-        }
+
         private void ClearFields()
         {
             ImageTxt.Text = "";
@@ -96,13 +92,11 @@ namespace desktop_client
             Answer3Txt.Text = answer3;
         }
 
-        private void logout_Click(object sender, RoutedEventArgs e)
+        private bool IsAddButtonEnabled()
         {
-            Login loginWindow = new Login();
-            loginWindow.Show();
-            this.Close();
+            return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
+                AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
         }
-
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -114,10 +108,14 @@ namespace desktop_client
             var questions = result.Select(res => res.QuestionText).ToList();
             questionList.ItemsSource = questions;
         }
+       
 
-        private void ListView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        private void logoutButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Login loginWindow = new Login();
+            loginWindow.Show();
+            this.Close();
         }
     }
-}
+    }
+
