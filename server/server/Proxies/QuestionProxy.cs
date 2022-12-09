@@ -17,7 +17,17 @@ public class QuestionProxy: Question
     {
         get
         {
-            return _answerRepository.GetAnswersForQuestion(base.Id);
+            if (base.Answers == null)
+            {
+                base.Answers = _answerRepository.GetAnswersForQuestion(this.Id);
+            }
+            
+            return base.Answers;
+        }
+        
+        set
+        {
+            base.Answers = value;
         }
     }
 }

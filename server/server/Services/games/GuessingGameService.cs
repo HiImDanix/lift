@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using AutoMapper;
 using GuessingGame.DTO.responses;
 using GuessingGame.hubs;
@@ -46,6 +47,13 @@ public class GuessingGameService: IGuessingGameService
             model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             // Get random question
             model.CurrentQuestion = GetRandomQuestion();
+            // Scramble the answers
+            model.CurrentQuestion.Answers = model.CurrentQuestion.Answers.OrderBy(x => Guid.NewGuid()).ToList();
+            // Print answers
+            foreach (var answer in model.CurrentQuestion.Answers)
+            {
+                Console.WriteLine(answer.AnswerText);
+            }
 
             // Send round start DTO
             var roundStartDto = _mapper.Map<RoundStartDto>(model);
