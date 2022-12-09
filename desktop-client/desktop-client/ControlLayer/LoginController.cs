@@ -25,18 +25,13 @@ namespace desktop_client.ControlLayer
             request.AddParameter("password", password);
 
             var response = client.Execute(request);
-
-            // get fields from response - id, email, session
             var content = response.Content;
             var statusCode = response.StatusCode;
 
-            // deserialize json
             var admin = JsonConvert.DeserializeObject<Administrator>(content);
 
-            // check if response is valid
             if (statusCode == HttpStatusCode.OK)
             {
-                // Show session message box
                 AuthRepository.GetInstance().SetAdmin(admin);
                 return true;
             }

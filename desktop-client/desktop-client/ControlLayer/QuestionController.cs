@@ -32,5 +32,11 @@ namespace desktop_client.ControlLayer
 
             return insertId;
         }
+
+        public async Task<List<Question>> GetQuestions()
+        {
+            List<Question> questions = await _qService.GetQuestions();
+            return questions;
+        } 
     }
 }
