@@ -14,23 +14,23 @@ public enum GameStatus
 
 public class GuessingGameModel
 {
-    public Room room { get; set; }
-    public long startTime { get; set; }
-    public int totalRounds { get; set; }
-    public int roundDurationMs { get; set; }
-    public int scoreboardDurationMs { get; set; }
-    public int currentRound { get; set; } = 1;
-    public long currentRoundStartTime { get; set; }
+    public Room Room { get; set; }
+    public long StartTime { get; set; }
+    public int TotalRounds { get; set; }
+    public int RoundDurationMs { get; set; }
+    public int ScoreboardDurationMs { get; set; }
+    public int CurrentRound { get; set; } = 1;
+    public long CurrentRoundStartTime { get; set; }
     public string Status { get; set; } = GameStatus.Instructions.ToString();
     public string GameType { get; set; } = "GuessingGame";
 
     public GuessingGameModel(Room room, long startTime, int totalRounds, int roundDurationMs, int scoreboardDurationMs)
     {
-        this.room = room;
-        this.startTime = startTime;
-        this.totalRounds = totalRounds;
-        this.roundDurationMs = roundDurationMs;
-        this.scoreboardDurationMs = scoreboardDurationMs;
+        this.Room = room;
+        this.StartTime = startTime;
+        this.TotalRounds = totalRounds;
+        this.RoundDurationMs = roundDurationMs;
+        this.ScoreboardDurationMs = scoreboardDurationMs;
     }
     
     public GuessingGameModel()

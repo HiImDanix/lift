@@ -31,27 +31,34 @@ public class GuessingGameService: IGuessingGameService
     // Game loop
     private void GameLoop(GuessingGameModel model)
     {
-        Thread.Sleep((int)(model.startTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()));
-        for (int round = 1; round <= model.totalRounds; round++)
+        // Players have already been notified that the game will start and are shown instructions page, so we wait.
+        Thread.Sleep((int)(model.StartTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()));
+        
+        // Play the rounds
+        for (int round = 1; round <= model.TotalRounds; round++)
         {
+            // Prepare model for the round
             model.Status = GameStatus.Playing.ToString();
-            model.currentRound = round;
-            model.currentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            Console.WriteLine($"Round {round} started");
+            model.CurrentRound = round;
+            model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            
             // Send round start DTO
             var roundStartDto = _mapper.Map<RoundStartDto>(model);
-            _gameHubContext.Clients.Group(model.room.Id.ToString()).RoundStarted(roundStartDto);
+            _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundStarted(roundStartDto);
+            
             // Wait for round to end
-            Thread.Sleep(model.roundDurationMs);
-            if (round == model.totalRounds)
+            Thread.Sleep(model.RoundDurationMs);
+            
+            // Send round end DTO. If last round, send game end DTO
+            if (round == model.TotalRounds)
             {
                 model.Status = GameStatus.Finished.ToString();
-                _gameHubContext.Clients.Group(model.room.Id.ToString()).GameFinished();
+                _gameHubContext.Clients.Group(model.Room.Id.ToString()).GameFinished();
             } else
             {
                 model.Status = GameStatus.Scoreboard.ToString();
-                _gameHubContext.Clients.Group(model.room.Id.ToString()).RoundFinished();
-                Thread.Sleep(model.scoreboardDurationMs);
+                _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundFinished();
+                Thread.Sleep(model.ScoreboardDurationMs);
             }
         }
     }
