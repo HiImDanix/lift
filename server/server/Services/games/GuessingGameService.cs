@@ -4,6 +4,7 @@ using GuessingGame.hubs;
 using GuessingGame.hubs.Clients;
 using GuessingGame.models;
 using GuessingGame.Models;
+using GuessingGame.Repositories;
 using Microsoft.AspNetCore.SignalR;
 
 namespace GuessingGame.Services;
@@ -13,11 +14,13 @@ public class GuessingGameService: IGuessingGameService
     // Todo: Coupling SignalR with the service is not ideal. Find a better way to do this.
     private readonly IHubContext<GameHub, IGameClient> _gameHubContext;
     private readonly IMapper _mapper;
+    private readonly IQuestionRepository _questionRepository;
     
-    public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper)
+    public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper, IQuestionRepository questionRepository)
     {
         _gameHubContext = gameHubContext;
         _mapper = mapper;
+        _questionRepository = questionRepository;
     }
 
     // TODO: Use repository pattern to store the game state
@@ -41,7 +44,9 @@ public class GuessingGameService: IGuessingGameService
             model.Status = GameStatus.Playing.ToString();
             model.CurrentRound = round;
             model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            
+            // Get random question
+            model.CurrentQuestion = GetRandomQuestion();
+
             // Send round start DTO
             var roundStartDto = _mapper.Map<RoundStartDto>(model);
             _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundStarted(roundStartDto);
@@ -61,5 +66,13 @@ public class GuessingGameService: IGuessingGameService
                 Thread.Sleep(model.ScoreboardDurationMs);
             }
         }
+    }
+
+    private Question GetRandomQuestion()
+    {
+        var questions = _questionRepository.GetAll();
+        var random = new Random();
+        var randomIndex = random.Next(0, questions.Count);
+        return questions[randomIndex];
     }
 }

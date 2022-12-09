@@ -23,6 +23,7 @@ public class GuessingGameModel
     public long CurrentRoundStartTime { get; set; }
     public string Status { get; set; } = GameStatus.Instructions.ToString();
     public string GameType { get; set; } = "GuessingGame";
+    public Question CurrentQuestion { get; set; }
 
     public GuessingGameModel(Room room, long startTime, int totalRounds, int roundDurationMs, int scoreboardDurationMs)
     {

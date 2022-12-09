@@ -35,15 +35,26 @@ function Game(props) {
 
     // TODO: Retrieve from server
     const [gameData, setGameData] = useState({
-        "question": "What is this logo?",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
+        "questionText": "What is this logo?",
+        "imagePath": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
         "answers": [
-            "Google",
-            "Facebook",
-            "Twitter",
-            "Instagram"
-        ],
-        "correctAnswer": "Google"
+            {
+                "answerText": "Google",
+                "isCorrect": true
+            },
+            {
+                "answerText": "Facebook",
+                "isCorrect": false
+            },
+            {
+                "answerText": "Twitter",
+                "isCorrect": false
+            },
+            {
+                "answerText": "Instagram",
+                "isCorrect": false
+            }
+        ]
     });
 
     useEffect(() => {
@@ -53,6 +64,7 @@ function Game(props) {
                 setCurrentRound(game.currentRound);
                 setCurrentRoundStartTime(game.currentRoundStartTime);
                 setStatus(game.status);
+                setGameData(game.currentQuestion);
             });
 
             props.connection.on('RoundFinished', () => {

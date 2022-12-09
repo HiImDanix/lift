@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 
 function GuessingGame(props) {
 
-    const question = props.gameData.question;
-    const image = props.gameData.image;
+    const question = props.gameData.questionText;
+    const image = props.gameData.imagePath;
     // TODO: Make answer available only server-side
     const answers = props.gameData.answers;
-    const correctAnswer = props.gameData.correctAnswer;
+    // Note: With the current implementation, the correct answer is always the first answer in the array
+    const correctAnswer = answers.find(answer => answer.isCorrect);
 
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
@@ -26,10 +27,10 @@ function GuessingGame(props) {
         // and if the one selected is not correct, show btn-secondary.
         // Otherwise, show btn-primary
         if (selectedAnswer) {
-            if (answer === correctAnswer) {
+            if (answer.answerText === correctAnswer.answerText) {
                 return "btn-success";
             }
-            if (selectedAnswer === answer && answer !== correctAnswer) {
+            if (selectedAnswer === answer.answerText && answer.answerText !== correctAnswer) {
                 return "btn-secondary";
             }
             return "btn-danger";
@@ -37,7 +38,7 @@ function GuessingGame(props) {
         return "btn-primary";
 
     }
-    
+
     return (
         <>
             <div className="container d-flex flex-column flex-fill justify-content-center">
@@ -54,8 +55,8 @@ function GuessingGame(props) {
                             <button
                                 // If answer is selected, show correct answer green, wrong answer red. If not selected, show primary button
                                 className={"btn btn-lg text-center border rounded-0 w-100 " + determineAnswerClass(answer)}
-                                type="button" onClick={() => selectAnswer(answer)}>
-                                {answer}
+                                type="button" onClick={() => selectAnswer(answer.answerText)}>
+                                {answer.answerText}
                             </button>
                         </div>
                     );
@@ -70,11 +71,14 @@ GuessingGame.propTypes = {
     currentRoundStartTime: PropTypes.number,
     roundDurationMs: PropTypes.number,
     gameData: PropTypes.shape({
-        question: PropTypes.string,
-        image: PropTypes.string,
-        answers: PropTypes.array,
-        correctAnswer: PropTypes.string
+        questionText: PropTypes.string,
+        imagePath: PropTypes.string,
+        answers: PropTypes.arrayOf(PropTypes.shape({
+            answerText: PropTypes.string,
+            isCorrect: PropTypes.bool
+        }))
     })
+
 }
 
 export default GuessingGame;
