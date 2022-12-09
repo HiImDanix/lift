@@ -68,7 +68,7 @@ function HomePage() {
             <div className="container my-auto text-center">
                 <h1 className="mb-1">LIFT</h1>
                 <h3 className="mb-5"><em>LOSING IS FUN TOO</em></h3>
-                <button className="btn btn-primary btn-xl js-scroll-trigger" role="button" onClick={createGame}>Create game</button>
+                <button className="btn btn-primary btn-xl js-scroll-trigger" role="button" onClick={createGame}>Create lobby</button>
                 <form className="form-inline d-flex justify-content-center">
                     <div className="form-group">
                         <label className="sr-only" htmlFor="joinGame">Game Code</label>
@@ -81,21 +81,17 @@ function HomePage() {
                 <div className="overlay"></div>
             </div>
         </header>
-        <footer className="footer text-center">
-            <div className="container">
-                <ul className="list-inline mb-5">
-                    <li className="list-inline-item">&nbsp;<a className="link-light social-link rounded-circle"
-                                                              href="src/pages/Index#HomePage.js"><i className="icon-social-facebook"></i></a></li>
-                    <li className="list-inline-item">&nbsp;<a className="link-light social-link rounded-circle"
-                                                              href="src/pages/Index#HomePage.js"><i className="icon-social-twitter"></i></a></li>
-                    <li className="list-inline-item">&nbsp;<a className="link-light social-link rounded-circle"
-                                                              href="src/pages/Index#HomePage.js"><i className="icon-social-github"></i></a></li>
-                </ul>
-                <p className="text-muted mb-0 small">Copyright &nbsp;© Brand 2022</p>
+            <div className="text-center text-sm-left">
+                <p>
+                    To create a new game lobby, click the "Create a new lobby" button. You
+                    will be given a game code that you can share with other players to invite
+                    them to join your lobby.
+                </p>
+                <p>
+                    To join an existing game lobby, enter the game code in the input box and
+                    click the "Join lobby" button.
+                </p>
             </div>
-            <a className="js-scroll-trigger scroll-to-top rounded" href="src/pages/HomePage.js"><i
-                className="fa fa-angle-up"></i></a>
-        </footer>
         </>
     );
 }
