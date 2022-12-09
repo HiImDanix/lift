@@ -24,5 +24,7 @@ public class AutoMapperProfile: Profile
         CreateMap<Answer, AnswerDTO>();
         CreateMap<Question, QuestionDTO>();
         CreateMap<Administrator, AdministratorDTO>();
+        CreateMap<GuessingGameModel, GameDTO>();
+        CreateMap<GuessingGameModel, RoundStartDto>();
     }
 }

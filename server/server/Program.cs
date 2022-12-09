@@ -1,5 +1,6 @@
 using System.Data;
 using System.Text;
+using System.Text.Json.Serialization;
 using GuessingGame;
 using GuessingGame.hubs;
 using GuessingGame.Repositories;
@@ -11,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
+    builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
     
@@ -67,6 +69,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddSingleton<IQuestionService, QuestionService>();
     builder.Services.AddSingleton<IDesktopAuthService, DesktopAuthService>();
     builder.Services.AddSingleton<IJWTService, JWTService>();
+    builder.Services.AddSingleton<IGuessingGameService, GuessingGameService>();
 
     // JWT Bearer token authentication
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

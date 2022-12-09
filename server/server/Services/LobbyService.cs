@@ -4,6 +4,7 @@ using System.Text;
 using AutoMapper;
 using GuessingGame.DTO.responses;
 using GuessingGame.models;
+using GuessingGame.Models;
 using GuessingGame.Repositories;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,12 +16,14 @@ public class LobbyService: ILobbyService
     private readonly IRoomRepository _roomRepository;
     private readonly IMapper _mapper;
     private readonly IJWTService _jwtService;
+    private readonly IGuessingGameService _guessingGameService;
 
-    public LobbyService(IRoomRepository roomRepository, IMapper mapper, IJWTService jwtService)
+    public LobbyService(IRoomRepository roomRepository, IMapper mapper, IJWTService jwtService, IGuessingGameService guessingGameService)
     {
         _roomRepository = roomRepository;
         _mapper = mapper;
         _jwtService = jwtService;
+        _guessingGameService = guessingGameService;
     }
 
     public LobbyDTO CreateRoomAndPlayer(string playerDisplayName)
@@ -86,7 +89,7 @@ public class LobbyService: ILobbyService
         return _mapper.Map<RoomDTO>(lobby);
     }
 
-    public RoomDTO StartGame(int lobbyId)
+    public GameDTO StartGame(int lobbyId)
     {
         var lobby = _roomRepository.Get(lobbyId);
         if (lobby == null)
@@ -96,7 +99,17 @@ public class LobbyService: ILobbyService
         // Save time as epoch
         long startTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + 3000;
         var room = _roomRepository.UpdateStartTime(lobby, startTime);
-        return _mapper.Map<RoomDTO>(room);
+        
+        // TODO: Game factory
+        // var game = _gameFactory.CreateGame(room);
+        var game = new GuessingGameModel(room, startTime, totalRounds: 3, roundDurationMs: 5000, scoreboardDurationMs: 5000);
+        
+        // Start game
+        _guessingGameService.StartGame(game);
+        
+        // Map game to game dto
+        var gameDto = _mapper.Map<GameDTO>(game);
+        return gameDto;
     }
 
     // Create player & add to db
