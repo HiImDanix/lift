@@ -117,15 +117,37 @@ ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK_1
 
 ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
 
+
+
 -- Row version for Questions table
 ALTER TABLE Questions ADD RowVer rowversion
 
 
 
 
--- Insert pre-seeded data
-
+-- Pre-seed data
 
 -- ADministrators
 INSERT INTO Administrators (email, password) VALUES('tinyDoggy12', '$2a$12$QCy8QfdJa39UuwnXaEIsN.a3K7.OxjBqeRsk1QpNfOEKlljbeVmqa');
+
+-- Questions with answers
+INSERT INTO Questions (question, category, imgPath) VALUES('What is this logo?', 'logo', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2000px-Google_2015_logo.svg.png');
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Google', 0, 1);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Microsoft', 0, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Apple', 0, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Facebook', 0, 0);
+
+INSERT INTO Questions (question, category, imgPath) VALUES('What is this logo?', 'logo', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Logo_NIKE.svg/1280px-Logo_NIKE.svg.png');
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Nike', 1, 1);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Adidas', 1, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Puma', 1, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Reebok', 1, 0);
+
+INSERT INTO Questions (question, category, imgPath) VALUES('What is this logo?', 'logo', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/2560px-Bootstrap_logo.svg.png');
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Bootstrap', 2, 1);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Bulma', 2, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Bit', 2, 0);
+INSERT INTO Answers (answer, questionID, isCorrect) VALUES('Foundation', 2, 0);
+
+
 
