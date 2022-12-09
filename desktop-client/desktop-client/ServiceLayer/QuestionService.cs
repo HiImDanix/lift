@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
 using System.Windows.Navigation;
 using desktop_client.ModelLayer;
 using desktop_client.Properties;
@@ -19,17 +20,17 @@ namespace desktop_client.ServiceLayer
 {
     public class QuestionService
     {
+        RestClient client;
         public QuestionService()
         {
+            client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
         }
 
         public async Task<int> SaveQuestion(Question newQuestion)
         {
             try
             {
-                var client = new RestClient(WebConfigurationManager.AppSettings["WebserviceURI"]);
                 var request = new RestRequest("/questions", Method.POST);
-                // set Bearer token
                 request.AddHeader("Authorization", "Bearer " + AuthRepository.GetInstance().GetAdmin().Session);
                 var param = new
                 {
@@ -50,6 +51,18 @@ namespace desktop_client.ServiceLayer
             {
                 return -1;
             }
+        }
+
+        public async Task<List<Question>> GetQuestions()
+        {
+            List<Question> questionList = new List<Question>();
+
+            var request = new RestRequest("/questions", Method.GET);
+            request.AddHeader("Authorization", "Bearer " + AuthRepository.GetInstance().GetAdmin().Session);
+
+            var response = await client.ExecuteAsync(request);
+            questionList = JsonConvert.DeserializeObject<List<Question>>(response.Content);
+            return questionList;
         }
     }
 }

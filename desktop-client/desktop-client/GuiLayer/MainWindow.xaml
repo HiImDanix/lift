@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="108*"/>
                 <ColumnDefinition Width="103*"/>
                 <ColumnDefinition Width="68*"/>
-                
+
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="134*"/>
@@ -37,7 +37,7 @@
             <TextBox x:Name="Answer2Txt" TextWrapping="Wrap" Margin="123,234,89,160" FontSize="20" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="1"/>
             <TextBox x:Name="Answer3Txt" TextWrapping="Wrap" Margin="123,28,89,98" FontSize="20" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
             <Button x:Name="logoutButton" Content="Log out" HorizontalAlignment="Left" Margin="7,109,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="155" Background="#FF015351" Foreground="White" Click="logout_Click" Height="49" Grid.Row="1"/>
-            <ListView Grid.Column="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="68,119,-68,98" Grid.RowSpan="2">
+            <ListView x:Name="questionList" Grid.Column="2" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="68,119,-68,98" Grid.RowSpan="2" SelectionChanged="ListView_SelectionChanged_1">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
@@ -45,6 +45,7 @@
                 </ListView.View>
             </ListView>
             <Label x:Name="questionListLbl" Content="Existing questions" HorizontalAlignment="Left" Margin="68,94,0,0" VerticalAlignment="Top" Height="25" Foreground="White" Width="136" Grid.Column="2" RenderTransformOrigin="0.985,0.731"/>
+            <Button x:Name="addButton_Copy" Content="Get" HorizontalAlignment="Left" Margin="28,118,0,0" VerticalAlignment="Top" FontSize="20" RenderTransformOrigin="0.505,2.289" Width="104" Background="#FF06171E" Foreground="White" Click="getButton_Click" Grid.Row="1" Grid.Column="2"/>
 
         </Grid>
     </Viewbox>

@@ -50,13 +50,13 @@ namespace desktop_client
                 answer3
             };
 
-            if (isAddButtonEnabled())
+            if (IsAddButtonEnabled())
             {
                 int response = await _questionController.SaveQuestion(imagePath, question, category, answers);
                 if (response == 200)
                 {
                     MessageBox.Show("Question added successfully");
-                    clearFields();
+                    ClearFields();
                 }
                 else
                 {
@@ -69,12 +69,12 @@ namespace desktop_client
                 MessageBox.Show("Please fill all fields");
             }
         }
-        private bool isAddButtonEnabled()
+        private bool IsAddButtonEnabled()
         {
             return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
                 AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
         }
-        private void clearFields()
+        private void ClearFields()
         {
             ImageTxt.Text = "";
             QuestionTxt.Text = "";
@@ -85,11 +85,39 @@ namespace desktop_client
             Answer3Txt.Text = "";
         }
 
+        private void FillFields(string imagePath, string question, string category, string answer, string answer1, string answer2, string answer3)
+        {
+            ImageTxt.Text = imagePath;
+            QuestionTxt.Text = question;
+            CategoryTxt.Text = category;
+            AnswerTxt.Text = answer;
+            Answer1Txt.Text = answer1;
+            Answer2Txt.Text = answer2;
+            Answer3Txt.Text = answer3;
+        }
+
         private void logout_Click(object sender, RoutedEventArgs e)
         {
             Login loginWindow = new Login();
             loginWindow.Show();
             this.Close();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private async void getButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<Question> result = await _questionController.GetQuestions();
+            var questions = result.Select(res => res.QuestionText).ToList();
+            questionList.ItemsSource = questions;
+        }
+
+        private void ListView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

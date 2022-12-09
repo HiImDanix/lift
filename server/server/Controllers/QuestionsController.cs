@@ -17,7 +17,7 @@ namespace GuessingGame.Controllers
 
         [HttpPost]
         [Route("questions")]
-        [Authorize(Policy = "Administrator")]
+        //[Authorize(Policy = "Administrator")]
         public IActionResult CreateQuestion([FromForm] QuestionCreateRequest request)
         {
             // print bearer token from request
