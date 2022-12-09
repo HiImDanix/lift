@@ -33,6 +33,19 @@ function Game(props) {
    // TODO: Remove later, replace w/ scoreboard
     const [score, setScore] = useState(0);
 
+    // TODO: Retrieve from server
+    const [gameData, setGameData] = useState({
+        "question": "What is this logo?",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
+        "answers": [
+            "Google",
+            "Facebook",
+            "Twitter",
+            "Instagram"
+        ],
+        "correctAnswer": "Google"
+    });
+
     useEffect(() => {
         if (props.connection) {
             props.connection.on('RoundStarted', (game) => {
@@ -78,9 +91,9 @@ function Game(props) {
     // }
 
     // Score a point
-    function scorePoint() {
-        setScore(score + 1);
-    }
+    // function scorePoint() {
+    //     setScore(score + 1);
+    // }
 
     function renderSwitch(status) {
         switch (status) {
@@ -89,7 +102,7 @@ function Game(props) {
                     return <InstructionsGuessingGame timeLimit={roundDurationMs / 1000} startTime={startTime} />;
                 }
             case GameStatus.PLAYING:
-                return <GuessingGame roundFinished={() => {}} scorePoint={scorePoint} roundDurationMs={roundDurationMs} />;
+                return <GuessingGame currentRoundStartTime={currentRoundStartTime} roundDurationMs={roundDurationMs} gameData={gameData} />;
             case GameStatus.SCOREBOARD:
                 return <ScoreboardPage scoreboardFinished={() => {}} scoreboardDurationMs={scoreboardDurationMs} score={score}/>;
             case GameStatus.FINISHED:
