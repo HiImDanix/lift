@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -83,13 +82,14 @@ namespace desktop_client.GuiLayer
 
         private void FillFields(Question question)
         {
+            Debug.WriteLine(question);
             ImageTxt.Text = question.ImagePath;
             QuestionTxt.Text = question.QuestionText;
             CategoryTxt.Text = question.Category;
-            AnswerTxt.Text = question.Answers[0].ToString();
-            Answer1Txt.Text = question.Answers[1].ToString();
-            Answer2Txt.Text = question.Answers[2].ToString();
-            Answer3Txt.Text = question.Answers[3].ToString();
+            AnswerTxt.Text = question.Answers[0].AnswerText;
+            Answer1Txt.Text = question.Answers[1].AnswerText;
+            Answer2Txt.Text = question.Answers[2].AnswerText;
+            Answer3Txt.Text = question.Answers[3].AnswerText;
         }
 
         private bool IsAddButtonEnabled()
@@ -106,11 +106,14 @@ namespace desktop_client.GuiLayer
         {
 
             var questions = await _questionController.GetQuestions();
-            foreach(Question question in questions) {
+
+            IList<string> questionsForDisplay = new List<string>();
+            foreach (Question question in questions) {
                 var correctAnswer = question.Answers.Find(q => q.IsCorrect == true).AnswerText;
-                questionList.ItemsSource = question.QuestionText + " - " + correctAnswer;
+                questionsForDisplay.Add(question.QuestionText + " - " + correctAnswer);
                 Debug.WriteLine("Question Text" + question.QuestionText);
             }
+            questionList.ItemsSource = questionsForDisplay;
         }
        
 
@@ -121,9 +124,12 @@ namespace desktop_client.GuiLayer
             this.Close();
         }
 
-        private void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //FillFields(GetQuestions().Result[questionList.SelectedIndex]);
+            // ListViewItem 
+            var questions = await _questionController.GetQuestions();
+            FillFields(questions[0]);
+            addButton.Visibility = Visibility.Hidden;
         }
    }
  }
