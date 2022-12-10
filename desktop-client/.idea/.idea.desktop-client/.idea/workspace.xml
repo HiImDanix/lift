@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a847a9b1-9aef-4ed2-bf55-aa1595d4088d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.desktop-client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml" beforeDir="false" afterPath="$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/create_db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../server/create_db.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/DTO/requests/AnswerCreateRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Server/DTO/responses/AnswerCreateRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/DTO/requests/QuestionCreateRequest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/DTO/requests/QuestionCreateRequest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/DTO/responses/QuestionDTO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/DTO/responses/QuestionDTO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/Models/Question.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/Models/Question.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server/Repositories/QuestionRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/Repositories/QuestionRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/desktop-client/GuiLayer/MainWindow.xaml.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop-client/ServiceLayer/QuestionService.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -49,6 +42,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="RUNTIME_TYPE" value="coreclr" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/desktop-client/desktop-client.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
@@ -70,6 +64,7 @@
       <updated>1670369247426</updated>
       <workItem from="1670369250075" duration="1382000" />
       <workItem from="1670433476386" duration="2068000" />
+      <workItem from="1670683557402" duration="613000" />
     </task>
     <servers />
   </component>

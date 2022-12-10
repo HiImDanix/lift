@@ -40,8 +40,8 @@ namespace desktop_client.ServiceLayer
                 };
                 for (int i = 0; i < 4; i++)
                 {
-                    request.AddParameter($"Answers[{i}].answerText", newQuestion.AnswerList[i].AnswerText);
-                    request.AddParameter($"Answers[{i}].isCorrect", newQuestion.AnswerList[i].IsCorrect);
+                    request.AddParameter($"Answers[{i}].answerText", newQuestion.Answers[i].AnswerText);
+                    request.AddParameter($"Answers[{i}].isCorrect", newQuestion.Answers[i].IsCorrect);
                 }
                     request.AddObject(param);
                 var response = await client.ExecuteAsync(request);
@@ -62,6 +62,7 @@ namespace desktop_client.ServiceLayer
 
             var response = await client.ExecuteAsync(request);
             questionList = JsonConvert.DeserializeObject<List<Question>>(response.Content);
+
             return questionList;
         }
     }

@@ -86,10 +86,10 @@ namespace desktop_client.GuiLayer
             ImageTxt.Text = question.ImagePath;
             QuestionTxt.Text = question.QuestionText;
             CategoryTxt.Text = question.Category;
-            AnswerTxt.Text = question.AnswerList[0].ToString();
-            Answer1Txt.Text = question.AnswerList[1].ToString();
-            Answer2Txt.Text = question.AnswerList[2].ToString();
-            Answer3Txt.Text = question.AnswerList[3].ToString();
+            AnswerTxt.Text = question.Answers[0].ToString();
+            Answer1Txt.Text = question.Answers[1].ToString();
+            Answer2Txt.Text = question.Answers[2].ToString();
+            Answer3Txt.Text = question.Answers[3].ToString();
         }
 
         private bool IsAddButtonEnabled()
@@ -105,9 +105,12 @@ namespace desktop_client.GuiLayer
         private async void getButton_Click(object sender, RoutedEventArgs e)
         {
 
-            var questions = GetQuestions().Result.Select(res => res.QuestionText).ToList();
-            questionList.ItemsSource = questions;
-           
+            var questions = await _questionController.GetQuestions();
+            foreach(Question question in questions) {
+                var correctAnswer = question.Answers.Find(q => q.IsCorrect == true).AnswerText;
+                questionList.ItemsSource = question.QuestionText + " - " + correctAnswer;
+                Debug.WriteLine("Question Text" + question.QuestionText);
+            }
         }
        
 
@@ -120,13 +123,7 @@ namespace desktop_client.GuiLayer
 
         private void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FillFields(GetQuestions().Result[questionList.SelectedIndex]);
-        }
-
-        private async Task<List<Question>> GetQuestions()
-        {
-            List<Question> result = await _questionController.GetQuestions();
-            return result;
+            //FillFields(GetQuestions().Result[questionList.SelectedIndex]);
         }
    }
  }

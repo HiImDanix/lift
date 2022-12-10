@@ -11,15 +11,15 @@ namespace desktop_client.ModelLayer
         public string ImagePath { get; set; }
         public string QuestionText { get; set; }
         public string Category { get; set; }
-        public List<Answer> AnswerList { get; set; }
+        public List<Answer> Answers { get; set; }
         public Question() { }
 
-        public Question(string imagePath, string question, string category, List<Answer> answerList)
+        public Question(string imagePath, string question, string category, List<Answer> answers)
         {
             ImagePath = imagePath;
             QuestionText = question;
             Category = category;
-            AnswerList = answerList;
+            Answers = answers;
         }
 
 
