@@ -81,15 +81,15 @@ namespace desktop_client.GuiLayer
             Answer3Txt.Text = "";
         }
 
-        private void FillFields(string imagePath, string question, string category, string answer, string answer1, string answer2, string answer3)
+        private void FillFields(Question question)
         {
-            ImageTxt.Text = imagePath;
-            QuestionTxt.Text = question;
-            CategoryTxt.Text = category;
-            AnswerTxt.Text = answer;
-            Answer1Txt.Text = answer1;
-            Answer2Txt.Text = answer2;
-            Answer3Txt.Text = answer3;
+            ImageTxt.Text = question.ImagePath;
+            QuestionTxt.Text = question.QuestionText;
+            CategoryTxt.Text = question.Category;
+            AnswerTxt.Text = question.AnswerList[0].ToString();
+            Answer1Txt.Text = question.AnswerList[1].ToString();
+            Answer2Txt.Text = question.AnswerList[2].ToString();
+            Answer3Txt.Text = question.AnswerList[3].ToString();
         }
 
         private bool IsAddButtonEnabled()
@@ -104,9 +104,10 @@ namespace desktop_client.GuiLayer
 
         private async void getButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Question> result = await _questionController.GetQuestions();
-            var questions = result.Select(res => res.QuestionText).ToList();
+
+            var questions = GetQuestions().Result.Select(res => res.QuestionText).ToList();
             questionList.ItemsSource = questions;
+           
         }
        
 
@@ -116,6 +117,17 @@ namespace desktop_client.GuiLayer
             loginWindow.Show();
             this.Close();
         }
-    }
-    }
+
+        private void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FillFields(GetQuestions().Result[questionList.SelectedIndex]);
+        }
+
+        private async Task<List<Question>> GetQuestions()
+        {
+            List<Question> result = await _questionController.GetQuestions();
+            return result;
+        }
+   }
+ }
 
