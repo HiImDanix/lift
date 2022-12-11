@@ -26,7 +26,7 @@ public class LobbyService: ILobbyService
         _guessingGameService = guessingGameService;
     }
 
-    public LobbyDTO CreateRoomAndPlayer(string playerDisplayName)
+    public LoginWithRoomDTO CreateRoomAndPlayer(string playerDisplayName)
     {
         // TODO: Make transactions work again. Inject connection, not con string?
         // _dbHelper.StartTransaction();
@@ -53,13 +53,13 @@ public class LobbyService: ILobbyService
         player.Session = token;
 
         // map to dto & return
-        return _mapper.Map<LobbyDTO>(player);
+        return _mapper.Map<LoginWithRoomDTO>(player);
 
     }
 
 
 
-    public LobbyDTO JoinLobby(string roomCode, string playerDisplayName)
+    public LoginWithRoomDTO JoinLobby(string roomCode, string playerDisplayName)
     {
         // Get room by code
         var room = _roomRepository.GetByCode(roomCode);
@@ -80,7 +80,7 @@ public class LobbyService: ILobbyService
         player.Session = token;
         
         // map to dto & return
-        return _mapper.Map<LobbyDTO>(player);
+        return _mapper.Map<LoginWithRoomDTO>(player);
     }
 
     public RoomDTO GetLobby(int lobbyId)
@@ -102,10 +102,10 @@ public class LobbyService: ILobbyService
         
         // TODO: Game factory
         // var game = _gameFactory.CreateGame(room);
-        var game = new GuessingGameModel(room, startTime, totalRounds: 3, roundDurationMs: 5000, scoreboardDurationMs: 5000);
+        var game = new GuessingGameModel(room, startTime, totalRounds: 3);
         
         // Start game
-        _guessingGameService.StartGame(game);
+        game = _guessingGameService.StartGame(game);
         
         // Map game to game dto
         var gameDto = _mapper.Map<GameDTO>(game);

@@ -33,7 +33,7 @@ public class TestLobbyController
         var mockLobbyService = new Mock<ILobbyService>();
         mockLobbyService
             .Setup(x => x.CreateRoomAndPlayer(It.IsAny<string>()))
-            .Callback(() => new LobbyDTO());
+            .Callback(() => new LoginWithRoomDTO());
         var sut = new LobbyController(mockLobbyService.Object);
 
         // Act

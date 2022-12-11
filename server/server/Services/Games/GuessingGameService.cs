@@ -8,7 +8,7 @@ using GuessingGame.Models;
 using GuessingGame.Repositories;
 using Microsoft.AspNetCore.SignalR;
 
-namespace GuessingGame.Services;
+namespace GuessingGame.Services.Games;
 
 public class GuessingGameService: IGuessingGameService
 {
@@ -16,20 +16,30 @@ public class GuessingGameService: IGuessingGameService
     private readonly IHubContext<GameHub, IGameClient> _gameHubContext;
     private readonly IMapper _mapper;
     private readonly IQuestionRepository _questionRepository;
+    private readonly IGuessingGameRepository _guessingGameRepository;
+    private readonly IRoomRepository _roomRepository;
     
-    public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper, IQuestionRepository questionRepository)
+    public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper,
+        IQuestionRepository questionRepository, IGuessingGameRepository guessingGameRepository, IRoomRepository roomRepository)
     {
         _gameHubContext = gameHubContext;
         _mapper = mapper;
         _questionRepository = questionRepository;
+        _guessingGameRepository = guessingGameRepository;
+        _roomRepository = roomRepository;
     }
-
-    // TODO: Use repository pattern to store the game state
+    
     // Start game loop
-    public void StartGame(GuessingGameModel model)
+    public GuessingGameModel StartGame(GuessingGameModel model)
     {
+        model = _guessingGameRepository.Add(model); // No need to inform player as done in lobby controller, start game method.
+        var room = model.Room;
+        // Set as current game for room
+         _roomRepository.updateCurrentGame(room, model);
+        
         // Start game loop in a new thread
         Task.Run(() => GameLoop(model));
+        return model;
     }
 
     // Game loop

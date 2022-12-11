@@ -11,8 +11,9 @@ CREATE TABLE Accounts (
 CREATE TABLE Questions (
 	ID int IDENTITY(0,1) NOT NULL,
 	question varchar(128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	category varchar(32) NULL,
+	category varchar(32) COLLATE Latin1_General_CI_AS NULL,
 	imgPath varchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	RowVer timestamp NOT NULL,
 	CONSTRAINT question_pk PRIMARY KEY (ID)
 );
 
@@ -28,18 +29,22 @@ CREATE TABLE Answers (
 CREATE TABLE Rooms (
 	ID int IDENTITY(0,1) NOT NULL,
 	code varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	logoQuizGameID int NULL,
+	currentGameID int NULL,
 	hostID int NULL,
 	startTime bigint NULL,
 	CONSTRAINT Lobby_PK PRIMARY KEY (ID)
 );
 
-CREATE TABLE LogoQuizGames (
+CREATE TABLE QuizGames (
 	ID int IDENTITY(0,1) NOT NULL,
-	durationMs int NOT NULL,
-	maxPlayers int NOT NULL,
-	startTime datetime2(0) NULL,
 	scoreboardID int NULL,
+	roomID int NOT NULL,
+	totalRounds int NOT NULL,
+	currentRound int NULL,
+	status varchar(100) COLLATE Latin1_General_CI_AS NOT NULL,
+	currentQuestionID int NULL,
+	currentRoundStartTime bigint NULL,
+	startTime2 bigint NULL,
 	CONSTRAINT NewTable_PK PRIMARY KEY (ID)
 );
 
@@ -83,45 +88,40 @@ CREATE TABLE Administrators (
 );
 
 
--- LosingIsFunToo.dbo.LogoQuizGame foreign keys
+-- LosingIsFunToo.dbo.QuizGames foreign keys
 
-ALTER TABLE LosingIsFunToo.dbo.LogoQuizGames ADD CONSTRAINT NewTable_FK FOREIGN KEY (scoreboardID) REFERENCES Scoreboards(ID);
+ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT NewTable_FK FOREIGN KEY (scoreboardID) REFERENCES Scoreboards(ID);
+ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK FOREIGN KEY (roomID) REFERENCES Rooms(ID);
+ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK2 FOREIGN KEY (currentQuestionID) REFERENCES Questions(ID);
 
 
--- LosingIsFunToo.dbo.Player foreign keys
+-- LosingIsFunToo.dbo.Players foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.Players ADD CONSTRAINT Player_FK FOREIGN KEY (accountID) REFERENCES Accounts(ID);
 ALTER TABLE LosingIsFunToo.dbo.Players ADD CONSTRAINT lobby_Fk FOREIGN KEY (roomID) REFERENCES Rooms(ID);
 
 
--- LosingIsFunToo.dbo.QuizGameAnswer foreign keys
+-- LosingIsFunToo.dbo.QuizGameAnswers foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK_1 FOREIGN KEY (answerID) REFERENCES Answers(ID);
 
 
-
 -- LosingIsFunToo.dbo.Rooms foreign keys
 
-ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (logoQuizGameID) REFERENCES LogoQuizGames(ID);
+ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (currentGameID) REFERENCES QuizGames(ID);
 ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Rooms_FK FOREIGN KEY (hostID) REFERENCES Players(ID);
 
 
 -- LosingIsFunToo.dbo.RoundQuestions foreign keys
 
-ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK FOREIGN KEY (logoQuizGameID) REFERENCES LogoQuizGames(ID);
+ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK FOREIGN KEY (logoQuizGameID) REFERENCES QuizGames(ID);
 ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK_1 FOREIGN KEY (questionID) REFERENCES Questions(ID);
 
 
--- LosingIsFunToo.dbo.Scoreboard foreign keys
+-- LosingIsFunToo.dbo.Scoreboards foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
-
-
-
--- Row version for Questions table
-ALTER TABLE Questions ADD RowVer rowversion
-
 
 
 

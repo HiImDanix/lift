@@ -4,5 +4,5 @@ namespace GuessingGame.Services;
 
 public interface IGuessingGameService
 {
-    public void StartGame(GuessingGameModel model);
+    public GuessingGameModel StartGame(GuessingGameModel model);
 }

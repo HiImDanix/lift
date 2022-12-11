@@ -2,6 +2,7 @@ using System.Data;
 using Dapper;
 using GuessingGame.Exceptions;
 using GuessingGame.models;
+using GuessingGame.Models;
 using GuessingGame.Proxies;
 using Microsoft.Data.SqlClient;
 
@@ -50,7 +51,8 @@ public class RoomRepository : IRoomRepository
     public RoomProxy ToProxy(Room room)
     {
         // TODO: Use DI to create the proxy?
-        return new RoomProxy(_provider.GetRequiredService<IPlayerRepository>())
+        return new RoomProxy(_provider.GetRequiredService<IPlayerRepository>(),
+            _provider.GetRequiredService<IGuessingGameRepository>())
         {
             Id = room.Id,
             Code = room.Code,
@@ -138,6 +140,19 @@ public class RoomRepository : IRoomRepository
         } catch (Exception e)
         {
             throw new DataAccessException("Could not update start time", e);
+        }
+    }
+
+    public void updateCurrentGame(Room room, GuessingGameModel model)
+    {
+        try
+        {
+            Console.WriteLine("Updating current game");
+            var sql = @"UPDATE Rooms SET currentGameID = @currentGameID WHERE id = @roomId";
+            _db.Execute(sql, new { currentGameID = model.Id, roomId = room.Id });
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not update current game", e);
         }
     }
 }

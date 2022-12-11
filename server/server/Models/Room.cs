@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using GuessingGame.Models;
 
 namespace GuessingGame.models;
 
@@ -12,4 +13,5 @@ public class Room
     public int HostId { get; set; }
     public virtual Player? Host { get; set; }
     public long StartTime { get; set; }
+    public virtual GuessingGameModel? CurrentGame { get; set; }
 }

@@ -5,6 +5,7 @@ using GuessingGame;
 using GuessingGame.hubs;
 using GuessingGame.Repositories;
 using GuessingGame.Services;
+using GuessingGame.Services.Games;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -60,6 +61,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IQuestionRepository, QuestionRepository>();
     builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
     builder.Services.AddTransient<IDesktopAuthRepository, DesktopAuthRepository>();
+    builder.Services.AddTransient<IGuessingGameRepository, GuessingGameRepository>();
     
     // =============================
     // ======== Services ===========

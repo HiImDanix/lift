@@ -1,3 +1,5 @@
+using GuessingGame.Models;
+
 namespace GuessingGame.DTO.responses;
 
 // Note: Automapper does not work when it is a record; No constructor error.
@@ -8,4 +10,5 @@ public class RoomDTO
     public IEnumerable<PlayerPublicDTO> Players { get; set; }
     public int HostId { get; set; }
     public long StartTime { get; set; }
+    public GuessingGameModel? CurrentGame { get; set; }
 }

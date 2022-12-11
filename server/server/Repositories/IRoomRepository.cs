@@ -1,4 +1,5 @@
 using GuessingGame.models;
+using GuessingGame.Models;
 
 namespace GuessingGame.Repositories;
 
@@ -11,4 +12,5 @@ public interface IRoomRepository
     Room? Get(int id);
     Room SetHost(Room room, Player player);
     Room UpdateStartTime(Room lobby, long startTime);
+    void updateCurrentGame(Room room, GuessingGameModel model);
 }

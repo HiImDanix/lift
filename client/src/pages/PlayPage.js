@@ -86,6 +86,7 @@ function PlayPage() {
             }
         }).then(res => res.json())
             .then(data => {
+                console.log(data);
                 setLobbyCode(data.code);
                 setPlayers(data.players);
                 setHostID(data.hostId);
