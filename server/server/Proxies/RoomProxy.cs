@@ -36,7 +36,7 @@ public class RoomProxy: Room
         {
             if (base.Host == null)
             {
-                base.Host = _playerRepository.Get(HostId);
+                base.Host = _playerRepository.GetHostByRoomId(Id);
             }
 
             return base.Host;

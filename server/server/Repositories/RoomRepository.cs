@@ -56,7 +56,6 @@ public class RoomRepository : IRoomRepository
         {
             Id = room.Id,
             Code = room.Code,
-            HostId = room.HostId,
             StartTime = room.StartTime
         };
     }
@@ -118,10 +117,9 @@ public class RoomRepository : IRoomRepository
     {
         try
         {
-            var sql = @"UPDATE Rooms SET hostId = @playerId WHERE id = @roomId";
-            _db.Execute(sql, new { playerId = player.Id, roomId = room.Id });
+            var sql = @"UPDATE Rooms SET hostId = @HostId WHERE id = @roomId";
+            _db.Execute(sql, new { @HostId = player.Id, roomId = room.Id });
             room.Host = player;
-            room.HostId = player.Id;
             return ToProxy(room);
         } catch (Exception e)
         {

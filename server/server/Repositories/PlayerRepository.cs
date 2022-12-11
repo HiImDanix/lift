@@ -30,7 +30,14 @@ public class PlayerRepository : IPlayerRepository
         // map each player to player proxy using ToProxy(player) method
         return players.Select(ToProxy).ToList();
     }
-    
+
+    public Player GetHostByRoomId(int id)
+    {
+        //select hostID from Rooms by roomID, then retrieve player by hostID
+        var sql = "SELECT * FROM Players WHERE ID = (SELECT hostID FROM Rooms WHERE ID = @id)";
+        return _db.QueryFirstOrDefault<Player>(sql, new { id });
+    }
+
     // Map Player to PlayerProxy
     private Player ToProxy(Player player)
     {
