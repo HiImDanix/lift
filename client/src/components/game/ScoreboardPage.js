@@ -7,16 +7,15 @@ function ScoreboardPage(props) {
         <>
 
             <h1 className="text-uppercase fw-bold text-center">Scoreboard</h1>
-            <Countdown className={"text-center d-block"} date={Date.now() + props.scoreboardDurationMs} onComplete={props.scoreboardFinished} />
-            <Scoreboard username={props.username} score={props.score} />
+            <Countdown className={"text-center d-block"} date={props.scoreboardEndTime} />
+            <Scoreboard displayName={props.displayName} scoreboardEndTime={props.scoreboardEndTime} />
         </>
     );
 }
 
 ScoreboardPage.propTypes = {
-    scoreboardFinished: PropTypes.func.isRequired,
-    scoreboardDurationMs: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired
+    displayName: PropTypes.string.isRequired,
+    scoreboardEndTime: PropTypes.number.isRequired
 }
 
 export default ScoreboardPage;

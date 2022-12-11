@@ -35,8 +35,8 @@ function Scoreboard(props) {
             },
             {
                 "position": 6,
-                "username": props.username,
-                "score": props.score
+                "username": props.displayName,
+                "score": 0
             }
         ]
 
@@ -58,7 +58,7 @@ function Scoreboard(props) {
                     {
                         scoreboardData.scores.map((score, index) => {
                             return (
-                                <tr key={index} {...(score.username === props.username ? {className: "text-bg-warning"} : {})}>
+                                <tr key={index} {...(score.username === props.displayName ? {className: "text-bg-warning"} : {})}>
                                     <td className="text-center">{score.position}</td>
                                     <td className="text-start">{score.username}</td>
                                     <td>{score.score}</td>
@@ -82,8 +82,7 @@ function Scoreboard(props) {
 }
 
 Scoreboard.propTypes = {
-    username: PropTypes.string,
-    score: PropTypes.number
+    displayName: PropTypes.string.isRequired
 }
 
 export default Scoreboard;

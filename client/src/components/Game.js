@@ -30,8 +30,9 @@ function Game(props) {
     const [currentRound, setCurrentRound] = useState(props.currentRound);
     const [currentRoundStartTime, setCurrentRoundStartTime] = useState(props.currentRoundStartTime);
 
-   // TODO: Remove later, replace w/ scoreboard
-    const [score, setScore] = useState(0);
+   // TODO: scoreboard
+    const [scoreboard, setScoreboard] = useState(props.scoreboard);
+
 
     // TODO: Retrieve from server
     const [gameData, setGameData] = useState({
@@ -116,9 +117,9 @@ function Game(props) {
             case GameStatus.PLAYING:
                 return <GuessingGame currentRoundStartTime={currentRoundStartTime} roundDurationMs={roundDurationMs} gameData={gameData} />;
             case GameStatus.SCOREBOARD:
-                return <ScoreboardPage scoreboardFinished={() => {}} scoreboardDurationMs={scoreboardDurationMs} score={score}/>;
+                return <ScoreboardPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
             case GameStatus.FINISHED:
-                return <GameOverPage score={score} username={props.displayName} />;
+                return <GameOverPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
             default:
                 return <div>Unknown page</div>;
         }

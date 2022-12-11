@@ -68,15 +68,22 @@ public class GuessingGameService: IGuessingGameService
             // Wait for round to end
             Thread.Sleep(model.RoundDurationMs);
             
-            // Send round end DTO. If last round, send game end DTO
+            // Send round end DTO. If last round, send game end DTO. This will show the scoreboard.
             if (round == model.TotalRounds)
             {
                 model.Status = GameStatus.Finished.ToString();
+                // Save to db
+                _guessingGameRepository.Update(model);
+                // Inform players
                 _gameHubContext.Clients.Group(model.Room.Id.ToString()).GameFinished();
             } else
             {
                 model.Status = GameStatus.Scoreboard.ToString();
+                // Save to db
+                _guessingGameRepository.Update(model);
+                // Inform players
                 _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundFinished();
+                // Wait for players to look over the scoreboard
                 Thread.Sleep(model.ScoreboardDurationMs);
             }
         }

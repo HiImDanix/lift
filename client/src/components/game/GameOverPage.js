@@ -37,7 +37,7 @@ function GameOverPage(props) {
                 </div>
             </div>
             <div className={"section_spacing last_section"}>
-                <Scoreboard username={props.username} score={props.score}/>
+                <Scoreboard displayName={props.displayName} scoreboardEndTime={props.scoreboardEndTime} />/>
             </div>
 
         </>
@@ -45,8 +45,8 @@ function GameOverPage(props) {
 }
 
 GameOverPage.propTypes = {
-    username: PropTypes.string.isRequired,
-    score: PropTypes.number.isRequired
+    displayName: PropTypes.string.isRequired,
+    scoreboardEndTime: PropTypes.number.isRequired
 }
 
 export default GameOverPage;
