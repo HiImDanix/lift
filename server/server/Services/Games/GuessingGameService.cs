@@ -55,15 +55,11 @@ public class GuessingGameService: IGuessingGameService
             model.Status = GameStatus.Playing.ToString();
             model.CurrentRound = round;
             model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            // Get random question
             model.CurrentQuestion = GetRandomQuestion();
-            // Scramble the answers
+            // Add to db
+            _guessingGameRepository.Update(model);
+            // Scramble the answers TODO: put this in automapper
             model.CurrentQuestion.Answers = model.CurrentQuestion.Answers.OrderBy(x => Guid.NewGuid()).ToList();
-            // Print answers
-            foreach (var answer in model.CurrentQuestion.Answers)
-            {
-                Console.WriteLine(answer.AnswerText);
-            }
 
             // Send round start DTO
             var roundStartDto = _mapper.Map<RoundStartDto>(model);

@@ -25,6 +25,11 @@ public class GuessingGameModel
     public string Status { get; set; }
     public string GameType { get; set; } = "GuessingGame";
     public Question? CurrentQuestion { get; set; }
+    public int? currentQuestionId { 
+        get {
+            return CurrentQuestion?.Id;
+        }
+    }
 
     public GuessingGameModel(Room room, long startTime, int totalRounds)
     {
@@ -39,4 +44,5 @@ public class GuessingGameModel
     {
         
     }
+    
 }

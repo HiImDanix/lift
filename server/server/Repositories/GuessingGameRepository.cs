@@ -45,4 +45,21 @@ public class GuessingGameRepository: IGuessingGameRepository
         var sql = @"SELECT * FROM QuizGames WHERE id = (SELECT currentgameid FROM Rooms WHERE id = @id)";
         return _db.QueryFirstOrDefault<GuessingGameModel>(sql, new { id });
     }
+
+    /**
+     * Updates game model along with current question.
+     * it does not update current room.
+     */
+    public void Update(GuessingGameModel model)
+    {
+        var sql = @"UPDATE QuizGames SET 
+                    starttime = @StartTime, 
+                    totalrounds = @TotalRounds, 
+                    currentround = @CurrentRound, 
+                    currentroundstarttime = @CurrentRoundStartTime, 
+                    status = @Status, 
+                    currentquestionid = @CurrentQuestionId
+                    WHERE id = @Id";
+        _db.Execute(sql, model);
+    }
 }

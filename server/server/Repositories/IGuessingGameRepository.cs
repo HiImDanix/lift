@@ -6,4 +6,5 @@ public interface IGuessingGameRepository
 {
     public GuessingGameModel Add(GuessingGameModel game);
     GuessingGameModel GetByRoomId(int id);
+    void Update(GuessingGameModel model);
 }
