@@ -43,7 +43,7 @@ public class RoomProxy: Room
         }
     }
     
-    public override GuessingGameModel CurrentGame
+    public override GuessingGameModel? CurrentGame
     {
         get
         {

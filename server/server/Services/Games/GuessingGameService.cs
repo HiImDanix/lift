@@ -35,7 +35,7 @@ public class GuessingGameService: IGuessingGameService
         model = _guessingGameRepository.Add(model); // No need to inform player as done in lobby controller, start game method.
         var room = model.Room;
         // Set as current game for room
-         _roomRepository.updateCurrentGame(room, model);
+         _roomRepository.UpdateCurrentGame(room, model);
         
         // Start game loop in a new thread
         Task.Run(() => GameLoop(model));
@@ -55,11 +55,22 @@ public class GuessingGameService: IGuessingGameService
             model.Status = GameStatus.Playing.ToString();
             model.CurrentRound = round;
             model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-            model.CurrentQuestion = GetRandomQuestion();
             // Add to db
             _guessingGameRepository.Update(model);
+            // Add random question to DB. We have to add it to DB so we can get the ID and set the current question.
+            var question = GetRandomQuestion();
+            var questionForGame = new QuizGameQuestion()
+            {
+                Question = question,
+                Game = model
+            };
+            var questionForGameInDb = _guessingGameRepository.Add(questionForGame);
+            // Mark the question as current question for the game
+            model.CurrentQuizGameQuestion = questionForGameInDb;
+            // Update the game in the DB
+            _guessingGameRepository.Update(model);
             // Scramble the answers TODO: put this in automapper
-            model.CurrentQuestion.Answers = model.CurrentQuestion.Answers.OrderBy(x => Guid.NewGuid()).ToList();
+            model.CurrentQuizGameQuestion.Question.Answers = model.CurrentQuizGameQuestion.Question.Answers.OrderBy(x => Guid.NewGuid()).ToList();
 
             // Send round start DTO
             var roundStartDto = _mapper.Map<RoundStartDto>(model);

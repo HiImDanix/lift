@@ -56,7 +56,7 @@ public class RoomRepository : IRoomRepository
         {
             Id = room.Id,
             Code = room.Code,
-            StartTime = room.StartTime
+            StartTime = room.StartTime,
         };
     }
     
@@ -141,7 +141,7 @@ public class RoomRepository : IRoomRepository
         }
     }
 
-    public void updateCurrentGame(Room room, GuessingGameModel model)
+    public void UpdateCurrentGame(Room room, GuessingGameModel model)
     {
         try
         {
@@ -151,6 +151,55 @@ public class RoomRepository : IRoomRepository
         } catch (Exception e)
         {
             throw new DataAccessException("Could not update current game", e);
+        }
+    }
+
+    public Room? GetRoomByGuessingGameId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM Rooms WHERE id = (SELECT roomId FROM QuizGames WHERE id = @id)";
+            var room = _db.QuerySingleOrDefault<Room>(sql, new { id });
+            return room == null ? null : ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get room by guessing game id", e);
+        }
+    }
+
+    public QuizGameQuestion? GetQuizGameQuestionByGuessingGameId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * from QuizGameQuestions where id = (SELECT currentQuizGameQuestionID FROM QuizGames WHERE id = @id)";
+            var question = _db.QuerySingleOrDefault<QuizGameQuestion>(sql, new { id });
+            return question == null ? null : ToProxy(question);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get quiz game question by guessing game id", e);
+        }
+    }
+    
+    private QuizGameQuestion ToProxy(QuizGameQuestion question)
+    {
+        return new QuizGameQuestionproxy(
+            _provider.GetRequiredService<IQuestionRepository>(),
+            _provider.GetRequiredService<IGuessingGameRepository>())
+        {
+            Id = question.Id
+        };
+    }
+
+    public List<QuizGameQuestion> GetQuizGameQuestionsByGuessingGameId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM QuizGameQuestions WHERE QuizGameID = @id";
+            var questions = _db.Query<QuizGameQuestion>(sql, new { id }).ToList();
+            return questions;
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get quiz game questions by guessing game id", e);
         }
     }
 }

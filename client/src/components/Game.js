@@ -35,28 +35,7 @@ function Game(props) {
 
 
     // TODO: Retrieve from server
-    const [gameData, setGameData] = useState({
-        "questionText": "What is this logo?",
-        "imagePath": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png",
-        "answers": [
-            {
-                "answerText": "Google",
-                "isCorrect": true
-            },
-            {
-                "answerText": "Facebook",
-                "isCorrect": false
-            },
-            {
-                "answerText": "Twitter",
-                "isCorrect": false
-            },
-            {
-                "answerText": "Instagram",
-                "isCorrect": false
-            }
-        ]
-    });
+    const [gameData, setGameData] = useState(props.currentQuestion);
 
     useEffect(() => {
         if (props.connection) {

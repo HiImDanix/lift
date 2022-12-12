@@ -11,5 +11,7 @@ namespace GuessingGame.Repositories
         Question Get(int id);
         Question Update(Question question);
         void RemoveAnswers(Question question);
+        Question GetQuestionByQuizGameQuestionId(int id);
+        IList<QuizGameQuestion> GetQuestionsByGameId(int gameId);
     }
 }

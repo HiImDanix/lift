@@ -10,5 +10,5 @@ public class LoginWithRoomDTO
     public string Session { get; init; }
     public string Name { get; init; }
     public RoomDTO Room { get; init; }
-    public GuessingGameModel? CurrentGame { get; set; }
+    public GameDTO? CurrentGame { get; set; }
 }
