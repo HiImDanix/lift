@@ -15,7 +15,7 @@ public class GameDTO
     public int? CurrentRound { get; set; }
     public long? CurrentRoundStartTime { get; set; }
     // public Scoreboard scoreboard;
-    public QuestionNoAnswersDTO? CurrentQuestion { get; set; }
+    public QuestionDTO? CurrentQuestion { get; set; }
     
     
     public GameDTO(long startTime, string status, string gameType, int currentRound, int totalRounds, int roundDurationMs, int scoreboardDurationMs, long currentRoundStartTime)

@@ -23,8 +23,17 @@ public class AutoMapperProfile: Profile
 
         CreateMap<Answer, AnswerDTO>();
         CreateMap<Question, QuestionDTO>();
+        CreateMap<Question, QuestionNoAnswersDTO>();
         CreateMap<Administrator, AdministratorDTO>();
-        CreateMap<GuessingGameModel, GameDTO>();
-        CreateMap<GuessingGameModel, RoundStartDto>();
+        CreateMap<GuessingGameModel, GameDTO>()
+            .ForMember(
+                dest => dest.CurrentQuestion,
+                opt => opt.MapFrom(src => src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
+            );
+        CreateMap<GuessingGameModel, RoundStartDto>()
+            .ForMember(
+                dest => dest.CurrentQuestion,
+                opt => opt.MapFrom(src => src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
+            );
     }
 }

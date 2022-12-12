@@ -10,5 +10,5 @@ public class RoomDTO
     public IEnumerable<PlayerPublicDTO> Players { get; set; }
     public int HostId { get; set; }
     public long StartTime { get; set; }
-    public GuessingGameModel? CurrentGame { get; set; }
+    public GameDTO? CurrentGame { get; set; }
 }

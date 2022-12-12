@@ -15,7 +15,7 @@ public enum GameStatus
 public class GuessingGameModel
 {
     public int Id { get; set; }
-    public Room Room { get; set; }
+    public virtual Room? Room { get; set; }
     public long? StartTime { get; set; }
     public int TotalRounds { get; set; }
     public int RoundDurationMs => 5000;
@@ -24,12 +24,14 @@ public class GuessingGameModel
     public long? CurrentRoundStartTime { get; set; }
     public string Status { get; set; }
     public string GameType { get; set; } = "GuessingGame";
-    public Question? CurrentQuestion { get; set; }
-    public int? currentQuestionId { 
+    public virtual QuizGameQuestion? CurrentQuizGameQuestion { get; set; }
+    public int? currentQuizGameQuestionID { 
         get {
-            return CurrentQuestion?.Id;
+            return CurrentQuizGameQuestion?.Id;
         }
     }
+    
+    public virtual List<QuizGameQuestion>? Questions { get; set; }
 
     public GuessingGameModel(Room room, long startTime, int totalRounds)
     {

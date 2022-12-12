@@ -107,6 +107,33 @@ public class QuestionRepository : IQuestionRepository
         }
     }
 
+    public Question GetQuestionByQuizGameQuestionId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT id, imgPath ImagePath, question QuestionText, category Category, RowVer FROM Questions WHERE id = (SELECT questionId FROM QuizGameQuestions WHERE id = @id)";
+            var question = _db.QuerySingle<Question>(sql, new { id });
+            return ToProxy(question);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get question by quiz game question id", e);
+        }
+    }
+
+    // Get questions that belong to a game by game ID
+    public IList<QuizGameQuestion> GetQuestionsByGameId(int gameId)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM QuizGameQuestions WHERE gameId = @gameId";
+            var questions = _db.Query<QuizGameQuestion>(sql, new { gameId }).ToList();
+            return questions.Select(ToProxy).ToList();
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get questions by game id", e);
+        }
+    }
+
     private Question ToProxy(Question question)
     {
         return new QuestionProxy(_provider.GetRequiredService<IAnswerRepository>())
@@ -116,6 +143,16 @@ public class QuestionRepository : IQuestionRepository
             QuestionText = question.QuestionText,
             Category = question.Category,
             RowVer = question.RowVer
+        };
+    }
+
+    private QuizGameQuestion ToProxy(QuizGameQuestion question)
+    {
+        return new QuizGameQuestionproxy(
+            _provider.GetRequiredService<IQuestionRepository>(),
+            _provider.GetRequiredService<IGuessingGameRepository>())
+        {
+            Id = question.Id
         };
     }
 }

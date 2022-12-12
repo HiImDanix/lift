@@ -12,5 +12,8 @@ public interface IRoomRepository
     Room? Get(int id);
     Room SetHost(Room room, Player player);
     Room UpdateStartTime(Room lobby, long startTime);
-    void updateCurrentGame(Room room, GuessingGameModel model);
+    void UpdateCurrentGame(Room room, GuessingGameModel model);
+    Room? GetRoomByGuessingGameId(int id);
+    QuizGameQuestion? GetQuizGameQuestionByGuessingGameId(int id);
+    List<QuizGameQuestion> GetQuizGameQuestionsByGuessingGameId(int id);
 }
