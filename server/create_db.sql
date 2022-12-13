@@ -42,9 +42,9 @@ CREATE TABLE QuizGames (
 	totalRounds int NOT NULL,
 	currentRound int NULL,
 	status varchar(100) COLLATE Latin1_General_CI_AS NOT NULL,
-	currentQuestionID int NULL,
+	currentQuizGameQuestionID int NULL,
 	currentRoundStartTime bigint NULL,
-	startTime2 bigint NULL,
+	startTime bigint NULL,
 	CONSTRAINT NewTable_PK PRIMARY KEY (ID)
 );
 
@@ -65,6 +65,14 @@ CREATE TABLE QuizGameAnswers (
 	pointsEarned int NOT NULL,
 	CONSTRAINT QuizGameAnswer_PK PRIMARY KEY (ID)
 );
+
+CREATE TABLE QuizGameQuestions (
+	ID int IDENTITY(0,1) NOT NULL,
+	questionID int NOT NULL,
+	QuizGameID int NOT NULL,
+	CONSTRAINT RoundQuestions_PK PRIMARY KEY (ID)
+);
+
 
 CREATE TABLE RoundQuestions (
 	ID int IDENTITY(0,1) NOT NULL,
