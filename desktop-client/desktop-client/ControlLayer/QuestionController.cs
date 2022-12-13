@@ -38,5 +38,15 @@ namespace desktop_client.ControlLayer
             Task<List<Question>> questions =  _qService.GetQuestions();
             return questions;
         } 
+
+        public async Task<int> EditQuestion(int id, string imagePath, string question, string category, List<string> answerStrings, byte[] rowVer)
+        {
+            List<Answer> answers = _answerController.CreateAnswerList(answerStrings);
+            Question newQuestion = new Question(id, imagePath, question, category, answers, rowVer);
+
+            int responseCode = await _qService.EditQuestion(newQuestion);
+
+            return responseCode;
+        }
     }
 }
