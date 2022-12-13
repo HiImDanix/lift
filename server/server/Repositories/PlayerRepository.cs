@@ -40,6 +40,14 @@ public class PlayerRepository : IPlayerRepository
         return ToProxy(host);
     }
 
+    public Player GetPlayerByQuizGameAnswerId(int id)
+    {
+        //select playerID from QuizGameAnswers by answerID, then retrieve player by playerID
+        var sql = "SELECT * FROM Players WHERE ID = (SELECT playerID FROM QuizGameAnswers WHERE ID = @id)";
+        var player = _db.QueryFirstOrDefault<Player>(sql, new { id });
+        return ToProxy(player);
+    }
+
     // Map Player to PlayerProxy
     private Player ToProxy(Player player)
     {

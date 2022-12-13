@@ -102,7 +102,8 @@ public class GuessingGameRepository: IGuessingGameRepository
     {
         return new QuizGameQuestionproxy(
             _provider.GetRequiredService<IQuestionRepository>(),
-            _provider.GetRequiredService<IGuessingGameRepository>())
+            _provider.GetRequiredService<IGuessingGameRepository>(),
+            _provider.GetRequiredService<IPlayerAnswersRepository>())
         {
             Id = question.Id
         };

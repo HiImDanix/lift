@@ -19,6 +19,7 @@ export {GameStatus};
 
 function Game(props) {
 
+    const [gameID, setGameID] = useState(props.id);
     const [status, setStatus] = useState(props.status);
     const [gameType, setGameType] = useState(props.gameType);
 
@@ -31,11 +32,12 @@ function Game(props) {
     const [currentRoundStartTime, setCurrentRoundStartTime] = useState(props.currentRoundStartTime);
     const [currentGameQuestionID, setCurrentGameQuestionID] = useState(props.currentQuizGameQuestionID);
 
-   // TODO: scoreboard
+   // TODO: Game specific. Move to one 'specific game-state' object
     const [scoreboard, setScoreboard] = useState(props.scoreboard);
     const [gameData, setGameData] = useState(props.currentQuestion);
     const [currentQuizGameQuestionID, setCurrentQuizGameQuestionID] = useState(props.currentQuizGameQuestionId)
-    const [gameID, setGameID] = useState(props.id);
+    const [playerAnswers, setPlayerAnswers] = useState(props.playerAnswers);
+
 
     useEffect(() => {
         if (props.connection) {
@@ -98,7 +100,9 @@ function Game(props) {
                 return <GuessingGame currentRoundStartTime={currentRoundStartTime}
                                      roundDurationMs={roundDurationMs}
                                      gameData={gameData} gameID={gameID}
-                                     gameQuestionID={currentQuizGameQuestionID}  />;
+                                     gameQuestionID={currentQuizGameQuestionID}
+                                     playerAnswers={playerAnswers}
+                                     myID={props.myID}/>;
             case GameStatus.SCOREBOARD:
                 return <ScoreboardPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
             case GameStatus.FINISHED:
@@ -130,7 +134,9 @@ Game.propTypes = {
     scoreboard: PropTypes.array,
     currentQuizGameQuestionID: PropTypes.number,
     startTime: PropTypes.number,
-    currentRoundStartTime: PropTypes.number
+    currentRoundStartTime: PropTypes.number,
+    playerAnswers: PropTypes.array,
+    myID: PropTypes.number,
 }
 
 export default Game;

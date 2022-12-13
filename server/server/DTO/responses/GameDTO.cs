@@ -16,6 +16,7 @@ public class GameDTO
     public long? CurrentRoundStartTime { get; set; }
     // public Scoreboard scoreboard;
     public QuestionDTO? CurrentQuestion { get; set; }
+    public List<PlayerAnswerDTO> PlayerAnswers { get; set; }
     public int? CurrentQuizGameQuestionId { get; set; }
     
     

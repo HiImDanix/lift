@@ -7,4 +7,5 @@ public interface IAnswerRepository
     Answer Add(Answer answer);
     IList<Answer> GetAnswersForQuestion(int id);
     void Update(Answer answer);
+    Answer GetAnswerByQuizGameAnswerId(int id);
 }

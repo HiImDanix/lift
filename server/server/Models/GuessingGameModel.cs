@@ -32,7 +32,7 @@ public class GuessingGameModel
     }
     
     public virtual List<QuizGameQuestion>? Questions { get; set; }
-
+    
     public GuessingGameModel(Room room, long startTime, int totalRounds)
     {
         this.Room = room;

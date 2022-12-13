@@ -184,7 +184,8 @@ public class RoomRepository : IRoomRepository
     {
         return new QuizGameQuestionproxy(
             _provider.GetRequiredService<IQuestionRepository>(),
-            _provider.GetRequiredService<IGuessingGameRepository>())
+            _provider.GetRequiredService<IGuessingGameRepository>(),
+        _provider.GetRequiredService<IPlayerAnswersRepository>())
         {
             Id = question.Id
         };

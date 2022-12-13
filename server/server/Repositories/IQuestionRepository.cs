@@ -14,5 +14,6 @@ namespace GuessingGame.Repositories
         Question GetQuestionByQuizGameQuestionId(int id);
         IList<QuizGameQuestion> GetQuestionsByGameId(int gameId);
         QuizGameQuestion? getQuizGameQuestion(int quizGameQuestionId);
+        QuizGameQuestion GetQuizGameQuestionByPlayerAnswerId(int id);
     }
 }

@@ -57,6 +57,19 @@ public class AnswerRepository: IAnswerRepository
         }
     }
 
+    public Answer GetAnswerByQuizGameAnswerId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM Answers WHERE id = (SELECT answerID FROM QuizGameAnswers WHERE id = @id)";
+            var answer = _db.QuerySingle<Answer>(sql, new { id });
+            return ToProxy(answer);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get answer by quiz game answer id", e);
+        }
+    }
+
     // Map answer to proxy
     private Answer ToProxy(Answer answer)
     {

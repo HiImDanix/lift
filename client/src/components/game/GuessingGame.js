@@ -1,5 +1,5 @@
 import Countdown from "react-countdown";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import Config from "../../Config";
 
@@ -10,6 +10,7 @@ function GuessingGame(props) {
     const gameQuestionID = props.gameQuestionID;
     const question = props.gameData.questionText;
     const image = props.gameData.imagePath;
+
     // TODO: Make answer available only server-side
     const answers = props.gameData.answers;
     // Note: With the current implementation, the correct answer is always the first answer in the array
@@ -18,9 +19,23 @@ function GuessingGame(props) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [selectingAnswer, setSelectingAnswer] = useState(false);
 
+    const canAnswer = () => {
+        // Check existence of selected answer
+        for (let i = 0; i < props.playerAnswers.length; i++) {
+            if (props.playerAnswers[i].player.id === props.myID && props.playerAnswers[i].gameQuestionId === gameQuestionID) {
+                return false;
+            }
+        }
+        // Check if answer has been selected (client-side)
+        if (!selectingAnswer && selectedAnswer == null) {
+            return true;
+        }
+        return false;
+    }
+
     // Handle answer selection. If correct, score a point. Then, end the round
     function selectAnswer(answer) {
-        if (!selectingAnswer && !selectedAnswer) {
+        if (canAnswer()) {
             setSelectingAnswer(true);
             // Send to server as POST with fetch api
             fetch(`${Config.SERVER_URL}/games/${gameID}/answers`, {
@@ -31,30 +46,41 @@ function GuessingGame(props) {
                 },
                 body: JSON.stringify({
                         gameQuestionID: gameQuestionID,
-                        answer: answer
+                        answer: answer.answerText
                     }
                 )}).then(response => {
                 if (response.ok) {
-                    setSelectedAnswer(answer);
+                    setSelectedAnswer(answer.id);
                 }
             }).catch(error => {
                 console.log("Error sending answer to server: " + error);
             });
             setSelectingAnswer(false);
         }
-
-
     }
+
+    useEffect(() => {
+        // Check if answer has been selected (server-side)
+        if (selectedAnswer == null) {
+            for (let i = 0; i < props.playerAnswers.length; i++) {
+                if (props.playerAnswers[i].player.id === props.myID && props.playerAnswers[i].gameQuestionId === gameQuestionID) {
+                    // Mark answer as selected
+                    setSelectedAnswer(props.playerAnswers[i].answer.id);
+                }
+            }
+        }
+    })
+
 
     function determineAnswerClass(answer) {
         // If answer is not null, show correct answer btn-success, incorrect btn-danger,
         // and if the one selected is not correct, show btn-secondary.
         // Otherwise, show btn-primary
         if (selectedAnswer) {
-            if (answer.answerText === correctAnswer.answerText) {
+            if (answer.id === correctAnswer.id) {
                 return "btn-success";
             }
-            if (selectedAnswer === answer.answerText && answer.answerText !== correctAnswer) {
+            if (selectedAnswer === answer.id && answer.id !== correctAnswer) {
                 return "btn-secondary";
             }
             return "btn-danger";
@@ -73,13 +99,13 @@ function GuessingGame(props) {
                 </div>
             </div>
             <div className="row gx-0 gy-0 justify-content-center align-items-center">
-                {answers.map((answer, index) => {
+                {answers.map((answer) => {
                     return (
-                        <div className="col-6 col-md-6 text-center" key={index}>
+                        <div className="col-6 col-md-6 text-center" key={answer.id}>
                             <button
                                 // If answer is selected, show correct answer green, wrong answer red. If not selected, show primary button
                                 className={"btn btn-lg text-center border rounded-0 w-100 " + determineAnswerClass(answer)}
-                                type="button" onClick={() => selectAnswer(answer.answerText)}>
+                                type="button" onClick={() => selectAnswer(answer)}>
                                 {answer.answerText}
                             </button>
                         </div>
@@ -103,7 +129,30 @@ GuessingGame.propTypes = {
         }))
     }),
     gameID: PropTypes.number,
-    gameQuestionID: PropTypes.number
-}
+    gameQuestionID: PropTypes.number,
+    playerAnswers: PropTypes.arrayOf(PropTypes.shape({
+        answer: PropTypes.arrayOf(PropTypes.shape({
+            answerText: PropTypes.string,
+            isCorrect: PropTypes.bool
+        })),
+        answeredTime: PropTypes.number,
+        id: PropTypes.number,
+        gameQuestionId: PropTypes.number,
+        question: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number,
+            questionText: PropTypes.string,
+            imagePath: PropTypes.string,
+            answers: PropTypes.arrayOf(PropTypes.shape({
+            answerText: PropTypes.string,
+            isCorrect: PropTypes.bool
+            }))
+        })),
+        player: PropTypes.arrayOf(PropTypes.shape({
+            id: PropTypes.number,
+            name: PropTypes.string
+        }))
+    })),
+    myID: PropTypes.number
+};
 
 export default GuessingGame;

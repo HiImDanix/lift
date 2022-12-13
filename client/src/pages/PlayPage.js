@@ -130,7 +130,7 @@ function PlayPage() {
             return (
                 <div className="min-vh-100">
                     <Nav username={displayName}></Nav>
-                    <Game connection={connection} displayName={displayName} {...game} />
+                    <Game connection={connection} displayName={displayName} {...game} myID={myId} />
                 </div>
 
 

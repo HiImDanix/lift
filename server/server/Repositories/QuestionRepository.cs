@@ -147,6 +147,19 @@ public class QuestionRepository : IQuestionRepository
         }
     }
 
+    public QuizGameQuestion GetQuizGameQuestionByPlayerAnswerId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM QuizGameQuestions WHERE id = (SELECT quizGameQuestionId FROM QuizGameAnswers WHERE id = @id)";
+            var quizGameQuestion = _db.QuerySingle<QuizGameQuestion>(sql, new { id });
+            return ToProxy(quizGameQuestion);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get quiz game question by player answer id", e);
+        }
+    }
+
     private Question ToProxy(Question question)
     {
         return new QuestionProxy(_provider.GetRequiredService<IAnswerRepository>())
@@ -163,7 +176,8 @@ public class QuestionRepository : IQuestionRepository
     {
         return new QuizGameQuestionproxy(
             _provider.GetRequiredService<IQuestionRepository>(),
-            _provider.GetRequiredService<IGuessingGameRepository>())
+            _provider.GetRequiredService<IGuessingGameRepository>(),
+            _provider.GetRequiredService<IPlayerAnswersRepository>())
         {
             Id = question.Id
         };

@@ -3,6 +3,7 @@ using Dapper;
 using GuessingGame.Exceptions;
 using GuessingGame.models;
 using GuessingGame.Models;
+using GuessingGame.Proxies;
 
 namespace GuessingGame.Repositories;
 
@@ -10,15 +11,19 @@ public interface IPlayerAnswersRepository
 {
     bool IsAnswered(Player player, QuizGameQuestion question);
     void Add(PlayerAnswer playerAnswer);
+    List<PlayerAnswer> GetPlayerAnswersByQuizGameQuestionId(int id);
 }
 
 public class PlayerAnswersRepository: IPlayerAnswersRepository
 {
     private readonly IDbConnection _connection;
+    // provider
+    private readonly IServiceProvider _provider;
     
-    public PlayerAnswersRepository(IDbConnection connection)
+    public PlayerAnswersRepository(IDbConnection connection, IServiceProvider provider)
     {
         _connection = connection;
+        _provider = provider;
     }
 
     public bool IsAnswered(Player player, QuizGameQuestion question)
@@ -50,6 +55,25 @@ public class PlayerAnswersRepository: IPlayerAnswersRepository
             throw new DataAccessException("Error while inserting a a player's answer", e);
         }
 
+    }
+
+    public List<PlayerAnswer> GetPlayerAnswersByQuizGameQuestionId(int id)
+    {
+        // Get all the answers for a specific question
+        var sql = "SELECT * FROM QuizGameAnswers WHERE quizGameQuestionID = @id";
+        var playerAnswers = _connection.Query<PlayerAnswer>(sql, new {id}).ToList();
+        return playerAnswers.Select(ToProxy).ToList();
+    }
+    
+    private PlayerAnswer ToProxy(PlayerAnswer answer)
+    {
+        return new PlayerAnswerProxy(_provider.GetRequiredService<IQuestionRepository>(),
+            _provider.GetRequiredService<IPlayerRepository>(),
+            _provider.GetRequiredService<IAnswerRepository>())
+        {
+            Id = answer.Id,
+            AnsweredTime = answer.AnsweredTime
+        };
     }
 }
 

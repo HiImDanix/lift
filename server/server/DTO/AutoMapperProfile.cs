@@ -30,11 +30,25 @@ public class AutoMapperProfile: Profile
                 dest => dest.CurrentQuestion,
                 opt => opt.MapFrom(src =>
                     src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
+            )
+            .ForMember(
+                dest => dest.PlayerAnswers,
+                opt => opt.MapFrom(src =>
+                    src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Answers : null)
             );
         CreateMap<GuessingGameModel, RoundStartDto>()
             .ForMember(
                 dest => dest.CurrentQuestion,
                 opt => opt.MapFrom(src => src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
+            );
+        CreateMap<PlayerAnswer, PlayerAnswerDTO>()
+            .ForMember(
+                dest => dest.Question,
+                opt => opt.MapFrom(src => src.QuizGameQuestion.Question)
+            )
+            .ForMember(
+                dest => dest.GameQuestionId,
+                opt => opt.MapFrom(src => src.QuizGameQuestion.Id)
             );
     }
 }
