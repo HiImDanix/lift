@@ -62,7 +62,8 @@ CREATE TABLE QuizGameAnswers (
 	ID int IDENTITY(0,1) NOT NULL,
 	playerID int NOT NULL,
 	answerID int NOT NULL,
-	pointsEarned int NOT NULL,
+	quizGameQuestionID int NOT NULL,
+	answeredTime bigint NOT NULL,
 	CONSTRAINT QuizGameAnswer_PK PRIMARY KEY (ID)
 );
 
