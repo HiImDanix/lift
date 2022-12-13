@@ -147,6 +147,17 @@ namespace desktop_client.GuiLayer
             var questions = await _questionController.GetQuestions();
             var correctQuestion = questions[questionList.SelectedIndex];
             int response = await _questionController.EditQuestion(correctQuestion.Id, imagePath, question, category, answers, correctQuestion.RowVer);
+            if(response == 200)
+            {
+                MessageBox.Show("Question updated sucessfully");
+                ClearFields();
+                editButton.Visibility = Visibility.Hidden;
+                addButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong");
+            }
         }
     }
  }
