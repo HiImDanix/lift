@@ -65,5 +65,29 @@ namespace desktop_client.ServiceLayer
 
             return questionList;
         }
+
+        public async Task<int> EditQuestion(Question question)
+        {
+            int responseCode = -1;
+            var request = new RestRequest("/questions/" + question.Id, Method.PUT);
+            request.AddHeader("Authorization", "Bearer " + AuthRepository.GetInstance().GetAdmin().Session);
+            var param = new
+            {
+                imagePath = question.ImagePath,
+                QuestionText = question.QuestionText,
+                Category = question.Category,
+                RowVer = question.RowVersion
+            };
+            for (int i = 0; i < 4; i++)
+            {
+                request.AddParameter($"Answers[{i}].answerText", question.Answers[i].AnswerText);
+                request.AddParameter($"Answers[{i}].isCorrect", question.Answers[i].IsCorrect);
+            }
+            request.AddObject(param);
+            var response = await client.ExecuteAsync(request);
+            responseCode = (int)response.StatusCode;
+
+            return responseCode;
+        }
     }
 }

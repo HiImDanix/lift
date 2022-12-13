@@ -82,7 +82,6 @@ namespace desktop_client.GuiLayer
 
         private void FillFields(Question question)
         {
-            Debug.WriteLine(question);
             ImageTxt.Text = question.ImagePath;
             QuestionTxt.Text = question.QuestionText;
             CategoryTxt.Text = question.Category;
@@ -96,10 +95,6 @@ namespace desktop_client.GuiLayer
         {
             return ImageTxt.Text.HasValue() && QuestionTxt.Text.HasValue() && CategoryTxt.Text.HasValue() &&
                 AnswerTxt.Text.HasValue() && Answer1Txt.Text.HasValue() && Answer2Txt.Text.HasValue() && Answer3Txt.Text.HasValue();
-        }
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         private async void getButton_Click(object sender, RoutedEventArgs e)
@@ -126,11 +121,33 @@ namespace desktop_client.GuiLayer
 
         private async void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // ListViewItem 
             var questions = await _questionController.GetQuestions();
-            FillFields(questions[0]);
+            FillFields(questions[questionList.SelectedIndex]);
             addButton.Visibility = Visibility.Hidden;
+            editButton.Visibility = Visibility.Visible;
         }
-   }
+
+        private async void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            string imagePath = ImageTxt.Text;
+            string question = QuestionTxt.Text;
+            string category = CategoryTxt.Text;
+            string correctAnswer = AnswerTxt.Text;
+            string answer1 = Answer1Txt.Text;
+            string answer2 = Answer2Txt.Text;
+            string answer3 = Answer3Txt.Text;
+
+            List<string> answers = new List<string> {
+                correctAnswer,
+                answer1,
+                answer2,
+                answer3
+            };
+
+            var questions = await _questionController.GetQuestions();
+            var correctQuestion = questions[questionList.SelectedIndex];
+            int response = await _questionController.EditQuestion(correctQuestion.Id, imagePath, question, category, answers, correctQuestion.RowVer);
+        }
+    }
  }
 
