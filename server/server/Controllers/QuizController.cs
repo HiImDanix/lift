@@ -33,7 +33,7 @@ public class QuizController: ControllerBase
         
         if (result == null)
         {
-            return NotFound();
+            throw new Exception("Could not submit the answer");
         }
         
         await _gameHubContext.Clients.Group(gameId.ToString()).QuestionAnswered(result);

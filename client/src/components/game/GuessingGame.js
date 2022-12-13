@@ -16,32 +16,33 @@ function GuessingGame(props) {
     const correctAnswer = answers.find(answer => answer.isCorrect);
 
     const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [selectingAnswer, setSelectingAnswer] = useState(false);
 
     // Handle answer selection. If correct, score a point. Then, end the round
     function selectAnswer(answer) {
-        // Send to server as POST with fetch api
-        console.log("gameID: " + gameID);
-        console.log("gameQuestionID" + gameQuestionID);
-        console.log("answer: " + answer);
-        console.log("session: " + localStorage.getItem("session"));
-        fetch(`${Config.SERVER_URL}/games/${gameID}/answers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('session')}`
-            },
-            body: JSON.stringify({
-                gameQuestionID: gameQuestionID,
-                answer: answer
-            }
-        )}).then(response => {
-            if (response.ok) {
-                setSelectedAnswer(answer);
-            }
-        }).catch(error => {
-            console.log("Error sending answer to server: " + error);
-            alert("Error sending answer to server");
-        });
+        if (!selectingAnswer && !selectedAnswer) {
+            setSelectingAnswer(true);
+            // Send to server as POST with fetch api
+            fetch(`${Config.SERVER_URL}/games/${gameID}/answers`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('session')}`
+                },
+                body: JSON.stringify({
+                        gameQuestionID: gameQuestionID,
+                        answer: answer
+                    }
+                )}).then(response => {
+                if (response.ok) {
+                    setSelectedAnswer(answer);
+                }
+            }).catch(error => {
+                console.log("Error sending answer to server: " + error);
+            });
+            setSelectingAnswer(false);
+        }
+
 
     }
 
