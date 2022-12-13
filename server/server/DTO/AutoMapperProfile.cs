@@ -28,7 +28,8 @@ public class AutoMapperProfile: Profile
         CreateMap<GuessingGameModel, GameDTO>()
             .ForMember(
                 dest => dest.CurrentQuestion,
-                opt => opt.MapFrom(src => src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
+                opt => opt.MapFrom(src =>
+                    src.CurrentQuizGameQuestion != null ? src.CurrentQuizGameQuestion.Question : null)
             );
         CreateMap<GuessingGameModel, RoundStartDto>()
             .ForMember(

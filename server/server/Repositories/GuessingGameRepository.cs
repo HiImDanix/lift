@@ -90,7 +90,14 @@ public class GuessingGameRepository: IGuessingGameRepository
         return ToProxy(quizGameQuestion);
 
     }
-    
+
+    public GuessingGameModel? Get(int gameId)
+    {
+        var sql = @"SELECT * FROM QuizGames WHERE id = @id";
+        var game = _db.QueryFirstOrDefault<GuessingGameModel>(sql, new { id = gameId });
+        return game == null ? null : ToProxy(game);
+    }
+
     private QuizGameQuestion ToProxy(QuizGameQuestion question)
     {
         return new QuizGameQuestionproxy(

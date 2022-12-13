@@ -9,4 +9,5 @@ public interface IGameClient
     Task RoundStarted(RoundStartDto roundStartDto);
     Task GameFinished();
     Task RoundFinished();
+    Task QuestionAnswered(QuestionAnsweredDTO result);
 }

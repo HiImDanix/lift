@@ -20,7 +20,8 @@ public class PlayerRepository : IPlayerRepository
     public Player? Get(int id)
     {
         var sql = "SELECT * FROM Players WHERE ID = @id";
-        return _db.QueryFirstOrDefault<Player>(sql, new {id});
+        var player = _db.QueryFirstOrDefault<Player>(sql, new {id});
+        return player == null ? null : ToProxy(player);
     }
 
     public IList<Player> GetPlayersByRoomId(int id)
@@ -35,7 +36,8 @@ public class PlayerRepository : IPlayerRepository
     {
         //select hostID from Rooms by roomID, then retrieve player by hostID
         var sql = "SELECT * FROM Players WHERE ID = (SELECT hostID FROM Rooms WHERE ID = @id)";
-        return _db.QueryFirstOrDefault<Player>(sql, new { id });
+        var host = _db.QueryFirstOrDefault<Player>(sql, new { id });
+        return ToProxy(host);
     }
 
     // Map Player to PlayerProxy

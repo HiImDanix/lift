@@ -10,5 +10,4 @@ public class LoginWithRoomDTO
     public string Session { get; init; }
     public string Name { get; init; }
     public RoomDTO Room { get; init; }
-    public GameDTO? CurrentGame { get; set; }
 }

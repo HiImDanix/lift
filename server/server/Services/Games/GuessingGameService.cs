@@ -18,15 +18,20 @@ public class GuessingGameService: IGuessingGameService
     private readonly IQuestionRepository _questionRepository;
     private readonly IGuessingGameRepository _guessingGameRepository;
     private readonly IRoomRepository _roomRepository;
+    private readonly IPlayerAnswersRepository _playerAnswersRepository;
+    private readonly IPlayerRepository _playerRepository;
     
     public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper,
-        IQuestionRepository questionRepository, IGuessingGameRepository guessingGameRepository, IRoomRepository roomRepository)
+        IQuestionRepository questionRepository, IGuessingGameRepository guessingGameRepository, IRoomRepository roomRepository,
+        IPlayerAnswersRepository playerAnswersRepository, IPlayerRepository playerRepository)
     {
         _gameHubContext = gameHubContext;
         _mapper = mapper;
         _questionRepository = questionRepository;
         _guessingGameRepository = guessingGameRepository;
         _roomRepository = roomRepository;
+        _playerAnswersRepository = playerAnswersRepository;
+        _playerRepository = playerRepository;
     }
     
     // Start game loop
@@ -106,5 +111,70 @@ public class GuessingGameService: IGuessingGameService
         var random = new Random();
         var randomIndex = random.Next(0, questions.Count);
         return questions[randomIndex];
+    }
+    
+    // TODO: Custom exceptions
+    // Note: not thread safe. E.g. If player clicks fast enough, they can submit multiple answers. 
+    public QuestionAnsweredDTO AnswerQuestion(int playerId, int quizGameQuestionID, string answer)
+    {
+        // Get player
+        var player = _playerRepository.Get(playerId);
+        // Get game
+        var quizGameQuestion = _questionRepository.getQuizGameQuestion(quizGameQuestionID);
+        
+        // Validate
+        if (player == null || quizGameQuestion == null)
+        {
+            throw new Exception("Player or question not found");
+        }
+        
+        // Check if player can answer for this game
+        if (player.Room.Id != quizGameQuestion.Game.Room.Id)
+        {
+            throw new Exception("You are not in the same room as this game");
+        }
+
+        // Check if game is in playing state
+        if (quizGameQuestion.Game.Status != GameStatus.Playing.ToString())
+        {
+            throw new Exception("Game is not in playing state");
+        }
+        
+        // Check if question is current question
+        if (quizGameQuestion.Game.CurrentQuizGameQuestion?.Id != quizGameQuestion.Id)
+        {
+            throw new Exception("Question is not the current question");
+        }
+        
+        // Check if player has already answered
+        if (_playerAnswersRepository.IsAnswered(player, quizGameQuestion))
+        {
+            throw new Exception("You have already answered this question");
+        }
+
+        // Get answer object from text
+        var answerObject = quizGameQuestion.Question.Answers.FirstOrDefault(a => a.AnswerText == answer);
+        if (answerObject == null)
+        {
+            throw new Exception("Invalid answer");
+        }
+        
+        // Save answer to DB
+        _playerAnswersRepository.Add(new PlayerAnswer()
+        {
+            Player = player,
+            Answer = answerObject,
+            QuizGameQuestion = quizGameQuestion,
+            AnsweredTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        });
+        
+        // Return DTO
+        var dto = new QuestionAnsweredDTO()
+        {
+            player = _mapper.Map<PlayerPublicDTO>(player),
+            answerId = answerObject.Id
+        };
+        return dto;
+
     }
 }

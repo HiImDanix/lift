@@ -13,5 +13,6 @@ namespace GuessingGame.Repositories
         void RemoveAnswers(Question question);
         Question GetQuestionByQuizGameQuestionId(int id);
         IList<QuizGameQuestion> GetQuestionsByGameId(int gameId);
+        QuizGameQuestion? getQuizGameQuestion(int quizGameQuestionId);
     }
 }

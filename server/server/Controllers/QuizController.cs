@@ -22,21 +22,22 @@ public class QuizController: ControllerBase
         _guessingGameService = guessingGameService;
     }
 
-    // [HttpPost("game/{gameId}/question/{questionId}/answer")]
-    // [Authorize]
-    // public async Task<IActionResult> AnswerQuestion([FromRoute] Guid gameId, [FromRoute] Guid questionId, [FromForm] string answer)
-    // {
-    //     var PlayerID = User.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-    //     
-    //     var result = await _guessingGameService.AnswerQuestion(PlayerID, gameId, questionId, answer);
-    //     
-    //     if (result == null)
-    //     {
-    //         return NotFound();
-    //     }
-    //     
-    //     await _gameHubContext.Clients.Group(gameId.ToString()).QuestionAnswered(result);
-    //     
-    //     return Ok();
-    // }
+    [HttpPost("games/{gameId}/answers")]
+    [Authorize]
+    // TODO: auth policies
+    public async Task<IActionResult> AnswerQuestion([FromRoute] int gameId, AnswerQuestionRequest request)
+    {
+        var playerIdString = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+        var playerId = int.Parse(playerIdString);
+        var result = _guessingGameService.AnswerQuestion(playerId, request.GameQuestionId, request.Answer);
+        
+        if (result == null)
+        {
+            return NotFound();
+        }
+        
+        await _gameHubContext.Clients.Group(gameId.ToString()).QuestionAnswered(result);
+        
+        return Ok();
+    }
 }

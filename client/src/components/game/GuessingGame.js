@@ -1,10 +1,13 @@
 import Countdown from "react-countdown";
 import {useState} from "react";
 import PropTypes from "prop-types";
+import Config from "../../Config";
 
 
 function GuessingGame(props) {
 
+    const gameID = props.gameID;
+    const gameQuestionID = props.gameQuestionID;
     const question = props.gameData.questionText;
     const image = props.gameData.imagePath;
     // TODO: Make answer available only server-side
@@ -16,9 +19,29 @@ function GuessingGame(props) {
 
     // Handle answer selection. If correct, score a point. Then, end the round
     function selectAnswer(answer) {
-        // TODO: Send answer to server
-        // If correct, score a point
-        setSelectedAnswer(answer);
+        // Send to server as POST with fetch api
+        console.log("gameID: " + gameID);
+        console.log("gameQuestionID" + gameQuestionID);
+        console.log("answer: " + answer);
+        console.log("session: " + localStorage.getItem("session"));
+        fetch(`${Config.SERVER_URL}/games/${gameID}/answers`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('session')}`
+            },
+            body: JSON.stringify({
+                gameQuestionID: gameQuestionID,
+                answer: answer
+            }
+        )}).then(response => {
+            if (response.ok) {
+                setSelectedAnswer(answer);
+            }
+        }).catch(error => {
+            console.log("Error sending answer to server: " + error);
+            alert("Error sending answer to server");
+        });
 
     }
 
@@ -77,8 +100,9 @@ GuessingGame.propTypes = {
             answerText: PropTypes.string,
             isCorrect: PropTypes.bool
         }))
-    })
-
+    }),
+    gameID: PropTypes.number,
+    gameQuestionID: PropTypes.number
 }
 
 export default GuessingGame;

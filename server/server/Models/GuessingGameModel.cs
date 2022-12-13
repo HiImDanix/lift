@@ -25,7 +25,7 @@ public class GuessingGameModel
     public string Status { get; set; }
     public string GameType { get; set; } = "GuessingGame";
     public virtual QuizGameQuestion? CurrentQuizGameQuestion { get; set; }
-    public int? currentQuizGameQuestionID { 
+    public int? CurrentQuizGameQuestionID { 
         get {
             return CurrentQuizGameQuestion?.Id;
         }

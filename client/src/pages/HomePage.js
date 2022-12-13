@@ -25,7 +25,7 @@ function HomePage() {
         if (res.status === 200) {
             const data = await res.json();
             // put state in local storage
-            localStorage.setItem("session", data.Session);
+            localStorage.setItem("session", data.session);
             // redirect to play page
             // destructure data as state
             navigate("/play", {state: {data}});
@@ -50,7 +50,7 @@ function HomePage() {
         if (res.status === 200) {
             const data = await res.json();
             // put state in local storage
-            localStorage.setItem("session", data.Session);
+            localStorage.setItem("session", data.session);
             // redirect to play page
             // destructure data as state
             navigate("/play", {state: {data}});

@@ -62,6 +62,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IAnswerRepository, AnswerRepository>();
     builder.Services.AddTransient<IDesktopAuthRepository, DesktopAuthRepository>();
     builder.Services.AddTransient<IGuessingGameRepository, GuessingGameRepository>();
+    builder.Services.AddTransient<IPlayerAnswersRepository, PlayerAnswersRepository>();
     
     // =============================
     // ======== Services ===========

@@ -134,6 +134,19 @@ public class QuestionRepository : IQuestionRepository
         }
     }
 
+    public QuizGameQuestion? getQuizGameQuestion(int quizGameQuestionId)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM QuizGameQuestions WHERE id = @quizGameQuestionId";
+            var quizGameQuestion = _db.QuerySingle<QuizGameQuestion>(sql, new { quizGameQuestionId });
+            return quizGameQuestion == null ? null : ToProxy(quizGameQuestion);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get quiz game question", e);
+        }
+    }
+
     private Question ToProxy(Question question)
     {
         return new QuestionProxy(_provider.GetRequiredService<IAnswerRepository>())

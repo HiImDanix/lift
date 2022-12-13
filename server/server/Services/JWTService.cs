@@ -26,8 +26,8 @@ public class JWTService: IJWTService
         // claims
         var claims = new List<Claim>
         {
-            // id
-            new("sub", player.Id.ToString()),
+            // id, cause 'sub' is reserved and was not working
+            new("id", player.Id.ToString()),
             new("name", player.DisplayName),
             new("roomID", player.Room.Id.ToString()),
             // Role
@@ -54,6 +54,7 @@ public class JWTService: IJWTService
         // claims
         var claims = new List<Claim>
         {
+            // TODO: replace claims with enums
             // id
             new("sub", administrator.Id.ToString()),
             new("email", administrator.Email),

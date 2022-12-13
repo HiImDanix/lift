@@ -4,7 +4,7 @@ namespace GuessingGame.DTO.responses;
 
 public class GameDTO
 {
-
+    public int Id { get; set; }
     public long? StartTime { get; set; }
     // Deserializing enum as string does not work for some reason, so using string instead
     public string Status { get; set; }
@@ -16,6 +16,7 @@ public class GameDTO
     public long? CurrentRoundStartTime { get; set; }
     // public Scoreboard scoreboard;
     public QuestionDTO? CurrentQuestion { get; set; }
+    public int? CurrentQuizGameQuestionId { get; set; }
     
     
     public GameDTO(long startTime, string status, string gameType, int currentRound, int totalRounds, int roundDurationMs, int scoreboardDurationMs, long currentRoundStartTime)

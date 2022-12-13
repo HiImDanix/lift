@@ -29,13 +29,13 @@ function Game(props) {
 
     const [currentRound, setCurrentRound] = useState(props.currentRound);
     const [currentRoundStartTime, setCurrentRoundStartTime] = useState(props.currentRoundStartTime);
+    const [currentGameQuestionID, setCurrentGameQuestionID] = useState(props.currentQuizGameQuestionID);
 
    // TODO: scoreboard
     const [scoreboard, setScoreboard] = useState(props.scoreboard);
-
-
-    // TODO: Retrieve from server
     const [gameData, setGameData] = useState(props.currentQuestion);
+    const [currentQuizGameQuestionID, setCurrentQuizGameQuestionID] = useState(props.currentQuizGameQuestionId)
+    const [gameID, setGameID] = useState(props.id);
 
     useEffect(() => {
         if (props.connection) {
@@ -45,6 +45,7 @@ function Game(props) {
                 setCurrentRoundStartTime(game.currentRoundStartTime);
                 setStatus(game.status);
                 setGameData(game.currentQuestion);
+                setCurrentQuizGameQuestionID(game.currentQuizGameQuestionId)
             });
 
             props.connection.on('RoundFinished', () => {
@@ -94,7 +95,10 @@ function Game(props) {
                     return <InstructionsGuessingGame timeLimit={roundDurationMs / 1000} startTime={startTime} />;
                 }
             case GameStatus.PLAYING:
-                return <GuessingGame currentRoundStartTime={currentRoundStartTime} roundDurationMs={roundDurationMs} gameData={gameData} />;
+                return <GuessingGame currentRoundStartTime={currentRoundStartTime}
+                                     roundDurationMs={roundDurationMs}
+                                     gameData={gameData} gameID={gameID}
+                                     gameQuestionID={currentQuizGameQuestionID}  />;
             case GameStatus.SCOREBOARD:
                 return <ScoreboardPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
             case GameStatus.FINISHED:
@@ -120,7 +124,13 @@ Game.propTypes = {
     totalRounds: PropTypes.number.isRequired,
     roundDurationMs: PropTypes.number.isRequired,
     scoreboardDurationMs: PropTypes.number.isRequired,
-    connection: PropTypes.object.isRequired
+    connection: PropTypes.object.isRequired,
+    // Optional
+    currentQuestion: PropTypes.object,
+    scoreboard: PropTypes.array,
+    currentQuizGameQuestionID: PropTypes.number,
+    startTime: PropTypes.number,
+    currentRoundStartTime: PropTypes.number
 }
 
 export default Game;

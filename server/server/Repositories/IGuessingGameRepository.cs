@@ -9,4 +9,5 @@ public interface IGuessingGameRepository
     void Update(GuessingGameModel model);
     GuessingGameModel GetGuessingGameByQuizGameQuestionId(int id);
     QuizGameQuestion Add(QuizGameQuestion quizGameQuestion);
+    GuessingGameModel? Get(int gameId);
 }
