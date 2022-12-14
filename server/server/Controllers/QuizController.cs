@@ -23,7 +23,7 @@ public class QuizController: ControllerBase
     }
 
     [HttpPost("games/{gameId}/answers")]
-    [Authorize("Administrator")]
+    [Authorize("Player")]
     // TODO: auth policies
     public async Task<IActionResult> AnswerQuestion([FromRoute] int gameId, AnswerQuestionRequest request)
     {
