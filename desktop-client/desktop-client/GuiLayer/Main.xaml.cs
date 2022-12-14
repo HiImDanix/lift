@@ -118,8 +118,10 @@ namespace desktop_client.GuiLayer
 
         private async void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var questions = await _questionController.GetQuestions();
-            FillFields(questions[questionList.SelectedIndex]);
+            // Get question object from selected item
+            Question question = (Question)questionList.SelectedItem;
+            // Fill fields with question data
+            FillFields(question);
             addButton.Visibility = Visibility.Hidden;
             editButton.Visibility = Visibility.Visible;
         }
@@ -141,9 +143,9 @@ namespace desktop_client.GuiLayer
                 answer3
             };
 
-            var questions = await _questionController.GetQuestions();
-            var correctQuestion = questions[questionList.SelectedIndex];
-            int response = await _questionController.EditQuestion(correctQuestion.Id, imagePath, question, category, answers, correctQuestion.RowVer);
+            // Get old question object to extract row version
+            Question oldQuestion = (Question)questionList.SelectedItem;
+            int response = await _questionController.EditQuestion(oldQuestion.Id, imagePath, question, category, answers, oldQuestion.RowVer);
             if(response == 200)
             {
                 MessageBox.Show("Question updated sucessfully");

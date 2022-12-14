@@ -26,7 +26,7 @@
         <TextBox x:Name="Answer3Txt" HorizontalAlignment="Left" Margin="436,333,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="174" Height="40" FontSize="15"/>
         <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="436,396,0,0" VerticalAlignment="Top" Height="36" Width="80" Background="#FF06171E" FontSize="20" Foreground="White" Click="addButton_Click"/>
         <Button x:Name="getButton" Content="Get" HorizontalAlignment="Left" Margin="532,396,0,0" VerticalAlignment="Top" Height="36" Width="80" Background="#FF06171E" FontSize="20" Foreground="White" Click="getButton_Click"/>
-        <Button x:Name="editButton" Content="Edit" HorizontalAlignment="Left" Margin="436,396,0,0" VerticalAlignment="Top" Height="36" Width="80" Background="#FF06171E" FontSize="20" Foreground="White" Visibility="Hidden" Click="editButton_Click"/>
+        <Button x:Name="editButton" Content="Update" HorizontalAlignment="Left" Margin="436,396,0,0" VerticalAlignment="Top" Height="36" Width="80" Background="#FF06171E" FontSize="20" Foreground="White" Visibility="Hidden" Click="editButton_Click"/>
         <ListView x:Name="questionList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="641,137,10,86" Foreground="Black" SelectionChanged="questionList_SelectionChanged" SelectionMode="Single">
             <ListView.View>
                 <GridView>
