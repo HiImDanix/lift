@@ -203,4 +203,17 @@ public class RoomRepository : IRoomRepository
             throw new DataAccessException("Could not get quiz game questions by guessing game id", e);
         }
     }
+
+    public Room GetRoomByPlayerId(int id)
+    {
+        try
+        {
+            var sql = @"SELECT * FROM Rooms WHERE id = (SELECT roomId FROM Players WHERE id = @id)";
+            var room = _db.QuerySingle<Room>(sql, new { id });
+            return ToProxy(room);
+        } catch (Exception e)
+        {
+            throw new DataAccessException("Could not get room by player id", e);
+        }
+    }
 }

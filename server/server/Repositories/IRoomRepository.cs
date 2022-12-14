@@ -16,4 +16,5 @@ public interface IRoomRepository
     Room? GetRoomByGuessingGameId(int id);
     QuizGameQuestion? GetQuizGameQuestionByGuessingGameId(int id);
     List<QuizGameQuestion> GetQuizGameQuestionsByGuessingGameId(int id);
+    Room GetRoomByPlayerId(int id);
 }
