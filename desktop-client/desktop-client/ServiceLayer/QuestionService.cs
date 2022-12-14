@@ -55,13 +55,12 @@ namespace desktop_client.ServiceLayer
 
         public async Task<List<Question>> GetQuestions()
         {
-            List<Question> questionList = new List<Question>();
 
             var request = new RestRequest("/questions", Method.GET);
             request.AddHeader("Authorization", "Bearer " + AuthRepository.GetInstance().GetAdmin().Session);
 
             var response = await client.ExecuteAsync(request);
-            questionList = JsonConvert.DeserializeObject<List<Question>>(response.Content);
+            List<Question> questionList = JsonConvert.DeserializeObject<List<Question>>(response.Content);
 
             return questionList;
         }

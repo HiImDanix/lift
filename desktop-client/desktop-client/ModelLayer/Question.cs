@@ -59,7 +59,8 @@ namespace desktop_client.ModelLayer
 
         public override string ToString()
         {
-            return this.QuestionText + " | " + this.Answers[0].AnswerText;
+            var correctAnswer = Answers.Find(q => q.IsCorrect == true).AnswerText;
+            return QuestionText + " - " + correctAnswer;
         }
 
     }

@@ -106,9 +106,8 @@ ALTER TABLE LosingIsFunToo.dbo.Players ADD CONSTRAINT lobby_Fk FOREIGN KEY (room
 -- LosingIsFunToo.dbo.QuizGameAnswers foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
-ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK_1 FOREIGN KEY (answerID) REFERENCES Answers(ID);
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswers_FK FOREIGN KEY (quizGameQuestionID) REFERENCES QuizGameQuestions(ID);
-
+ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswers_FK_1 FOREIGN KEY (answerID) REFERENCES Answers(ID) ON DELETE CASCADE;
 
 -- LosingIsFunToo.dbo.QuizGameQuestions foreign keys
 

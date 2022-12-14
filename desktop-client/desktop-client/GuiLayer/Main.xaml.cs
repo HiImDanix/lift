@@ -99,13 +99,10 @@ namespace desktop_client.GuiLayer
 
         private async void getButton_Click(object sender, RoutedEventArgs e)
         {
+            int selectedIndex = questionList.SelectedIndex;
             var questions = await _questionController.GetQuestions();
-            //IList<string> questionsForDisplay = new List<string>();
-            /*foreach (Question question in questions) {
-                var correctAnswer = question.Answers.Find(q => q.IsCorrect == true).AnswerText;
-                questionsForDisplay.Add(question.QuestionText + " - " + correctAnswer);
-            }*/
             questionList.ItemsSource = questions;
+            questionList.SelectedIndex = selectedIndex;
         }
        
 
@@ -118,12 +115,15 @@ namespace desktop_client.GuiLayer
 
         private async void questionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Get question object from selected item
-            Question question = (Question)questionList.SelectedItem;
-            // Fill fields with question data
-            FillFields(question);
-            addButton.Visibility = Visibility.Hidden;
-            editButton.Visibility = Visibility.Visible;
+            if (questionList.SelectedIndex != -1)
+            {
+                Question question = (Question)questionList.SelectedItem;
+                // Fill fields with question data
+                FillFields(question);
+                addButton.Visibility = Visibility.Hidden;
+                editButton.Visibility = Visibility.Visible;
+            }
+
         }
 
         private async void editButton_Click(object sender, RoutedEventArgs e)
@@ -144,6 +144,7 @@ namespace desktop_client.GuiLayer
             };
 
             // Get old question object to extract row version
+            int selectedIndex = questionList.SelectedIndex;
             Question oldQuestion = (Question)questionList.SelectedItem;
             int response = await _questionController.EditQuestion(oldQuestion.Id, imagePath, question, category, answers, oldQuestion.RowVer);
             if(response == 200)
@@ -152,6 +153,10 @@ namespace desktop_client.GuiLayer
                 ClearFields();
                 editButton.Visibility = Visibility.Hidden;
                 addButton.Visibility = Visibility.Visible;
+                // execute get button click to refresh list
+                // TODO: Not optimal. Can select different object if anoter admin adds a question
+                getButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                questionList.SelectedIndex = selectedIndex;
             }
             else
             {
