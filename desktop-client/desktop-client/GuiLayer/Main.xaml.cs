@@ -99,16 +99,13 @@ namespace desktop_client.GuiLayer
 
         private async void getButton_Click(object sender, RoutedEventArgs e)
         {
-
             var questions = await _questionController.GetQuestions();
-
-            IList<string> questionsForDisplay = new List<string>();
-            foreach (Question question in questions) {
+            //IList<string> questionsForDisplay = new List<string>();
+            /*foreach (Question question in questions) {
                 var correctAnswer = question.Answers.Find(q => q.IsCorrect == true).AnswerText;
                 questionsForDisplay.Add(question.QuestionText + " - " + correctAnswer);
-                Debug.WriteLine("Question Text" + question.QuestionText);
-            }
-            questionList.ItemsSource = questionsForDisplay;
+            }*/
+            questionList.ItemsSource = questions;
         }
        
 
@@ -144,7 +141,8 @@ namespace desktop_client.GuiLayer
                 answer3
             };
 
-            var questions = await _questionController.GetQuestions();
+            //var questions = await _questionController.GetQuestions();
+            
             var correctQuestion = questions[questionList.SelectedIndex];
             int response = await _questionController.EditQuestion(correctQuestion.Id, imagePath, question, category, answers, correctQuestion.RowVer);
             if(response == 200)
