@@ -141,8 +141,7 @@ namespace desktop_client.GuiLayer
                 answer3
             };
 
-            //var questions = await _questionController.GetQuestions();
-            
+            var questions = await _questionController.GetQuestions();
             var correctQuestion = questions[questionList.SelectedIndex];
             int response = await _questionController.EditQuestion(correctQuestion.Id, imagePath, question, category, answers, correctQuestion.RowVer);
             if(response == 200)
