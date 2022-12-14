@@ -20,24 +20,45 @@ namespace GuessingGame.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// This method creates a question with the given image path, question text, and category,
+        /// along with the answers to the question, and adds it to the database.
+        /// </summary>
+        /// <param name="imagePath">The URL to the image associated with the question</param>
+        /// <param name="questionText">The text of the question.</param>
+        /// <param name="category">The category of the question.</param>
+        /// <param name="answers">The answers to the question.</param>
+        /// <returns>A DTO of the created question with the answers added to the database.</returns>
         public QuestionDTO CreateQuestionWithAnswers(string imagePath, string questionText,
             string category,
             List<Answer> answers)
         {
-            // Map to object
+            
+            // Add the question to the database
+            var question = AddQuestionToDatabase(imagePath, questionText, category);
+            
+            // Add the answers to the database & associate them with the question
+            AddAnswersToDatabase(question, answers);
+
+            return MapToDto(question);
+        }
+
+        private Question AddQuestionToDatabase(string imagePath, string questionText, string category)
+        {
             Question question = new Question()
             {
                 ImagePath = imagePath,
                 QuestionText = questionText,
-                Category = category,
-                Answers = answers
+                Category = category
             };
             
             // Put question in DB
-            question = _questionRepository.Add(question);
-
+            return _questionRepository.Add(question);
+        }
+        
+        private void AddAnswersToDatabase(Question question, List<Answer> answers)
+        {
             // Add each answer to the database
-            // TODO: add questionID to answer. Also, make it so that when you add question, it adds the answers too.
             List<Answer> answersInDb = new List<Answer>();
             foreach (var ans in answers)
             {
@@ -45,11 +66,9 @@ namespace GuessingGame.Services
                 Answer answer = _answerRepository.Add(ans);
                 answersInDb.Add(answer);
             }
-            
-            // Assign to question as it was retrieved from db before adding answers (to db)
-            question.Answers = answersInDb;
 
-            return _mapper.Map<QuestionDTO>(question);
+            // Assign db answers to question as well (the other way around)
+            question.Answers = answersInDb;
         }
 
         public IList<QuestionDTO> GetQuestions()
@@ -92,6 +111,11 @@ namespace GuessingGame.Services
             }
             
             // Map to DTO
+            return _mapper.Map<QuestionDTO>(question);
+        }
+        
+        private QuestionDTO MapToDto(Question question)
+        {
             return _mapper.Map<QuestionDTO>(question);
         }
     }

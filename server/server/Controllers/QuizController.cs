@@ -23,20 +23,21 @@ public class QuizController: ControllerBase
     }
 
     [HttpPost("games/{gameId}/answers")]
-    [Authorize]
+    [Authorize("Administrator")]
     // TODO: auth policies
     public async Task<IActionResult> AnswerQuestion([FromRoute] int gameId, AnswerQuestionRequest request)
     {
+
         var playerIdString = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
         var playerId = int.Parse(playerIdString);
-        var result = _guessingGameService.AnswerQuestion(playerId, request.GameQuestionId, request.Answer);
+        var questionAnsweredDto = _guessingGameService.AnswerQuestion(playerId, request.GameQuestionId, request.Answer);
         
-        if (result == null)
+        if (questionAnsweredDto == null)
         {
             throw new Exception("Could not submit the answer");
         }
         
-        await _gameHubContext.Clients.Group(gameId.ToString()).QuestionAnswered(result);
+        await _gameHubContext.Clients.Group(gameId.ToString()).QuestionAnswered(questionAnsweredDto);
         
         return Ok();
     }

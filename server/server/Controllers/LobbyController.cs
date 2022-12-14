@@ -45,7 +45,7 @@ public class LobbyController: ControllerBase
         return Ok(lobby);
     }
     
-    // Retrieve lobby info by ID
+    // Retrieve lobby info by ID. Used to retrieve info after reloading the page.
     [HttpGet]
     [Route("lobby/{lobbyId}")]
     public IActionResult GetLobby(int lobbyId)
