@@ -112,6 +112,7 @@ public class GuessingGameService: IGuessingGameService
     private ScoreboardDTO CreateScoreboard(GuessingGameModel model)
     {
         var scoreboard = new ScoreboardDTO();
+        scoreboard.Scores = new List<ScoreboardLineDTO>();
         // Scoreboard DTO has:
         // Position, Player, Score
 
