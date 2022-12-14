@@ -57,5 +57,10 @@ namespace desktop_client.ModelLayer
             }
         }
 
+        public override string ToString()
+        {
+            return this.QuestionText + " | " + this.Answers[0].AnswerText;
+        }
+
     }
 }
