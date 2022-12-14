@@ -50,45 +50,19 @@ function Game(props) {
                 setCurrentQuizGameQuestionID(game.currentQuizGameQuestionId)
             });
 
-            props.connection.on('RoundFinished', () => {
+            props.connection.on('RoundFinished', (scoreboard) => {
+                console.log('RoundFinished', scoreboard);
+                setScoreboard(scoreboard);
                 setStatus(GameStatus.SCOREBOARD);
             });
 
-            props.connection.on('GameFinished', () => {
-                console.log('GameFinished');
+            props.connection.on('GameFinished', (scoreboard) => {
+                console.log('GameFinished', scoreboard);
+                setScoreboard(scoreboard);
                 setStatus(GameStatus.FINISHED);
             });
         }
     }, [props.connection]);
-
-
-    // Start a new round
-    // function nextRound() {
-    //     setRound(round + 1);
-    //     setPage(GamePageEnum.QUESTION);
-    // }
-
-    // Round finished:
-    // - Show scoreboard
-    // - If last round, show game over status
-    // function roundFinished() {
-    //     if (round >= maxRounds) {
-    //         setPage(GamePageEnum.GAME_OVER);
-    //     } else {
-    //         setPage(GamePageEnum.SCOREBOARD);
-    //     }
-    // }
-
-    // Scoreboard screen finished:
-    // - Start next round
-    // function scoreboardFinished() {
-    //     nextRound();
-    // }
-
-    // Score a point
-    // function scorePoint() {
-    //     setScore(score + 1);
-    // }
 
     function renderSwitch(status) {
         switch (status) {
@@ -104,9 +78,9 @@ function Game(props) {
                                      playerAnswers={playerAnswers}
                                      myID={props.myID}/>;
             case GameStatus.SCOREBOARD:
-                return <ScoreboardPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
+                return <ScoreboardPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} scoreboard={scoreboard} />;
             case GameStatus.FINISHED:
-                return <GameOverPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} />;
+                return <GameOverPage displayName={props.displayName} scoreboardEndTime={currentRoundStartTime + roundDurationMs + scoreboardDurationMs} scoreboard={scoreboard} />;
             default:
                 return <div>Unknown page</div>;
         }
@@ -136,7 +110,7 @@ Game.propTypes = {
     startTime: PropTypes.number,
     currentRoundStartTime: PropTypes.number,
     playerAnswers: PropTypes.array,
-    myID: PropTypes.number,
+    myID: PropTypes.number
 }
 
 export default Game;

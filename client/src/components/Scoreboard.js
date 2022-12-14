@@ -3,46 +3,7 @@ import PropTypes from "prop-types";
 import {useState} from "react";
 
 function Scoreboard(props) {
-
-
-    // Hardcoded data
-    const [scoreboardData, setScoreboardData] = useState({
-        "scores": [
-            {
-                "position": 1,
-                "username": "ProGamer25",
-                "score": 100
-            },
-            {
-                "position": 2,
-                "username": "HardBoiledEgg",
-                "score": 50
-            },
-            {
-                "position": 3,
-                "username": "n00bhunter69",
-                "score": 50
-            },
-            {
-                "position": 4,
-                "username": "TheRealSlimShady",
-                "score": 25
-            },
-            {
-                "position": 5,
-                "username": "Haxx0r",
-                "score": 25
-            },
-            {
-                "position": 6,
-                "username": props.displayName,
-                "score": 0
-            }
-        ]
-
-    });
-
-
+    console.log("wtf - " + props.scoreboard);
     return (
         <>
             <div className="table-responsive">
@@ -56,11 +17,11 @@ function Scoreboard(props) {
                     </thead>
                     <tbody>
                     {
-                        scoreboardData.scores.map((score, index) => {
+                        props.scoreboard.scores.map((score, index) => {
                             return (
-                                <tr key={index} {...(score.username === props.displayName ? {className: "text-bg-warning"} : {})}>
+                                <tr key={index} {...(score.player.name === props.displayName ? {className: "text-bg-warning"} : {})}>
                                     <td className="text-center">{score.position}</td>
-                                    <td className="text-start">{score.username}</td>
+                                    <td className="text-start">{score.player.name}</td>
                                     <td>{score.score}</td>
                                 </tr>
                             );
@@ -82,7 +43,15 @@ function Scoreboard(props) {
 }
 
 Scoreboard.propTypes = {
-    displayName: PropTypes.string.isRequired
+    displayName: PropTypes.string.isRequired,
+    // scoreboard contains array of scores
+    // scoreboard: PropTypes.shape({
+    //     scores: PropTypes.arrayOf(PropTypes.shape({
+    //         position: PropTypes.number,
+    //         username: PropTypes.string,
+    //         score: PropTypes.number
+    //     }))
+    // })
 }
 
 export default Scoreboard;

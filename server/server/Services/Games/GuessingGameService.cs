@@ -90,19 +90,60 @@ public class GuessingGameService: IGuessingGameService
                 model.Status = GameStatus.Finished.ToString();
                 // Save to db
                 _guessingGameRepository.Update(model);
+                // Create scoreboard
+                var scoreboard = CreateScoreboard(model);
                 // Inform players
-                _gameHubContext.Clients.Group(model.Room.Id.ToString()).GameFinished();
+                _gameHubContext.Clients.Group(model.Room.Id.ToString()).GameFinished(scoreboard);
             } else
             {
                 model.Status = GameStatus.Scoreboard.ToString();
                 // Save to db
                 _guessingGameRepository.Update(model);
+                // Create scoreboard
+                var scoreboard = CreateScoreboard(model);
                 // Inform players
-                _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundFinished();
+                _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundFinished(scoreboard);
                 // Wait for players to look over the scoreboard
                 Thread.Sleep(model.ScoreboardDurationMs);
             }
         }
+    }
+
+    private ScoreboardDTO CreateScoreboard(GuessingGameModel model)
+    {
+        var scoreboard = new ScoreboardDTO();
+        // Scoreboard DTO has:
+        // Position, Player, Score
+
+        var answers = model.CurrentQuizGameQuestion.Answers;
+        foreach(var ans in answers)
+        {
+            var player = _playerRepository.Get(ans.Player.Id);
+            // Calculate score
+            var score = ans.Answer.IsCorrect ? 100 : 0;
+            // Add to scoreboard DTO
+            // TODO: Use scoreboardLineDTO
+            scoreboard.Scores = new List<ScoreboardLineDTO>
+            {
+                new()
+                {
+                    Player = _mapper.Map<PlayerPublicDTO>(player),
+                    Score = score
+                }
+            };
+        }
+        
+        // TODO: sort also by answer time if same score.
+        // Sort by score
+        scoreboard.Scores = scoreboard.Scores.OrderByDescending(x => x.Score).ToList();
+        // Set position
+        for (int i = 0; i < scoreboard.Scores.Count; i++)
+        {
+            scoreboard.Scores[i].Position = i + 1;
+        }
+
+        return scoreboard;
+
     }
 
     private Question GetRandomQuestion()
