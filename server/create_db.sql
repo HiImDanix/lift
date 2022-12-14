@@ -1,4 +1,3 @@
-
 CREATE TABLE Accounts (
 	ID int IDENTITY(0,1) NOT NULL,
 	username varchar(16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -7,6 +6,15 @@ CREATE TABLE Accounts (
 	CONSTRAINT account_pk PRIMARY KEY (ID),
 	CONSTRAINT account_username_unique UNIQUE (username)
 );
+
+
+CREATE TABLE Administrators (
+	email varchar(50) COLLATE Latin1_General_CI_AS NOT NULL,
+	password varchar(128) COLLATE Latin1_General_CI_AS NOT NULL,
+	ID int IDENTITY(0,1) NOT NULL,
+	CONSTRAINT Administrators_PK PRIMARY KEY (ID)
+);
+
 
 CREATE TABLE Questions (
 	ID int IDENTITY(0,1) NOT NULL,
@@ -17,6 +25,7 @@ CREATE TABLE Questions (
 	CONSTRAINT question_pk PRIMARY KEY (ID)
 );
 
+
 CREATE TABLE Answers (
 	ID int IDENTITY(0,1) NOT NULL,
 	answer varchar(64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -26,14 +35,35 @@ CREATE TABLE Answers (
 	CONSTRAINT Answer_FK FOREIGN KEY (questionID) REFERENCES Questions(ID)
 );
 
-CREATE TABLE Rooms (
+
+CREATE TABLE Players (
 	ID int IDENTITY(0,1) NOT NULL,
-	code varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	currentGameID int NULL,
-	hostID int NULL,
-	startTime bigint NULL,
-	CONSTRAINT Lobby_PK PRIMARY KEY (ID)
+	[session] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	displayName varchar(16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	accountID int NULL,
+	roomID int NOT NULL,
+	CONSTRAINT player_pk PRIMARY KEY (ID),
+	CONSTRAINT player_session_unique UNIQUE ([session])
 );
+
+
+CREATE TABLE QuizGameAnswers (
+	ID int IDENTITY(0,1) NOT NULL,
+	playerID int NOT NULL,
+	answerID int NOT NULL,
+	quizGameQuestionID int NOT NULL,
+	answeredTime bigint NOT NULL,
+	CONSTRAINT QuizGameAnswer_PK PRIMARY KEY (ID)
+);
+
+
+CREATE TABLE QuizGameQuestions (
+	ID int IDENTITY(0,1) NOT NULL,
+	questionID int NOT NULL,
+	QuizGameID int NOT NULL,
+	CONSTRAINT RoundQuestions_PK PRIMARY KEY (ID)
+);
+
 
 CREATE TABLE QuizGames (
 	ID int IDENTITY(0,1) NOT NULL,
@@ -48,39 +78,16 @@ CREATE TABLE QuizGames (
 	CONSTRAINT NewTable_PK PRIMARY KEY (ID)
 );
 
-CREATE TABLE Players (
+
+CREATE TABLE Rooms (
 	ID int IDENTITY(0,1) NOT NULL,
-	[session] varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	displayName varchar(16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	accountID int NULL,
-	roomID int NOT NULL,
-	CONSTRAINT player_pk PRIMARY KEY (ID),
-	CONSTRAINT player_session_unique UNIQUE ([session])
+	code varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	currentGameID int NULL,
+	hostID int NULL,
+	startTime bigint NULL,
+	CONSTRAINT Lobby_PK PRIMARY KEY (ID)
 );
 
-CREATE TABLE QuizGameAnswers (
-	ID int IDENTITY(0,1) NOT NULL,
-	playerID int NOT NULL,
-	answerID int NOT NULL,
-	quizGameQuestionID int NOT NULL,
-	answeredTime bigint NOT NULL,
-	CONSTRAINT QuizGameAnswer_PK PRIMARY KEY (ID)
-);
-
-CREATE TABLE QuizGameQuestions (
-	ID int IDENTITY(0,1) NOT NULL,
-	questionID int NOT NULL,
-	QuizGameID int NOT NULL,
-	CONSTRAINT RoundQuestions_PK PRIMARY KEY (ID)
-);
-
-
-CREATE TABLE RoundQuestions (
-	ID int IDENTITY(0,1) NOT NULL,
-	questionID int NOT NULL,
-	logoQuizGameID int NOT NULL,
-	CONSTRAINT RoundQuestions_PK PRIMARY KEY (ID)
-);
 
 CREATE TABLE Scoreboards (
 	ID int IDENTITY(0,1) NOT NULL,
@@ -88,20 +95,6 @@ CREATE TABLE Scoreboards (
 	playerID int NOT NULL,
 	CONSTRAINT Scoreboard_PK PRIMARY KEY (ID)
 );
-
-CREATE TABLE Administrators (
-	[email] [varchar](50) NOT NULL,
-	[password] [varchar](128) NOT NULL,
-	ID int IDENTITY(0,1) NOT NULL,
- 	CONSTRAINT Administrators_PK PRIMARY KEY (ID)
-);
-
-
--- LosingIsFunToo.dbo.QuizGames foreign keys
-
-ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT NewTable_FK FOREIGN KEY (scoreboardID) REFERENCES Scoreboards(ID);
-ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK FOREIGN KEY (roomID) REFERENCES Rooms(ID);
-ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK2 FOREIGN KEY (currentQuestionID) REFERENCES Questions(ID);
 
 
 -- LosingIsFunToo.dbo.Players foreign keys
@@ -114,6 +107,18 @@ ALTER TABLE LosingIsFunToo.dbo.Players ADD CONSTRAINT lobby_Fk FOREIGN KEY (room
 
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
 ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswer_FK_1 FOREIGN KEY (answerID) REFERENCES Answers(ID);
+ALTER TABLE LosingIsFunToo.dbo.QuizGameAnswers ADD CONSTRAINT QuizGameAnswers_FK FOREIGN KEY (quizGameQuestionID) REFERENCES QuizGameQuestions(ID);
+
+
+-- LosingIsFunToo.dbo.QuizGameQuestions foreign keys
+
+ALTER TABLE LosingIsFunToo.dbo.QuizGameQuestions ADD CONSTRAINT RoundQuestions_FK FOREIGN KEY (QuizGameID) REFERENCES QuizGames(ID);
+ALTER TABLE LosingIsFunToo.dbo.QuizGameQuestions ADD CONSTRAINT RoundQuestions_FK_1 FOREIGN KEY (questionID) REFERENCES Questions(ID);
+
+
+-- LosingIsFunToo.dbo.QuizGames foreign keys
+
+ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK FOREIGN KEY (roomID) REFERENCES Rooms(ID);
 
 
 -- LosingIsFunToo.dbo.Rooms foreign keys
@@ -122,16 +127,9 @@ ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (curr
 ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Rooms_FK FOREIGN KEY (hostID) REFERENCES Players(ID);
 
 
--- LosingIsFunToo.dbo.RoundQuestions foreign keys
-
-ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK FOREIGN KEY (logoQuizGameID) REFERENCES QuizGames(ID);
-ALTER TABLE LosingIsFunToo.dbo.RoundQuestions ADD CONSTRAINT RoundQuestions_FK_1 FOREIGN KEY (questionID) REFERENCES Questions(ID);
-
-
 -- LosingIsFunToo.dbo.Scoreboards foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
-
 
 
 -- Pre-seed data
