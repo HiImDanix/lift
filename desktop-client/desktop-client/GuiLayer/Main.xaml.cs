@@ -160,7 +160,7 @@ namespace desktop_client.GuiLayer
             }
             else
             {
-                MessageBox.Show("Something went wrong");
+                MessageBox.Show("Could not update the question. The question might have been updated by another admin. Please refresh the list and try again");
             }
         }
     }
