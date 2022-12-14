@@ -124,14 +124,11 @@ public class GuessingGameService: IGuessingGameService
             var score = ans.Answer.IsCorrect ? 100 : 0;
             // Add to scoreboard DTO
             // TODO: Use scoreboardLineDTO
-            scoreboard.Scores = new List<ScoreboardLineDTO>
+            scoreboard.Scores.Add(new ScoreboardLineDTO()
             {
-                new()
-                {
-                    Player = _mapper.Map<PlayerPublicDTO>(player),
-                    Score = score
-                }
-            };
+                Player = _mapper.Map<PlayerPublicDTO>(player),
+                Score = score
+            });
         }
         
         // TODO: sort also by answer time if same score.
