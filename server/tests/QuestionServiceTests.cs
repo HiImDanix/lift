@@ -16,10 +16,10 @@ public class QuestionServiceTests
     public void CreateQuestionWithAnswers_ShouldAddQuestionAndAnswersToDatabase()
     {
         // Arrange
-        var imagePath = "http://www.example.com/image.jpg";
-        var questionText = "What is the capital of France?";
-        var category = "Geography";
-        var answers = new List<Answer> {
+        string imagePath = "http://www.example.com/image.jpg";
+        string questionText = "What is the capital of France?";
+        string category = "Geography";
+        List<Answer> answers = new List<Answer> {
             new() { AnswerText = "Paris", IsCorrect = true},
             new() { AnswerText = "London", IsCorrect = false},
             new() { AnswerText = "Berlin", IsCorrect = false},
@@ -27,22 +27,22 @@ public class QuestionServiceTests
         };
 
         // Question object
-        var question = new Question {
+        Question question = new Question {
             ImagePath = imagePath,
             QuestionText = questionText,
             Category = category,
             Answers = answers
         };
-        
+
         // Answers DTO
-        var answersDto = new List<AnswerDTO> {
+        List<AnswerDTO> answersDto = new List<AnswerDTO> {
             new() { AnswerText = "Paris", IsCorrect = true},
             new() { AnswerText = "London", IsCorrect = false},
             new() { AnswerText = "Berlin", IsCorrect = false},
             new() { AnswerText = "Rome", IsCorrect = false}
         };
         // Questions DTO
-        var questionDto = new QuestionDTO {
+        QuestionDTO questionDto = new QuestionDTO {
             ImagePath = imagePath,
             QuestionText = questionText,    
             Category = category,
@@ -50,15 +50,15 @@ public class QuestionServiceTests
         };
 
         // Mock repositories & sub methods
-        var questionRepositoryMock = new Mock<IQuestionRepository>();
+        Mock<IQuestionRepository> questionRepositoryMock = new Mock<IQuestionRepository>();
         questionRepositoryMock.Setup(x => x.Add(question)).Returns(question);
-        var answerRepositoryMock = new Mock<IAnswerRepository>();
+        Mock<IAnswerRepository> answerRepositoryMock = new Mock<IAnswerRepository>();
         answerRepositoryMock.Setup(x => x.Add(It.IsAny<Answer>())).Returns((Answer ans) => ans);
-        var mapperMock = new Mock<IMapper>();
+        Mock<IMapper> mapperMock = new Mock<IMapper>();
         mapperMock.Setup(x => x.Map<QuestionDTO>(question)).Returns(questionDto);
-        
+
         // Create service
-        var questionService = new QuestionService(questionRepositoryMock.Object, answerRepositoryMock.Object, mapperMock.Object);
+        QuestionService questionService = new QuestionService(questionRepositoryMock.Object, answerRepositoryMock.Object, mapperMock.Object);
         
         // Mock service method
 
