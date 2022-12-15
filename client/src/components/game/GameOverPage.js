@@ -38,6 +38,7 @@ function GameOverPage(props) {
             </div>
             <div className={"section_spacing last_section"}>
                 <Scoreboard displayName={props.displayName} scoreboardEndTime={props.scoreboardEndTime} scoreboard={props.scoreboard} />/>
+                <Scoreboard displayName={props.displayName} scoreboardEndTime={props.scoreboardEndTime} scoreboard={props.scoreboard} />
             </div>
 
         </>

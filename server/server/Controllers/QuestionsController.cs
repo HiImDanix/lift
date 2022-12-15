@@ -17,7 +17,7 @@ namespace GuessingGame.Controllers
 
         [HttpPost]
         [Route("questions")]
-        //[Authorize(Policy = "Administrator")]
+        [Authorize(Policy = "Administrator")]
         public IActionResult CreateQuestion([FromForm] QuestionCreateRequest request)
         {
             // print bearer token from request
@@ -40,7 +40,7 @@ namespace GuessingGame.Controllers
         [HttpGet]
         [Route("questions")]
         // TODO: Enable authorization again - [Authorize(Policy = "Administrator")]
-        // [Authorize(Policy = "Administrator")]
+         [Authorize(Policy = "Administrator")]
         public IActionResult GetQuestions()
         {
             var questions = _questionService.GetQuestions();
@@ -50,7 +50,7 @@ namespace GuessingGame.Controllers
         [HttpPut]
         [Route("questions/{id}")]
         // TODO: Enable authorization again - [Authorize(Policy = "Administrator")]
-        // [Authorize(Policy = "Administrator")]
+         [Authorize(Policy = "Administrator")]
         public IActionResult UpdateQuestion([FromRoute] int id, [FromForm] QuestionCreateRequest request)
         {
             var answersList = request.Answers.Select(x => new Answer()
