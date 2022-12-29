@@ -16,29 +16,28 @@ public class QuestionServiceTests
     
     public QuestionServiceTests()
     {
-        var config = new MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile()));
+        var config = new MapperConfiguration(
+            cfg => cfg.AddProfile(new AutoMapperProfile()));
         _mapper = config.CreateMapper();
     }
     
-    [Fact]
-    public void CreateQuestionWithAnswers_ShouldAddQuestionAndAnswersToDatabase()
+    [Theory]
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography",
+        new[] { "Paris", "London", "Berlin", "Rome" })]
+    [InlineData("", "What is the capital of France?", "Geography",
+        new[] { "Paris", "London", "Berlin", "Rome" })]
+    public void CreateQuestionWithAnswers_ShouldAddQuestionAndAnswersToDatabase(
+        string imageUrl, string questionText, string category,
+        string[] answers)
     {
         // ===== Arrange =====
-        string imageUrl = "http://www.example.com/image.jpg";
-        string questionText = "What is the capital of France?";
-        string category = "Geography";
-        List<Answer> answers = new List<Answer> {
-            new() { AnswerText = "Paris", IsCorrect = true},
-            new() { AnswerText = "London", IsCorrect = false},
-            new() { AnswerText = "Berlin", IsCorrect = false},
-            new() { AnswerText = "Rome", IsCorrect = false}
-        };
-        // Question object
+        // Create question with answers
+        List<Answer> answerObjects = answers.Select(a => new Answer { AnswerText = a }).ToList();
         Question question = new Question {
             ImagePath = imageUrl,
             QuestionText = questionText,
             Category = category,
-            Answers = answers
+            Answers = answerObjects
         };
 
         // Mock repositories & their methods
@@ -51,7 +50,7 @@ public class QuestionServiceTests
         QuestionService questionService = new QuestionService(questionRepositoryMock.Object, answerRepositoryMock.Object, _mapper);
 
         // ===== Act =====
-        var result = questionService.CreateQuestionWithAnswers(imageUrl, questionText, category, answers);
+        var result = questionService.CreateQuestionWithAnswers(imageUrl, questionText, category, answerObjects);
         
         // ===== Assert =====
         // Expected question DTO
@@ -61,7 +60,7 @@ public class QuestionServiceTests
         result.Should().BeEquivalentTo(questionDto); // structurally equal (same properties)
         // Verify that the repositories were called
         questionRepositoryMock.Verify(x => x.Add(It.IsAny<Question>()), Times.Once);
-        answerRepositoryMock.Verify(x => x.Add(It.IsAny<Answer>()), Times.Exactly(answers.Count));
+        answerRepositoryMock.Verify(x => x.Add(It.IsAny<Answer>()), Times.Exactly(answerObjects.Count));
     }
 }
 
