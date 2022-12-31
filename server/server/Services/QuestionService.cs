@@ -110,15 +110,29 @@ namespace GuessingGame.Services
             }
             
             // Update question
+            UpdateQuestion(question, requestImagePath, requestQuestionText, requestCategory, requestRowVer);
+            
+            // Update answers
+            UpdateAnswers(question, answersList);
+            
+            // Map to DTO
+            return MapToDto(question);
+        }
+        
+        private void UpdateQuestion(Question question, string requestImagePath, string requestQuestionText,
+            string requestCategory, byte[] requestRowVer)
+        {
             question.ImagePath = requestImagePath;
             question.QuestionText = requestQuestionText;
             question.Category = requestCategory;
             question.RowVer = requestRowVer;
             
-
             // Update question in database
-            question = _questionRepository.Update(question);
-            
+            _questionRepository.Update(question);
+        }
+        
+        private void UpdateAnswers(Question question, List<Answer> answersList)
+        {
             // Clear answers
             question.Answers.Clear();
             _questionRepository.RemoveAnswers(question);
@@ -130,9 +144,6 @@ namespace GuessingGame.Services
                 Answer answer = _answerRepository.Add(ans);
                 question.Answers.Add(answer);
             }
-            
-            // Map to DTO
-            return _mapper.Map<QuestionDTO>(question);
         }
         
         private QuestionDTO MapToDto(Question question)
