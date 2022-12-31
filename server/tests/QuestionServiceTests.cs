@@ -22,23 +22,46 @@ public class QuestionServiceTests
     }
     
     [Theory]
+    // Normal case
     [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography",
-        new[] { "Paris", "London", "Berlin", "Rome" })]
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
+    // No image case
     [InlineData("", "What is the capital of France?", "Geography",
-        new[] { "Paris", "London", "Berlin", "Rome" })]
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 0, 0, 0, 1 })]
+    // Multiple correct answers case
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography",
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 1, 0, 0 })]
+    // All correct answers case
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography",
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 1, 1, 1 })]
+    // No category case
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "",
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", null,
+        new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
     public void CreateQuestionWithAnswers_ShouldAddQuestionAndAnswersToDatabase(
         string imageUrl, string questionText, string category,
-        string[] answers)
+        string[] answers, int[] correctAnswers)
     {
         // ===== Arrange =====
         // Create question with answers
         List<Answer> answerObjects = answers.Select(a => new Answer { AnswerText = a }).ToList();
+        for (int i = 0; i < correctAnswers.Length; i++)
+        {
+            if (correctAnswers[i] == 1)
+            {
+                answerObjects[i].IsCorrect = true;
+            }
+        }
         Question question = new Question {
             ImagePath = imageUrl,
             QuestionText = questionText,
             Category = category,
             Answers = answerObjects
         };
+        
+        // Expected question DTO
+        QuestionDTO questionDto = _mapper.Map<QuestionDTO>(question);
 
         // Mock repositories & their methods
         Mock<IQuestionRepository> questionRepositoryMock = new Mock<IQuestionRepository>();
@@ -54,28 +77,42 @@ public class QuestionServiceTests
         
         // ===== Assert =====
         // Expected question DTO
-        QuestionDTO questionDto = _mapper.Map<QuestionDTO>(question);
-        // Expected response
         result.Should().BeOfType<QuestionDTO>();
         result.Should().BeEquivalentTo(questionDto); // structurally equal (same properties)
+        // Expected answer DTOs
+        result.Answers.Should().BeOfType<List<AnswerDTO>>();
+        result.Answers.Should().BeEquivalentTo(questionDto.Answers); // structurally equal (same properties)
         // Verify that the repositories were called
         questionRepositoryMock.Verify(x => x.Add(It.IsAny<Question>()), Times.Once);
         answerRepositoryMock.Verify(x => x.Add(It.IsAny<Answer>()), Times.Exactly(answerObjects.Count));
     }
 
     [Theory]
-    [InlineData("invalid image URL", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
-    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin"})]
-    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome", "Athens", "New York" })]
-    [InlineData("http://www.example.com/image.jpg", "", "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
-    [InlineData("http://www.example.com/image.jpg", null, "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
+    // Invalid image URL
+    [InlineData("invalid image URL", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
+    // 3 answers (should be 4)
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin"}, new[] { 1, 0, 0 })]
+    // 5 answers (should be 4)
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome", "Athens", "New York" }, new[] { 1, 0, 0, 0, 0, 0 })]
+    // Invalid question text
+    [InlineData("http://www.example.com/image.jpg", "", "Geography", new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
+    [InlineData("http://www.example.com/image.jpg", null, "Geography", new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 1, 0, 0, 0 })]
+    // No correct answers (should be at least 1)
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome" }, new[] { 0, 0, 0, 0 })]
     public void CreateQuestionWithAnswers_ShouldThrowException_WhenInvalidDataIsPassed(
         string imageUrl, string questionText, string category,
-        string[] answers)
+        string[] answers, int[] correctAnswers)
     {
         // ===== Arrange =====
         // Create question with answers
         List<Answer> answerObjects = answers.Select(a => new Answer { AnswerText = a }).ToList();
+        for (int i = 0; i < correctAnswers.Length; i++)
+        {
+            if (correctAnswers[i] == 1)
+            {
+                answerObjects[i].IsCorrect = true;
+            }
+        }
         Question question = new Question {
             ImagePath = imageUrl,
             QuestionText = questionText,

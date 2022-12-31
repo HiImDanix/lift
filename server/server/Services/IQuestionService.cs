@@ -14,7 +14,7 @@ namespace GuessingGame.Services
         IList<QuestionDTO> GetQuestions();
 
         QuestionDTO UpdateQuestionWithAnswers(int id,
-            string requestImagePath,
+            string requestImageUrl,
             string requestQuestionText,
             string requestCategory,
             byte[] requestRowVer,

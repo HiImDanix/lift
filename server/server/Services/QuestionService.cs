@@ -36,12 +36,11 @@ namespace GuessingGame.Services
             List<Answer> answers)
         {
             
-            // Validation - imagePath must be a valid URL
-            if (!Uri.IsWellFormedUriString(imagePath, UriKind.Absolute))
+            // Validation - imagePath must be a valid URL (if not null/empty)
+            if (!string.IsNullOrEmpty(imagePath) && !Uri.IsWellFormedUriString(imagePath, UriKind.Absolute))
             {
                 throw new InvalidDataException("The image path must be a valid URL.");
             }
-            
             // Validation - questionText must not be empty
             if (string.IsNullOrWhiteSpace(questionText))
             {
@@ -52,6 +51,12 @@ namespace GuessingGame.Services
             if (answers.Count != 4)
             {
                 throw new InvalidDataException("There must be exactly 4 answers.");
+            }
+            
+            // Validation - at least one answer must be correct
+            if (!answers.Any(a => a.IsCorrect))
+            {
+                throw new InvalidDataException("At least one answer must be correct.");
             }
 
 
@@ -97,7 +102,18 @@ namespace GuessingGame.Services
             return _mapper.Map<IList<QuestionDTO>>(_questionRepository.GetAll());
         }
 
-        public QuestionDTO UpdateQuestionWithAnswers(int id, string requestImagePath, string requestQuestionText,
+        /// <summary>
+        /// Updates a question in the database and its associated answers.
+        /// </summary>
+        /// <param name="id">The id of the question to update.</param>
+        /// <param name="requestImageUrl">The new image url for the question.</param>
+        /// <param name="requestQuestionText">The new text for the question.</param>
+        /// <param name="requestCategory">The new category for the question.</param>
+        /// <param name="requestRowVer">The row version.</param>
+        /// <param name="answersList">The updated list of answers for the question.</param>
+        /// <returns>A DTO representation of the updated question.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown if the question with the given id is not found in the database.</exception>
+        public QuestionDTO UpdateQuestionWithAnswers(int id, string requestImageUrl, string requestQuestionText,
             string requestCategory, byte[] requestRowVer, List<Answer> answersList)
         {
             // Get question from the database
@@ -106,11 +122,11 @@ namespace GuessingGame.Services
             // Throw exception if question is null
             if (question == null)
             {
-                throw new Exception("Question not found");
+                throw new EntityNotFoundException("Question not found");
             }
             
             // Update question
-            UpdateQuestion(question, requestImagePath, requestQuestionText, requestCategory, requestRowVer);
+            UpdateQuestion(question, requestImageUrl, requestQuestionText, requestCategory, requestRowVer);
             
             // Update answers
             UpdateAnswers(question, answersList);
