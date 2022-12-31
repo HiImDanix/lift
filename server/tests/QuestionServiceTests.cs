@@ -62,5 +62,41 @@ public class QuestionServiceTests
         questionRepositoryMock.Verify(x => x.Add(It.IsAny<Question>()), Times.Once);
         answerRepositoryMock.Verify(x => x.Add(It.IsAny<Answer>()), Times.Exactly(answerObjects.Count));
     }
+
+    [Theory]
+    [InlineData("invalid image URL", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin"})]
+    [InlineData("http://www.example.com/image.jpg", "What is the capital of France?", "Geography", new[] { "Paris", "London", "Berlin", "Rome", "Athens", "New York" })]
+    [InlineData("http://www.example.com/image.jpg", "", "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
+    [InlineData("http://www.example.com/image.jpg", null, "Geography", new[] { "Paris", "London", "Berlin", "Rome" })]
+    public void CreateQuestionWithAnswers_ShouldThrowException_WhenInvalidDataIsPassed(
+        string imageUrl, string questionText, string category,
+        string[] answers)
+    {
+        // ===== Arrange =====
+        // Create question with answers
+        List<Answer> answerObjects = answers.Select(a => new Answer { AnswerText = a }).ToList();
+        Question question = new Question {
+            ImagePath = imageUrl,
+            QuestionText = questionText,
+            Category = category,
+            Answers = answerObjects
+        };
+
+        // Mock repositories & their methods
+        Mock<IQuestionRepository> questionRepositoryMock = new Mock<IQuestionRepository>();
+        questionRepositoryMock.Setup(x => x.Add(It.IsAny<Question>())).Returns(question);
+        Mock<IAnswerRepository> answerRepositoryMock = new Mock<IAnswerRepository>();
+        answerRepositoryMock.Setup(x => x.Add(It.IsAny<Answer>())).Returns((Answer ans) => ans);
+
+        // Create service
+        QuestionService questionService = new QuestionService(questionRepositoryMock.Object, answerRepositoryMock.Object, _mapper);
+
+        // ===== Act =====
+        Action act = () => questionService.CreateQuestionWithAnswers(imageUrl, questionText, category, answerObjects);
+        
+        // ===== Assert =====
+        act.Should().Throw<Exception>();
+    }
 }
 

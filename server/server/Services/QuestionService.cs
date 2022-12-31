@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using GuessingGame.DTO.requests;
 using GuessingGame.DTO.responses;
+using GuessingGame.Exceptions;
 using GuessingGame.models;
 using GuessingGame.Models;
 using GuessingGame.Repositories;
+using InvalidDataException = GuessingGame.Exceptions.InvalidDataException;
 
 namespace GuessingGame.Services
 {
@@ -34,6 +36,25 @@ namespace GuessingGame.Services
             List<Answer> answers)
         {
             
+            // Validation - imagePath must be a valid URL
+            if (!Uri.IsWellFormedUriString(imagePath, UriKind.Absolute))
+            {
+                throw new InvalidDataException("The image path must be a valid URL.");
+            }
+            
+            // Validation - questionText must not be empty
+            if (string.IsNullOrWhiteSpace(questionText))
+            {
+                throw new InvalidDataException("The question text must not be empty.");
+            }
+            
+            // Validation - Must have exactly 4 answers
+            if (answers.Count != 4)
+            {
+                throw new InvalidDataException("There must be exactly 4 answers.");
+            }
+
+
             // Add the question to the database
             var question = AddQuestionToDatabase(imagePath, questionText, category);
             
