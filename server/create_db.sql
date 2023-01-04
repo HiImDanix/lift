@@ -126,11 +126,6 @@ ALTER TABLE LosingIsFunToo.dbo.QuizGames ADD CONSTRAINT QuizGames_FK FOREIGN KEY
 ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Lobby_FK_1 FOREIGN KEY (currentGameID) REFERENCES QuizGames(ID);
 ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Rooms_FK FOREIGN KEY (hostID) REFERENCES Players(ID);
 
-
--- LosingIsFunToo.dbo.Scoreboards foreign keys
-
-ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
-
 -- LosingIsFunToo.dbo.ScoreboardLines foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.ScoreboardLines ADD CONSTRAINT ScoreboardLine_FK FOREIGN KEY (QuizGameID) REFERENCES QuizGames(ID);
