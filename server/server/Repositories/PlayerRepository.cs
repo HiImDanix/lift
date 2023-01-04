@@ -48,6 +48,14 @@ public class PlayerRepository : IPlayerRepository
         return ToProxy(player);
     }
 
+    public Player GetPlayerByScoreboardLineId(int id)
+    {
+        //select playerID from ScoreboardLines by lineID, then retrieve player by playerID
+        var sql = "SELECT * FROM Players WHERE ID = (SELECT playerID FROM ScoreboardLines WHERE ID = @id)";
+        var player = _db.QueryFirstOrDefault<Player>(sql, new { id });
+        return ToProxy(player);
+    }
+
     // Map Player to PlayerProxy
     private Player ToProxy(Player player)
     {

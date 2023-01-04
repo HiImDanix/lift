@@ -20,7 +20,7 @@ function Scoreboard(props) {
                         props.scoreboard.scores.map((score, index) => {
                             return (
                                 <tr key={index} {...(score.player.name === props.displayName ? {className: "text-bg-warning"} : {})}>
-                                    <td className="text-center">{score.position}</td>
+                                    <td className="text-center">{index + 1} </td>
                                     <td className="text-start">{score.player.name}</td>
                                     <td>{score.score}</td>
                                 </tr>
@@ -47,7 +47,6 @@ Scoreboard.propTypes = {
     // scoreboard contains array of scores
     // scoreboard: PropTypes.shape({
     //     scores: PropTypes.arrayOf(PropTypes.shape({
-    //         position: PropTypes.number,
     //         username: PropTypes.string,
     //         score: PropTypes.number
     //     }))

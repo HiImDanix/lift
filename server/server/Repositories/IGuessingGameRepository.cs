@@ -10,4 +10,5 @@ public interface IGuessingGameRepository
     GuessingGameModel GetGuessingGameByQuizGameQuestionId(int id);
     QuizGameQuestion Add(QuizGameQuestion quizGameQuestion);
     GuessingGameModel? Get(int gameId);
+    GuessingGameModel GetGameByScoreboardLineId(int id);
 }

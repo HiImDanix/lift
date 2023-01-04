@@ -50,5 +50,13 @@ public class AutoMapperProfile: Profile
                 dest => dest.GameQuestionId,
                 opt => opt.MapFrom(src => src.QuizGameQuestion.Id)
             );
+        CreateMap<ScoreboardLine, ScoreboardLineDTO>();
+        CreateMap<Scoreboard, ScoreboardDTO>();
+        
+        // order by score
+        // .ForMember(
+        //     dest => dest.Scores,
+        //     opt => opt.MapFrom(src => src.Scores.OrderByDescending(s => s.Score))
+        // );
     }
 }

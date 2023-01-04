@@ -9,4 +9,5 @@ public interface IPlayerRepository
     public IList<Player> GetPlayersByRoomId(int id);
     Player GetHostByRoomId(int id);
     Player GetPlayerByQuizGameAnswerId(int id);
+    Player GetPlayerByScoreboardLineId(int id);
 }

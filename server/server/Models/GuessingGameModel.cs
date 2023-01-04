@@ -32,6 +32,7 @@ public class GuessingGameModel
     }
     
     public virtual List<QuizGameQuestion>? Questions { get; set; }
+    public virtual List<ScoreboardLine>? Scoreboard { get; set; }
     
     public GuessingGameModel(Room room, long startTime, int totalRounds)
     {

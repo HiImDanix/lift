@@ -89,10 +89,11 @@ CREATE TABLE Rooms (
 );
 
 
-CREATE TABLE Scoreboards (
+CREATE TABLE ScoreboardLines (
 	ID int IDENTITY(0,1) NOT NULL,
-	score int NOT NULL,
-	playerID int NOT NULL,
+	Score int NOT NULL,
+	PlayerID int NOT NULL,
+	QuizGameID int NOT NULL,
 	CONSTRAINT Scoreboard_PK PRIMARY KEY (ID)
 );
 
@@ -129,6 +130,11 @@ ALTER TABLE LosingIsFunToo.dbo.Rooms ADD CONSTRAINT Rooms_FK FOREIGN KEY (hostID
 -- LosingIsFunToo.dbo.Scoreboards foreign keys
 
 ALTER TABLE LosingIsFunToo.dbo.Scoreboards ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (playerID) REFERENCES Players(ID);
+
+-- LosingIsFunToo.dbo.ScoreboardLines foreign keys
+
+ALTER TABLE LosingIsFunToo.dbo.ScoreboardLines ADD CONSTRAINT ScoreboardLine_FK FOREIGN KEY (QuizGameID) REFERENCES QuizGames(ID);
+ALTER TABLE LosingIsFunToo.dbo.ScoreboardLines ADD CONSTRAINT Scoreboard_FK FOREIGN KEY (PlayerID) REFERENCES Players(ID);
 
 
 -- Pre-seed data

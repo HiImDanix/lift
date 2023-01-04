@@ -20,10 +20,11 @@ public class GuessingGameService: IGuessingGameService
     private readonly IRoomRepository _roomRepository;
     private readonly IPlayerAnswersRepository _playerAnswersRepository;
     private readonly IPlayerRepository _playerRepository;
+    private readonly IScoreboardRepository _scoreboardRepository;
     
     public GuessingGameService(IHubContext<GameHub, IGameClient> gameHubContext, IMapper mapper,
         IQuestionRepository questionRepository, IGuessingGameRepository guessingGameRepository, IRoomRepository roomRepository,
-        IPlayerAnswersRepository playerAnswersRepository, IPlayerRepository playerRepository)
+        IPlayerAnswersRepository playerAnswersRepository, IPlayerRepository playerRepository, IScoreboardRepository scoreboardRepository)
     {
         _gameHubContext = gameHubContext;
         _mapper = mapper;
@@ -32,6 +33,7 @@ public class GuessingGameService: IGuessingGameService
         _roomRepository = roomRepository;
         _playerAnswersRepository = playerAnswersRepository;
         _playerRepository = playerRepository;
+        _scoreboardRepository = scoreboardRepository;
     }
     
     // Start game loop
@@ -48,99 +50,92 @@ public class GuessingGameService: IGuessingGameService
     }
 
     // Game loop
-    private void GameLoop(GuessingGameModel model)
+    private void GameLoop(GuessingGameModel game)
     {
         // Players have already been notified that the game will start and are shown instructions page, so we wait.
-        Thread.Sleep((int)(model.StartTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()));
+        Thread.Sleep((int)(game.StartTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()));
         
         // Play the rounds
-        for (int round = 1; round <= model.TotalRounds; round++)
+        for (int round = 1; round <= game.TotalRounds; round++)
         {
-            // Prepare model for the round
-            model.Status = GameStatus.Playing.ToString();
-            model.CurrentRound = round;
-            model.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            // Prepare game for the round
+            game.Status = GameStatus.Playing.ToString();
+            game.CurrentRound = round;
+            game.CurrentRoundStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             // Add to db
-            _guessingGameRepository.Update(model);
+            _guessingGameRepository.Update(game);
             // Add random question to DB. We have to add it to DB so we can get the ID and set the current question.
             var question = GetRandomQuestion();
             var questionForGame = new QuizGameQuestion()
             {
                 Question = question,
-                Game = model
+                Game = game
             };
             var questionForGameInDb = _guessingGameRepository.Add(questionForGame);
             // Mark the question as current question for the game
-            model.CurrentQuizGameQuestion = questionForGameInDb;
+            game.CurrentQuizGameQuestion = questionForGameInDb;
             // Update the game in the DB
-            _guessingGameRepository.Update(model);
+            _guessingGameRepository.Update(game);
             // Scramble the answers TODO: put this in automapper
-            model.CurrentQuizGameQuestion.Question.Answers = model.CurrentQuizGameQuestion.Question.Answers.OrderBy(x => Guid.NewGuid()).ToList();
+            game.CurrentQuizGameQuestion.Question.Answers = game.CurrentQuizGameQuestion.Question.Answers.OrderBy(x => Guid.NewGuid()).ToList();
 
             // Send round start DTO
-            var roundStartDto = _mapper.Map<RoundStartDto>(model);
-            _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundStarted(roundStartDto);
+            var roundStartDto = _mapper.Map<RoundStartDto>(game);
+            _gameHubContext.Clients.Group(game.Room.Id.ToString()).RoundStarted(roundStartDto);
             
             // Wait for round to end
-            Thread.Sleep(model.RoundDurationMs);
+            Thread.Sleep(game.RoundDurationMs);
             
             // Send round end DTO. If last round, send game end DTO. This will show the scoreboard.
-            if (round == model.TotalRounds)
+            if (round == game.TotalRounds)
             {
-                model.Status = GameStatus.Finished.ToString();
+                game.Status = GameStatus.Finished.ToString();
                 // Save to db
-                _guessingGameRepository.Update(model);
+                _guessingGameRepository.Update(game);
                 // Create scoreboard
-                var scoreboard = CreateScoreboard(model);
+                var scoreboardDto = UpdateScoreboard(game);
                 // Inform players
-                _gameHubContext.Clients.Group(model.Room.Id.ToString()).GameFinished(scoreboard);
+                _gameHubContext.Clients.Group(game.Room.Id.ToString()).GameFinished(scoreboardDto);
             } else
             {
-                model.Status = GameStatus.Scoreboard.ToString();
+                game.Status = GameStatus.Scoreboard.ToString();
                 // Save to db
-                _guessingGameRepository.Update(model);
+                _guessingGameRepository.Update(game);
                 // Create scoreboard
-                var scoreboard = CreateScoreboard(model);
+                var scoreboardDto = UpdateScoreboard(game);
                 // Inform players
-                _gameHubContext.Clients.Group(model.Room.Id.ToString()).RoundFinished(scoreboard);
+                _gameHubContext.Clients.Group(game.Room.Id.ToString()).RoundFinished(scoreboardDto);
                 // Wait for players to look over the scoreboard
-                Thread.Sleep(model.ScoreboardDurationMs);
+                Thread.Sleep(game.ScoreboardDurationMs);
             }
         }
     }
 
-    private ScoreboardDTO CreateScoreboard(GuessingGameModel model)
+    private ScoreboardDTO UpdateScoreboard(GuessingGameModel game)
     {
-        var scoreboard = new ScoreboardDTO();
-        scoreboard.Scores = new List<ScoreboardLineDTO>();
-        // Scoreboard DTO has:
-        // Position, Player, Score
-
-        var answers = model.CurrentQuizGameQuestion.Answers;
+        
+        var answers = game.CurrentQuizGameQuestion.Answers;
         foreach(var ans in answers)
         {
             var player = _playerRepository.Get(ans.Player.Id);
             // Calculate score
             var score = ans.Answer.IsCorrect ? 100 : 0;
-            // Add to scoreboard DTO
-            // TODO: Use scoreboardLineDTO
-            scoreboard.Scores.Add(new ScoreboardLineDTO()
+            // Add to scoreboard DTO or update existing
+            var existingScore = _scoreboardRepository.GetScoreForPlayer(game, player);
+            if (existingScore == null)
             {
-                Player = _mapper.Map<PlayerPublicDTO>(player),
-                Score = score
-            });
+                _scoreboardRepository.add(game, player, score);
+            } else
+            {
+                _scoreboardRepository.UpdateScoreById(existingScore.Id, existingScore.Score + score);
+            }
         }
         
-        // TODO: sort also by answer time if same score.
-        // Sort by score
-        scoreboard.Scores = scoreboard.Scores.OrderByDescending(x => x.Score).ToList();
-        // Set position
-        for (int i = 0; i < scoreboard.Scores.Count; i++)
-        {
-            scoreboard.Scores[i].Position = i + 1;
-        }
+        var scoreboardLines = _scoreboardRepository.GetScoreboardByGuessingGameId(game.Id);
+        // return & wrap scoreboard in object as otherwise mapping will not work.
+        var scoreboard = new Scoreboard{Scores = scoreboardLines};
 
-        return scoreboard;
+        return _mapper.Map<ScoreboardDTO>(scoreboard);
 
     }
 

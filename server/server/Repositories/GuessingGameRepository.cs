@@ -98,6 +98,13 @@ public class GuessingGameRepository: IGuessingGameRepository
         return game == null ? null : ToProxy(game);
     }
 
+    public GuessingGameModel GetGameByScoreboardLineId(int id)
+    {
+        var sql = @"SELECT * FROM QuizGames WHERE id = (SELECT QuizGameID FROM ScoreboardLines WHERE id = @id)";
+        var game = _db.QueryFirstOrDefault<GuessingGameModel>(sql, new { id });
+        return ToProxy(game);
+    }
+
     private QuizGameQuestion ToProxy(QuizGameQuestion question)
     {
         return new QuizGameQuestionproxy(
@@ -111,7 +118,8 @@ public class GuessingGameRepository: IGuessingGameRepository
     
     private GuessingGameModel ToProxy(GuessingGameModel game)
     {
-        return new GuessingGameModelProxy(_provider.GetRequiredService<IRoomRepository>())
+        return new GuessingGameModelProxy(_provider.GetRequiredService<IRoomRepository>(), 
+            _provider.GetRequiredService<IScoreboardRepository>())
         {
             Id = game.Id,
             StartTime = game.StartTime,
